@@ -1,27 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:smart_catalog/core/constants/asset_paths.dart';
+import 'package:smart_catalog/extensions/context_extensions.dart';
 
 class SplashView extends StatelessWidget {
   const SplashView({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
+    return Scaffold(
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(Icons.shopping_cart, size: 100, color: Colors.blue),
+            Image.asset(AssetPaths.logo, width: 100, height: 100),
             SizedBox(height: 20),
-            Text(
-              'Smart Catalog',
-              style: TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
-                color: Colors.blue,
-              ),
-            ),
+            Text('Smart Catalog', style: context.textTheme.titleLarge),
             SizedBox(height: 20),
-            CircularProgressIndicator(),
           ],
         ),
       ),
