@@ -1,7 +1,17 @@
 {
   "app_name": "Smart Catalog",
-  "login": "Login",
-  "login_description": "Please enter your email and password to login",
-  "email": "Email",
-  "password": "Password"
+  "login": {
+    "title": "Login",
+    "description": "Please enter your email and password to login",
+    "email": "Email",
+    "password": "Password",
+    "submit": "Login"
+  },
+  "validation": {
+    "required": "{} is required",
+    "email_required": "Email is required",
+    "email_invalid": "Enter a valid email",
+    "password_required": "Password is required",
+    "password_min": "Password must be at least {} characters"
+  }
 }

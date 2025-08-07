@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:smart_catalog/extensions/context_extensions.dart';
+import 'package:smart_catalog/core/utils/validators.dart';
 
 class LoginView extends StatefulWidget {
   const LoginView({super.key});
@@ -22,10 +23,10 @@ class _LoginViewState extends State<LoginView> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const SizedBox(height: 40),
-              Text('login'.tr(), style: context.textTheme.titleMedium),
+              Text('login.title'.tr(), style: context.textTheme.titleMedium),
               const SizedBox(height: 24),
               Text(
-                'login_description'.tr(),
+                'login.description'.tr(),
                 style: context.textTheme.bodyMedium,
               ),
               const SizedBox(height: 24),
@@ -35,38 +36,30 @@ class _LoginViewState extends State<LoginView> {
                   children: [
                     TextFormField(
                       decoration: InputDecoration(
-                        hintText: 'email'.tr(),
+                        hintText: 'login.email'.tr(),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(8),
                         ),
                       ),
-                      // The validator receives the text that the user has entered.
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Please enter your email';
-                        }
-                        return null;
-                      },
+                      validator: Validators.email,
                     ),
                     const SizedBox(height: 16),
                     TextFormField(
                       decoration: InputDecoration(
-                        hintText: 'password'.tr(),
+                        hintText: 'login.password'.tr(),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(8),
                         ),
                       ),
                       obscureText: true,
-                      // The validator receives the text that the user has entered.
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Please enter your password';
-                        }
-                        return null;
-                      },
+                      validator: Validators.password,
                     ),
                     Padding(
-                      padding: const EdgeInsets.only(top: 40, left: 20, right: 20),
+                      padding: const EdgeInsets.only(
+                        top: 40,
+                        left: 20,
+                        right: 20,
+                      ),
                       child: SizedBox(
                         width: double.infinity,
                         height: 50,
@@ -83,7 +76,10 @@ class _LoginViewState extends State<LoginView> {
                               );
                             }
                           },
-                          child: Text('Submit'.tr(), style: context.textTheme.labelLarge),
+                          child: Text(
+                            'login.submit'.tr(),
+                            style: context.textTheme.labelLarge,
+                          ),
                         ),
                       ),
                     ),
