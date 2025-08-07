@@ -1,13 +1,12 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'dart:async';
-
-enum SplashState { initial, navigating }
+import 'package:smart_catalog/feature/splash/presentation/splash.dart';
 
 class SplashCubit extends Cubit<SplashState> {
   SplashCubit() : super(SplashState.initial);
 
   void startSplashTimer() {
-    Timer(const Duration(seconds: 3), () {
+    Future.delayed(const Duration(seconds: 3), () {
       emit(SplashState.navigating);
     });
   }

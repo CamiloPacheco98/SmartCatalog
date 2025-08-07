@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:smart_catalog/extensions/context_extensions.dart';
 import 'package:smart_catalog/core/utils/validators.dart';
+import 'package:smart_catalog/feature/login/presentation/login.dart';
 
 class LoginView extends StatefulWidget {
   const LoginView({super.key});
@@ -12,6 +14,8 @@ class LoginView extends StatefulWidget {
 
 class _LoginViewState extends State<LoginView> {
   final _formKey = GlobalKey<FormState>();
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -35,6 +39,7 @@ class _LoginViewState extends State<LoginView> {
                 child: Column(
                   children: [
                     TextFormField(
+                      controller: emailController,
                       decoration: InputDecoration(
                         hintText: 'login.email'.tr(),
                         border: OutlineInputBorder(
@@ -45,6 +50,7 @@ class _LoginViewState extends State<LoginView> {
                     ),
                     const SizedBox(height: 16),
                     TextFormField(
+                      controller: passwordController,
                       decoration: InputDecoration(
                         hintText: 'login.password'.tr(),
                         border: OutlineInputBorder(
@@ -65,14 +71,10 @@ class _LoginViewState extends State<LoginView> {
                         height: 50,
                         child: ElevatedButton(
                           onPressed: () {
-                            // Validate returns true if the form is valid, or false otherwise.
                             if (_formKey.currentState!.validate()) {
-                              // If the form is valid, display a snackbar. In the real world,
-                              // you'd often call a server or save the information in a database.
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                  content: Text('Processing Data'),
-                                ),
+                              context.read<LoginCubit>().login(
+                                email: emailController.text.trim(),
+                                password: passwordController.text.trim(),
                               );
                             }
                           },

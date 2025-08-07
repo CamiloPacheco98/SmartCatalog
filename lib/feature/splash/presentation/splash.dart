@@ -1,2 +1,2 @@
-export 'cubit/splash_cubit.dart';
+export 'cubit/cubit.dart';
 export 'page/view.dart';

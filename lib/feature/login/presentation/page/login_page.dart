@@ -9,7 +9,26 @@ class LoginPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => LoginCubit(),
-      child: const LoginView(),
+      child: BlocListener<LoginCubit, LoginState>(
+        listener: (context, state) {
+          if (state == LoginState.success) {
+            print('login success');
+          } else if (state == LoginState.error) {
+            print('login error');
+          }
+        },
+        child: BlocBuilder<LoginCubit, LoginState>(
+          builder: (context, state) {
+            return Stack(
+              children: [
+                const LoginView(),
+                if (state == LoginState.loading)
+                  const Center(child: CircularProgressIndicator()),
+              ],
+            );
+          },
+        ),
+      ),
     );
   }
 }
