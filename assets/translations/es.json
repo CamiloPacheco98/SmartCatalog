@@ -1,4 +1,7 @@
 {
   "app_name": "Smart Catalog",
-  "login": "Iniciar sesión"
+  "login": "Iniciar sesión",
+  "login_description": "Por favor, ingrese su correo electrónico y contraseña para iniciar sesión",
+  "email": "Correo electrónico",
+  "password": "Contraseña"
 }

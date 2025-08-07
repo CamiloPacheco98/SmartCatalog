@@ -8,11 +8,13 @@ class AppTheme {
   static const Color textColor = Color(0xFF333333);
   static const Color errorColor = Color(0xFFD9534F);
   static const Color successColor = Color(0xFF57BA98);
+  static const Color hintColor = Color(0xFFBDBDBD);
 
   static ThemeData get lightTheme {
     return ThemeData(
       useMaterial3: true,
       scaffoldBackgroundColor: backgroundColor,
+      hintColor: hintColor,
       colorScheme: const ColorScheme.light(
         primary: primaryColor,
         onPrimary: Colors.white,
@@ -20,6 +22,7 @@ class AppTheme {
         onSecondary: textColor,
         error: errorColor,
         onError: Colors.white,
+        surface: backgroundColor,
       ),
       appBarTheme: const AppBarTheme(
         backgroundColor: primaryColor,
@@ -28,10 +31,10 @@ class AppTheme {
       ),
       textTheme: const TextTheme(
         titleLarge: TextStyle(color: primaryColor, fontSize: 24, fontWeight: FontWeight.bold),
-        titleMedium: TextStyle(color: Colors.white, fontSize: 24, fontWeight: FontWeight.bold),
+        titleMedium: TextStyle(color: textColor, fontSize: 24, fontWeight: FontWeight.bold),
         bodyLarge: TextStyle(color: textColor, fontSize: 16),
         bodyMedium: TextStyle(color: textColor, fontSize: 14),
-        labelLarge: TextStyle(color: textColor, fontWeight: FontWeight.bold),
+        labelLarge: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 16),
       ),
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
@@ -47,13 +50,18 @@ class AppTheme {
         fillColor: Colors.white,
         border: OutlineInputBorder(
           borderRadius: BorderRadius.all(Radius.circular(12)),
-          borderSide: BorderSide(color: primaryColor),
+          borderSide: BorderSide(color: textColor),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.all(Radius.circular(12)),
-          borderSide: BorderSide(color: primaryDarkColor, width: 2),
+          borderSide: BorderSide(color: textColor),
         ),
-        labelStyle: TextStyle(color: primaryDarkColor),
+        labelStyle: TextStyle(color: textColor),
+        hintStyle: TextStyle(color: hintColor),
+      ),
+      textSelectionTheme: const TextSelectionThemeData(
+        cursorColor: textColor,
+        selectionHandleColor: primaryColor,
       ),
     );
   }

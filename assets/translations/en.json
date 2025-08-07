@@ -1,4 +1,7 @@
 {
   "app_name": "Smart Catalog",
-  "login": "Login"
+  "login": "Login",
+  "login_description": "Please enter your email and password to login",
+  "email": "Email",
+  "password": "Password"
 }
