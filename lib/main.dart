@@ -1,14 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:get_it/get_it.dart';
 import 'package:smart_catalog/app/routes/app_router.dart';
 import 'package:smart_catalog/core/theme/app_theme.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:smart_catalog/firebase_options.dart';
+import 'package:smart_catalog/features/auth/data/auth_repository_impl.dart';
+import 'package:smart_catalog/features/auth/domain/auth_repository.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await EasyLocalization.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  setup();
   runApp(
     EasyLocalization(
       supportedLocales: const [Locale('en'), Locale('es')],
@@ -33,4 +37,10 @@ class SmartCatalogApp extends StatelessWidget {
       locale: context.locale,
     );
   }
+}
+
+final getIt = GetIt.instance;
+
+void setup() {
+  getIt.registerSingleton<AuthRepository>(AuthRepositoryImpl());
 }

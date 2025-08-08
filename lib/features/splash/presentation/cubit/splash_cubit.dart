@@ -1,6 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'dart:async';
-import 'package:smart_catalog/feature/splash/presentation/splash.dart';
+import 'package:smart_catalog/features/splash/presentation/splash.dart';
 
 class SplashCubit extends Cubit<SplashState> {
   SplashCubit() : super(SplashState.initial);

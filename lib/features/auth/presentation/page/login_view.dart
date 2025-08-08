@@ -3,7 +3,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:smart_catalog/extensions/context_extensions.dart';
 import 'package:smart_catalog/core/utils/validators.dart';
-import 'package:smart_catalog/feature/login/presentation/login.dart';
+import 'package:smart_catalog/features/auth/presentation/login.dart';
 
 class LoginView extends StatefulWidget {
   const LoginView({super.key});
