@@ -1,6 +1,8 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
+import 'package:smart_catalog/app/routes/app_path.dart';
 import 'package:smart_catalog/features/auth/domain/auth_repository.dart';
 import 'package:smart_catalog/main.dart';
 import 'package:top_snackbar_flutter/custom_snack_bar.dart';
@@ -18,7 +20,7 @@ class LoginPage extends StatelessWidget {
       child: BlocListener<LoginCubit, LoginState>(
         listener: (context, state) {
           if (state == LoginState.success) {
-            debugPrint('login success');
+            context.goNamed(AppPaths.tabbar);
           } else if (state == LoginState.error) {
             showTopSnackBar(
               Overlay.of(context),
