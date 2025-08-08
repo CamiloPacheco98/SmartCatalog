@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:smart_catalog/core/widgets/custom_loading.dart';
 import 'package:smart_catalog/feature/login/presentation/login.dart';
 
 class LoginPage extends StatelessWidget {
@@ -12,9 +13,9 @@ class LoginPage extends StatelessWidget {
       child: BlocListener<LoginCubit, LoginState>(
         listener: (context, state) {
           if (state == LoginState.success) {
-            print('login success');
+            debugPrint('login success');
           } else if (state == LoginState.error) {
-            print('login error');
+            debugPrint('login error');
           }
         },
         child: BlocBuilder<LoginCubit, LoginState>(
@@ -22,8 +23,7 @@ class LoginPage extends StatelessWidget {
             return Stack(
               children: [
                 const LoginView(),
-                if (state == LoginState.loading)
-                  const Center(child: CircularProgressIndicator()),
+                if (state == LoginState.loading) const CustomLoading(),
               ],
             );
           },
