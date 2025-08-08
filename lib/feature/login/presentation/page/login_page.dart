@@ -1,5 +1,8 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:top_snackbar_flutter/custom_snack_bar.dart';
+import 'package:top_snackbar_flutter/top_snack_bar.dart';
 import 'package:smart_catalog/core/widgets/custom_loading.dart';
 import 'package:smart_catalog/feature/login/presentation/login.dart';
 
@@ -15,7 +18,10 @@ class LoginPage extends StatelessWidget {
           if (state == LoginState.success) {
             debugPrint('login success');
           } else if (state == LoginState.error) {
-            debugPrint('login error');
+            showTopSnackBar(
+              Overlay.of(context),
+              CustomSnackBar.error(message: 'errors.login_error'.tr()),
+            );
           }
         },
         child: BlocBuilder<LoginCubit, LoginState>(

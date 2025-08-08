@@ -7,7 +7,7 @@ class LoginCubit extends Cubit<LoginState> {
   void login({required String email, required String password}) {
     emit(LoginState.loading);
     Future.delayed(const Duration(seconds: 2), () {
-      emit(LoginState.success);
+      emit(LoginState.error);
     });
   }
 }

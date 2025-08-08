@@ -1,7 +1,7 @@
 {
   "app_name": "Smart Catalog",
   "login": {
-    "title": "Iniciar sesión",
+    "title": "Iniciar Sesión",
     "description": "Por favor, ingrese su correo electrónico y contraseña para iniciar sesión",
     "email": "Correo electrónico",
     "password": "Contraseña",
@@ -11,5 +11,8 @@
     "required": "{} es obligatorio",
     "email_invalid": "Ingresa un correo electrónico válido",
     "password_min": "La contraseña debe tener al menos {} caracteres"
+  },
+  "errors": {
+    "login_error": "¡Ups! No encontramos coincidencias."
   }
 }
