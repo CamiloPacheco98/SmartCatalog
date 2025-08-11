@@ -50,7 +50,6 @@ class _CatalogPageState extends State<CatalogPage> {
             left: 16,
             bottom: 16,
             child: Container(
-              width: 80,
               padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
               decoration: BoxDecoration(
                 color: Colors.black54,

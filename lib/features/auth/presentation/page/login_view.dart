@@ -42,9 +42,6 @@ class _LoginViewState extends State<LoginView> {
                       controller: emailController,
                       decoration: InputDecoration(
                         hintText: 'login.email'.tr(),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8),
-                        ),
                       ),
                       validator: Validators.email,
                     ),
@@ -53,9 +50,6 @@ class _LoginViewState extends State<LoginView> {
                       controller: passwordController,
                       decoration: InputDecoration(
                         hintText: 'login.password'.tr(),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8),
-                        ),
                       ),
                       obscureText: true,
                       validator: Validators.password,
