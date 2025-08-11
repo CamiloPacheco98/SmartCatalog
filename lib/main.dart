@@ -5,6 +5,7 @@ import 'package:smart_catalog/app/routes/app_router.dart';
 import 'package:smart_catalog/core/theme/app_theme.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:smart_catalog/firebase_options.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:smart_catalog/features/auth/data/auth_repository_impl.dart';
 import 'package:smart_catalog/features/auth/domain/auth_repository.dart';
 
@@ -12,6 +13,8 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await EasyLocalization.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  await dotenv.load(fileName: ".env");
+
   setup();
   runApp(
     EasyLocalization(
