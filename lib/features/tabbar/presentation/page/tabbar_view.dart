@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:smart_catalog/features/catalog/presentation/page/catalog_page.dart';
 import 'package:smart_catalog/features/tabbar/presentation/tabbar.dart';
 
 class TabbarView extends StatelessWidget {
@@ -7,7 +8,7 @@ class TabbarView extends StatelessWidget {
   final int currentIndex;
 
   final _pages = [
-    Center(child: Text("Catálogo")),
+    Center(child: CatalogPage()),
     Center(child: Text("Pedidos")),
     Center(child: Text("Perfil")),
   ];
@@ -20,8 +21,14 @@ class TabbarView extends StatelessWidget {
         currentIndex: currentIndex,
         onTap: (index) => context.read<TabbarCubit>().changeTab(index),
         items: [
-          BottomNavigationBarItem(icon: Icon(Icons.menu_book_outlined), label: "Catálogo"),
-          BottomNavigationBarItem(icon: Icon(Icons.shopping_bag_outlined), label: "Pedidos"),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.menu_book_outlined),
+            label: "Catálogo",
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.shopping_bag_outlined),
+            label: "Pedidos",
+          ),
           BottomNavigationBarItem(icon: Icon(Icons.person), label: "Perfil"),
         ],
       ),
