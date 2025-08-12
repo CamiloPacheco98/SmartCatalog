@@ -20,5 +20,10 @@
   "errors": {
     "login_error": "¡Ups! No encontramos coincidencias.",
     "catalog_error": "¡Ups! No encontramos productos en esta página."
+  },
+  "catalog": {
+    "select_products": "Selecciona los códigos de producto",
+    "select_products_subtitle": "Puedes elegir múltiples códigos de producto",
+    "add": "Agregar"
   }
 }

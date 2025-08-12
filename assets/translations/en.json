@@ -22,5 +22,10 @@
   "errors": {
     "login_error": "Oops! We couldn’t find that account.",
     "catalog_error": "Oops! We couldn’t find products on this page."
+  },
+  "catalog": {
+    "select_products": "Select products code ",
+    "select_products_subtitle": "You can choose multiple products code",
+    "add": "Add"
   }
 }
