@@ -1,5 +1,10 @@
 {
   "app_name": "Smart Catalog",
+  "tabbar": {
+    "catalog": "Catalog",
+    "orders": "Orders",
+    "profile": "Profile"
+  },
   "login": {
     "title": "Login",
     "description": "Please enter your email and password to login",

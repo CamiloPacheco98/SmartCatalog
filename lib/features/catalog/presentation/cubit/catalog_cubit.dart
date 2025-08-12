@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:smart_catalog/features/catalog/domain/catalog_repository.dart';
+import 'package:smart_catalog/features/catalog/domain/repositories/catalog_repository.dart';
 
 part 'catalog_state.dart';
 
@@ -16,7 +16,8 @@ class CatalogCubit extends Cubit<CatalogState> {
     emit(ProductsCodeLoading());
     _catalogRepository
         .getProductsCodeByPage(page)
-        .then((productsCode) {
+        .then((catalogPage) {
+          final productsCode = catalogPage.productsCode;
           if (productsCode.isEmpty) {
             debugPrint('catalog cubit Error: no products found');
             emit(ProductsCodeError(message: 'errors.catalog_error'.tr()));

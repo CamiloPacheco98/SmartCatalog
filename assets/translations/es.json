@@ -1,5 +1,10 @@
 {
   "app_name": "Smart Catalog",
+  "tabbar": {
+    "catalog": "Catálogo",
+    "orders": "Pedidos",
+    "profile": "Perfil"
+  },
   "login": {
     "title": "Iniciar Sesión",
     "description": "Por favor, ingrese su correo electrónico y contraseña para iniciar sesión",

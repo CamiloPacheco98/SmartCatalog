@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:smart_catalog/features/catalog/presentation/page/catalog_page.dart';
 import 'package:smart_catalog/features/tabbar/presentation/tabbar.dart';
 
@@ -16,7 +17,6 @@ class TabbarView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    //TODO: replace words with translations
     return Scaffold(
       body: IndexedStack(index: currentIndex, children: _pages),
       bottomNavigationBar: BottomNavigationBar(
@@ -25,13 +25,16 @@ class TabbarView extends StatelessWidget {
         items: [
           BottomNavigationBarItem(
             icon: Icon(Icons.menu_book_outlined),
-            label: "Catálogo",
+            label: "tabbar.catalog".tr(),
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.shopping_bag_outlined),
-            label: "Pedidos",
+            label: "tabbar.orders".tr(),
           ),
-          BottomNavigationBarItem(icon: Icon(Icons.person), label: "Perfil"),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.person),
+            label: "tabbar.profile".tr(),
+          ),
         ],
       ),
     );

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:smart_catalog/core/widgets/custom_loading.dart';
-import 'package:smart_catalog/features/catalog/domain/catalog_repository.dart';
+import 'package:smart_catalog/features/catalog/domain/repositories/catalog_repository.dart';
 import 'package:smart_catalog/features/catalog/presentation/catalog.dart';
 import 'package:smart_catalog/main.dart';
 import 'package:top_snackbar_flutter/custom_snack_bar.dart';

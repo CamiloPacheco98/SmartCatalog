@@ -1,12 +1,14 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:smart_catalog/features/catalog/domain/catalog_repository.dart';
+import 'package:smart_catalog/features/catalog/domain/entities/catalog_page.dart';
+import 'package:smart_catalog/features/catalog/domain/repositories/catalog_repository.dart';
 import 'package:smart_catalog/core/constants/firestore_collections.dart';
+import 'package:smart_catalog/features/catalog/data/models/catalog_page_model.dart';
 
 class CatalogRepositoryImpl implements CatalogRepository {
   final FirebaseFirestore _db = FirebaseFirestore.instance;
 
   @override
-  Future<List<String>> getProductsCodeByPage(int page) async {
+  Future<CatalogPage> getProductsCodeByPage(int page) async {
     return await _db
         .collection(FirestoreCollections.catalog)
         .doc(page.toString())
@@ -14,11 +16,9 @@ class CatalogRepositoryImpl implements CatalogRepository {
         .then((event) {
           final data = event.data();
           if (data == null) {
-            return [];
+            throw Exception('Catalog page not found');
           }
-          //TODO: use a object here
-          final productsCode = data['productsCode'] as List<dynamic>;
-          return productsCode.map((e) => e.toString()).toList();
+          return CatalogPageModel.fromJson(data);
         });
   }
 }
