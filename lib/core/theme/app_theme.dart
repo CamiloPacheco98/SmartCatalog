@@ -12,6 +12,7 @@ class AppTheme {
 
   static ThemeData get lightTheme {
     return ThemeData(
+      fontFamily: 'Montserrat',
       useMaterial3: true,
       scaffoldBackgroundColor: backgroundColor,
       hintColor: hintColor,
