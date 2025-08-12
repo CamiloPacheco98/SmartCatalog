@@ -19,7 +19,7 @@ class CatalogPage extends StatelessWidget {
           CatalogCubit(catalogRepository: getIt<CatalogRepository>()),
       child: BlocListener<CatalogCubit, CatalogState>(
         listener: (context, state) {
-          if (state is ProductsCodeError) {
+          if (state is CatalogError) {
             showTopSnackBar(
               Overlay.of(context),
               CustomSnackBar.error(message: state.message),
@@ -33,8 +33,18 @@ class CatalogPage extends StatelessWidget {
               options: state.productsCode,
               buttonName: "catalog.add".tr(),
               onSelected: (selectedList) {
-                debugPrint("Selected options: $selectedList");
+                context.read<CatalogCubit>().addProductsCodeToCart(
+                  selectedList,
+                );
               },
+            );
+          }
+          if (state is ProductsCodeAddedToCart) {
+            showTopSnackBar(
+              Overlay.of(context),
+              CustomSnackBar.success(
+                message: "success.products_code_added_to_cart".tr(),
+              ),
             );
           }
         },
@@ -43,7 +53,7 @@ class CatalogPage extends StatelessWidget {
             return Stack(
               children: [
                 const CatalogView(),
-                if (state is ProductsCodeLoading) const CustomLoading(),
+                if (state is CatalogLoading) const CustomLoading(),
               ],
             );
           },

@@ -1,3 +1,5 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:get_it/get_it.dart';
@@ -48,5 +50,10 @@ final getIt = GetIt.instance;
 
 void setup() {
   getIt.registerSingleton<AuthRepository>(AuthRepositoryImpl());
-  getIt.registerSingleton<CatalogRepository>(CatalogRepositoryImpl());
+  getIt.registerSingleton<CatalogRepository>(
+    CatalogRepositoryImpl(
+      db: FirebaseFirestore.instance,
+      auth: FirebaseAuth.instance,
+    ),
+  );
 }

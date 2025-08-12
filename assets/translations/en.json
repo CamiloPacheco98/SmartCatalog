@@ -21,7 +21,11 @@
   },
   "errors": {
     "login_error": "Oops! We couldn’t find that account.",
-    "catalog_error": "Oops! We couldn’t find products on this page."
+    "get_products_code_error": "Oops! We couldn’t find products on this page.",
+    "add_products_error": "Oops! We couldn’t add products to cart."
+  },
+  "success": {
+    "products_code_added_to_cart": "Products code added to cart"
   },
   "catalog": {
     "select_products": "Select products code ",

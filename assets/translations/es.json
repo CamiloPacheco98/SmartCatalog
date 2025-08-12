@@ -19,7 +19,11 @@
   },
   "errors": {
     "login_error": "¡Ups! No encontramos coincidencias.",
-    "catalog_error": "¡Ups! No encontramos productos en esta página."
+    "get_products_code_error": "¡Ups! No encontramos productos en esta página.",
+    "add_products_error": "¡Ups! No pudimos agregar productos al carrito."
+  },
+  "success": {
+    "products_code_added_to_cart": "Códigos de producto agregados al carrito"
   },
   "catalog": {
     "select_products": "Selecciona los códigos de producto",

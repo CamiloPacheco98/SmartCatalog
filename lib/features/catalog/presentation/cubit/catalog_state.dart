@@ -9,18 +9,22 @@ final class CatalogInitial extends CatalogState {
   const CatalogInitial();
 }
 
+final class CatalogError extends CatalogState {
+  final String message;
+
+  const CatalogError({required this.message});
+}
+
+final class CatalogLoading extends CatalogState {
+  const CatalogLoading();
+}
+
 final class ProductsCodeLoaded extends CatalogState {
   final List<String> productsCode;
 
   const ProductsCodeLoaded({required this.productsCode});
 }
 
-final class ProductsCodeError extends CatalogState {
-  final String message;
-
-  const ProductsCodeError({required this.message});
-}
-
-final class ProductsCodeLoading extends CatalogState {
-  const ProductsCodeLoading();
+final class ProductsCodeAddedToCart extends CatalogState {
+  const ProductsCodeAddedToCart();
 }
