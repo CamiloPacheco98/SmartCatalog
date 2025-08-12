@@ -1,10 +1,10 @@
-import 'package:smart_catalog/features/catalog/domain/entities/catalog_page.dart';
+import 'package:smart_catalog/features/catalog/domain/entities/catalog_page_entity.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'catalog_page_model.g.dart';
 
 @JsonSerializable()
-class CatalogPageModel extends CatalogPage {
+class CatalogPageModel extends CatalogPageEntity {
   CatalogPageModel({required super.page, required super.productsCode});
 
   factory CatalogPageModel.fromJson(Map<String, dynamic> json) =>
