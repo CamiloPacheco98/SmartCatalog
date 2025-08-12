@@ -13,6 +13,7 @@
     "password_min": "La contraseña debe tener al menos {} caracteres"
   },
   "errors": {
-    "login_error": "¡Ups! No encontramos coincidencias."
+    "login_error": "¡Ups! No encontramos coincidencias.",
+    "catalog_error": "¡Ups! No encontramos productos en esta página."
   }
 }

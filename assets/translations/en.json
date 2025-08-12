@@ -15,6 +15,7 @@
     "password_min": "Password must be at least {} characters"
   },
   "errors": {
-    "login_error": "Oops! We couldn’t find that account."
+    "login_error": "Oops! We couldn’t find that account.",
+    "catalog_error": "Oops! We couldn’t find products on this page."
   }
 }

@@ -7,6 +7,7 @@ class TabbarView extends StatelessWidget {
   TabbarView({super.key, required this.currentIndex});
   final int currentIndex;
 
+  //TODO: replace with pages
   final _pages = [
     Center(child: CatalogPage()),
     Center(child: Text("Pedidos")),
@@ -15,6 +16,7 @@ class TabbarView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    //TODO: replace words with translations
     return Scaffold(
       body: IndexedStack(index: currentIndex, children: _pages),
       bottomNavigationBar: BottomNavigationBar(

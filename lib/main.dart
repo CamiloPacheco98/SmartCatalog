@@ -8,6 +8,8 @@ import 'package:smart_catalog/firebase_options.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:smart_catalog/features/auth/data/auth_repository_impl.dart';
 import 'package:smart_catalog/features/auth/domain/auth_repository.dart';
+import 'package:smart_catalog/features/catalog/data/catalog_repository_impl.dart';
+import 'package:smart_catalog/features/catalog/domain/catalog_repository.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -46,4 +48,5 @@ final getIt = GetIt.instance;
 
 void setup() {
   getIt.registerSingleton<AuthRepository>(AuthRepositoryImpl());
+  getIt.registerSingleton<CatalogRepository>(CatalogRepositoryImpl());
 }

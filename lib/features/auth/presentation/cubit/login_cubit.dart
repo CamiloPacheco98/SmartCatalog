@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:smart_catalog/features/auth/domain/auth_repository.dart';
 import 'package:smart_catalog/features/auth/presentation/cubit/login_state.dart';
@@ -17,6 +18,7 @@ class LoginCubit extends Cubit<LoginState> {
           emit(LoginState.success);
         })
         .catchError((error) {
+          debugPrint('login cubit Error: ${error.toString()}');
           emit(LoginState.error);
         });
   }
