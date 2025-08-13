@@ -1,6 +1,6 @@
 # 🧠🛍️ Smart Catalog
 
-**Smart Catalog** is a mobile application that turns printed magazine pages into interactive shopping catalogs. Powered by AI, it allows users to browse, view, and order products directly from scanned magazine content.
+**Smart Catalog** Smart Catalog is a mobile application that turns printed magazine pages into interactive shopping catalogs. It allows users to browse, view, and order products directly from scanned magazine content. The app is designed to facilitate product sales through catalogs, making it easier and more efficient to showcase products and place orders.
 
 ---
 
@@ -8,8 +8,6 @@
 
 - Splash screen and onboarding
 - User authentication with Firebase
-- Upload or scan magazine pages
-- Product extraction using **Gemini AI**
 - Product listing and detail views
 - Shopping cart and order placement
 - Admin interface for managing catalogs and products
@@ -24,24 +22,32 @@
 | Architecture     | Clean Architecture + BLoC        |
 | Navigation       | GoRouter                         |
 | Backend          | Firebase (Auth, Firestore, Storage) |
-| AI Integration   | Gemini AI (Google)               |
 
 ---
 
 ## 📁 Project Structure
 
 ```bash
-/lib
-├── core                # Shared utilities (errors, usecases, etc.)
-├── features/           # Feature modules (e.g., splash, catalog, orders)
-│   └── splash/
-│       ├── presentation/
-│       │   ├── bloc/
-│       │   └── pages/
-│
-├── app/
-│   ├── routes/         # GoRouter config and path constants
-│   └── themes/         # App theme, UI constants
-│
-├── injection_container.dart  # get_it setup
-└── main.dart
+SmartCatalog/
+├─ lib/
+│  ├─ app/
+│  │  └─ routes/
+│  ├─ core/
+│  │  ├─ constants/
+│  │  ├─ theme/
+│  │  ├─ utils/
+│  │  └─ widgets/
+│  ├─ extensions/
+│  ├─ features/
+│  │  ├─ auth/
+│  │  │  ├─ data/
+│  │  │  ├─ domain/
+│  │  │  └─ presentation/
+│  │  ├─ catalog/
+│  │  │  ├─ data/
+│  │  │  ├─ domain/
+│  │  │  └─ presentation/
+│  │  ├─ splash/
+│  │  └─ tabbar/
+│  └─ main.dart
+
