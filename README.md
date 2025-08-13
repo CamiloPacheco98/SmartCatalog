@@ -50,6 +50,7 @@ SmartCatalog/
 │  │  ├─ splash/
 │  │  └─ tabbar/
 │  └─ main.dart
+```
 
 
 ### Home Screen
