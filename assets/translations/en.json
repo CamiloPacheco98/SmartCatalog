@@ -31,5 +31,11 @@
     "select_products": "Select products code ",
     "select_products_subtitle": "You can choose multiple products code",
     "add": "Add"
+  },
+  "cart": {
+    "title": "Shopping cart",
+    "no_products_title": "Your cart is empty",
+    "no_products_subtitle": "Explore the catalog to add products",
+    "no_products_button": "View catalog"
   }
 }
