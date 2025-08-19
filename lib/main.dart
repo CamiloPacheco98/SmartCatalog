@@ -12,6 +12,8 @@ import 'package:smart_catalog/features/auth/data/auth_repository_impl.dart';
 import 'package:smart_catalog/features/auth/domain/auth_repository.dart';
 import 'package:smart_catalog/features/catalog/data/repositories/catalog_repository_impl.dart';
 import 'package:smart_catalog/features/catalog/domain/repositories/catalog_repository.dart';
+import 'package:smart_catalog/features/cart/domain/repositories/cart_repository.dart';
+import 'package:smart_catalog/features/cart/data/repositories/cart_repository_impl.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -53,6 +55,12 @@ void setup() {
   getIt.registerSingleton<AuthRepository>(AuthRepositoryImpl());
   getIt.registerSingleton<CatalogRepository>(
     CatalogRepositoryImpl(
+      db: FirebaseFirestore.instance,
+      auth: FirebaseAuth.instance,
+    ),
+  );
+  getIt.registerSingleton<CartRepository>(
+    CartRepositoryImpl(
       db: FirebaseFirestore.instance,
       auth: FirebaseAuth.instance,
     ),

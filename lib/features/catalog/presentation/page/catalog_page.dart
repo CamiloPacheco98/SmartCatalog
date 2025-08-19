@@ -50,7 +50,7 @@ class CatalogPage extends StatelessWidget {
             );
           }
           if (state is CatalogNavigatingToCart) {
-            context.goNamed(AppPaths.cart);
+            context.pushNamed(AppPaths.cart);
           }
         },
         child: BlocBuilder<CatalogCubit, CatalogState>(
