@@ -8,6 +8,8 @@ import 'package:smart_catalog/features/catalog/presentation/catalog.dart';
 import 'package:smart_catalog/main.dart';
 import 'package:top_snackbar_flutter/custom_snack_bar.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
+import 'package:go_router/go_router.dart';
+import 'package:smart_catalog/app/routes/app_path.dart';
 
 class CatalogPage extends StatelessWidget {
   const CatalogPage({super.key});
@@ -46,6 +48,9 @@ class CatalogPage extends StatelessWidget {
                 message: "success.products_code_added_to_cart".tr(),
               ),
             );
+          }
+          if (state is CatalogNavigatingToCart) {
+            context.goNamed(AppPaths.cart);
           }
         },
         child: BlocBuilder<CatalogCubit, CatalogState>(

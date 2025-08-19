@@ -21,7 +21,15 @@ class _CatalogViewState extends State<CatalogView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Catálogo 2025 c8', style: context.textTheme.labelLarge),
+        title: Text('Catálogo 2025 c9', style: context.textTheme.labelLarge),
+        actions: [
+          IconButton(
+            onPressed: () {
+              context.read<CatalogCubit>().navigateToCart();
+            },
+            icon: const Icon(Icons.shopping_cart_outlined),
+          ),
+        ],
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {

@@ -49,4 +49,8 @@ class CatalogCubit extends Cubit<CatalogState> {
       emit(CatalogError(message: 'errors.add_products_error'.tr()));
     }
   }
+
+  void navigateToCart() {
+    emit(CatalogNavigatingToCart());
+  }
 }

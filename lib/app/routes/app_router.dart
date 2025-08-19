@@ -3,6 +3,7 @@ import 'package:smart_catalog/app/routes/app_path.dart';
 import 'package:smart_catalog/features/splash/presentation/page/splash_page.dart';
 import 'package:smart_catalog/features/auth/presentation/page/login_page.dart';
 import 'package:smart_catalog/features/tabbar/presentation/page/tabbar_page.dart';
+import 'package:smart_catalog/features/cart/presentation/cart.dart';
 
 final appRouter = GoRouter(
   initialLocation: AppPaths.splash,
@@ -21,6 +22,11 @@ final appRouter = GoRouter(
       name: AppPaths.tabbar,
       path: AppPaths.tabbar,
       builder: (context, state) => const TabbarPage(),
+    ),
+    GoRoute(
+      name: AppPaths.cart,
+      path: AppPaths.cart,
+      builder: (context, state) => const CartPage(),
     ),
   ],
 );

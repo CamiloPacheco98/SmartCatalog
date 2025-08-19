@@ -28,3 +28,7 @@ final class ProductsCodeLoaded extends CatalogState {
 final class ProductsCodeAddedToCart extends CatalogState {
   const ProductsCodeAddedToCart();
 }
+
+final class CatalogNavigatingToCart extends CatalogState {
+  const CatalogNavigatingToCart();
+}
