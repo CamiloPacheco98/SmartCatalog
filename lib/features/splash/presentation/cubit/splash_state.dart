@@ -1,1 +1,15 @@
-enum SplashState { initial, navigating }
+part of 'splash_cubit.dart';
+
+@immutable
+sealed class SplashState {
+  const SplashState();
+}
+
+final class SplashInitial extends SplashState {
+  const SplashInitial();
+}
+
+final class SplashNavigating extends SplashState {
+  final String route;
+  const SplashNavigating({required this.route});
+}
