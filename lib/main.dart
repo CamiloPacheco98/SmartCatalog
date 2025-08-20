@@ -14,6 +14,8 @@ import 'package:smart_catalog/features/catalog/data/repositories/catalog_reposit
 import 'package:smart_catalog/features/catalog/domain/repositories/catalog_repository.dart';
 import 'package:smart_catalog/features/cart/domain/repositories/cart_repository.dart';
 import 'package:smart_catalog/features/cart/data/repositories/cart_repository_impl.dart';
+import 'package:smart_catalog/features/splash/data/repositories/splash_repository_impl.dart';
+import 'package:smart_catalog/features/splash/domain/repositories/splash_repository.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -61,6 +63,12 @@ void setup() {
   );
   getIt.registerSingleton<CartRepository>(
     CartRepositoryImpl(
+      db: FirebaseFirestore.instance,
+      auth: FirebaseAuth.instance,
+    ),
+  );
+  getIt.registerSingleton<SplashRepository>(
+    SplashRepositoryImpl(
       db: FirebaseFirestore.instance,
       auth: FirebaseAuth.instance,
     ),

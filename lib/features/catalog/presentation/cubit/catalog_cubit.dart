@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:smart_catalog/core/session/cart_session.dart';
 import 'package:smart_catalog/features/catalog/domain/entities/cart_products_entity.dart';
 import 'package:smart_catalog/features/catalog/domain/repositories/catalog_repository.dart';
 import 'package:smart_catalog/features/cart/presentation/models/cart_product_view_model.dart';
@@ -17,15 +18,19 @@ class CatalogCubit extends Cubit<CatalogState> {
     emit(CatalogLoading());
     _catalogRepository
         .getProductsCodeByPage(page)
-        .then((catalogPage) {
-          final productsCode = catalogPage.productsCode;
+        .then((page) {
+          final productsCode = page.productsCode;
           if (productsCode.isEmpty) {
             debugPrint('catalog cubit Error: no products found');
             emit(CatalogError(message: 'errors.catalog_error'.tr()));
           } else {
-            final products = productsCode
-                .map((code) => CartProductViewModel(id: code, quantity: '0'))
-                .toList();
+            final cartProducts = CartSession.instance.cartProducts;
+            final products = productsCode.map((code) {
+              return cartProducts.firstWhere(
+                (p) => p.id == code,
+                orElse: () => CartProductViewModel(id: code, quantity: '0'),
+              );
+            }).toList();
             emit(ProductsLoaded(products: products));
           }
         })
@@ -47,6 +52,7 @@ class CatalogCubit extends Cubit<CatalogState> {
             quantity: int.parse(product.quantity),
           ),
       };
+      CartSession.instance.addProductList(products);
       await _catalogRepository.addProductsCodeToCart(productsEntityMap);
       emit(ProductsAddedToCart());
     } catch (e) {
