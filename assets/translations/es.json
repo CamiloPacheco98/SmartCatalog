@@ -34,6 +34,7 @@
     "title": "Carrito de compras",
     "no_products_title": "¡Tu carrito está vacío!",
     "no_products_subtitle": "Explora el catálogo para agregar productos",
-    "no_products_button": "Ver catálogo"
+    "no_products_button": "Ver catálogo",
+    "product_code": "Código: {}"
   }
 }

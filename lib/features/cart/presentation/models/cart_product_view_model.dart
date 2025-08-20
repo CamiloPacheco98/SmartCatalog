@@ -13,4 +13,8 @@ class CartProductViewModel {
     final quantity = entity.quantity.toString();
     return CartProductViewModel(id: id, quantity: quantity);
   }
+
+  CartProductViewModel copyWith({String? quantity}) {
+    return CartProductViewModel(id: id, quantity: quantity ?? this.quantity);
+  }
 }

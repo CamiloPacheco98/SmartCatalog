@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:smart_catalog/core/constants/asset_paths.dart';
+import 'package:smart_catalog/features/cart/presentation/cubit/cart_cubit.dart';
 import 'package:smart_catalog/features/cart/presentation/models/cart_product_view_model.dart';
 import 'package:go_router/go_router.dart';
 import 'package:smart_catalog/extensions/context_extensions.dart';
@@ -20,35 +22,117 @@ class CartView extends StatelessWidget {
           icon: const Icon(Icons.arrow_back),
         ),
       ),
-      body: products.isEmpty
-          ? Padding(
-              padding: const EdgeInsets.all(24),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Image.asset(AssetPaths.emptyBag, width: 120, height: 120),
-                  Text(
-                    'cart.no_products_title'.tr(),
-                    style: context.textTheme.titleLarge,
-                  ),
-                  const SizedBox(height: 10),
-                  Text(
-                    'cart.no_products_subtitle'.tr(),
-                    style: context.textTheme.bodyLarge,
-                    textAlign: TextAlign.center,
-                  ),
-                  const SizedBox(height: 20),
-                  ElevatedButton(
-                    onPressed: () => context.pop(),
-                    child: Text('cart.no_products_button'.tr()),
-                  ),
-                ],
-              ),
-            )
-          : ListView.builder(
-              itemCount: products.length,
-              itemBuilder: (context, index) => Text(products[index].id),
+      body: products.isEmpty ? _buildEmptyCart(context) : _buildCart(context),
+    );
+  }
+
+  Widget _buildEmptyCart(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(24),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Image.asset(AssetPaths.emptyBag, width: 120, height: 120),
+          Text(
+            'cart.no_products_title'.tr(),
+            style: context.textTheme.titleLarge,
+          ),
+          const SizedBox(height: 10),
+          Text(
+            'cart.no_products_subtitle'.tr(),
+            style: context.textTheme.bodyLarge,
+            textAlign: TextAlign.center,
+          ),
+          const SizedBox(height: 20),
+          ElevatedButton(
+            onPressed: () => context.pop(),
+            child: Text('cart.no_products_button'.tr()),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildCart(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(16.0),
+      child: Container(
+        decoration: BoxDecoration(
+          color: context.colorScheme.onPrimary,
+          borderRadius: BorderRadius.circular(12),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withValues(alpha: 0.1),
+              blurRadius: 8,
+              offset: const Offset(0, 2),
             ),
+          ],
+        ),
+        child: ListView.separated(
+          padding: const EdgeInsets.all(16),
+          itemCount: products.length,
+          separatorBuilder: (context, index) =>
+              Divider(height: 20, color: context.colorScheme.secondary),
+          itemBuilder: (context, index) {
+            final product = products[index];
+            return _buildProductItem(context, product);
+          },
+        ),
+      ),
+    );
+  }
+
+  Widget _buildProductItem(BuildContext context, CartProductViewModel product) {
+    return Row(
+      children: [
+        // Product info
+        Expanded(
+          child: Text(
+            'cart.product_code'.tr(args: [product.id]),
+            style: context.textTheme.bodyLarge,
+          ),
+        ),
+        // Quantity controls
+        Container(
+          decoration: BoxDecoration(
+            color: context.colorScheme.secondary,
+            borderRadius: BorderRadius.circular(8),
+          ),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              IconButton(
+                onPressed: () =>
+                    context.read<CartCubit>().decreaseQuantity(product.id),
+                icon: Icon(
+                  Icons.remove,
+                  size: 20,
+                  color: context.colorScheme.primary,
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 12,
+                  vertical: 8,
+                ),
+                child: Text(
+                  product.quantity,
+                  style: context.textTheme.bodyLarge,
+                ),
+              ),
+              IconButton(
+                onPressed: () =>
+                    context.read<CartCubit>().increaseQuantity(product.id),
+                icon: Icon(
+                  Icons.add,
+                  size: 20,
+                  color: context.colorScheme.primary,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ],
     );
   }
 }
