@@ -19,14 +19,14 @@ final class CatalogLoading extends CatalogState {
   const CatalogLoading();
 }
 
-final class ProductsCodeLoaded extends CatalogState {
-  final List<String> productsCode;
+final class ProductsLoaded extends CatalogState {
+  final List<CartProductViewModel> products;
 
-  const ProductsCodeLoaded({required this.productsCode});
+  const ProductsLoaded({required this.products});
 }
 
-final class ProductsCodeAddedToCart extends CatalogState {
-  const ProductsCodeAddedToCart();
+final class ProductsAddedToCart extends CatalogState {
+  const ProductsAddedToCart();
 }
 
 final class CatalogNavigatingToCart extends CatalogState {

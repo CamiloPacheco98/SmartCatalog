@@ -25,7 +25,7 @@
     "add_products_error": "Oops! We couldn’t add products to cart."
   },
   "success": {
-    "products_code_added_to_cart": "Products code added to cart"
+    "products_added_to_cart": "Products added to cart"
   },
   "catalog": {
     "select_products": "Select products code ",

@@ -6,12 +6,9 @@ class CartProductViewModel {
 
   CartProductViewModel({required this.id, required this.quantity});
 
-  factory CartProductViewModel.fromEntity({
-    required CartProductEntity entity,
-    required String id,
-  }) {
+  factory CartProductViewModel.fromEntity(CartProductEntity entity) {
     final quantity = entity.quantity.toString();
-    return CartProductViewModel(id: id, quantity: quantity);
+    return CartProductViewModel(id: entity.id, quantity: quantity);
   }
 
   CartProductViewModel copyWith({String? quantity}) {

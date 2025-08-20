@@ -23,12 +23,7 @@ class CartCubit extends Cubit<CartState> {
         return;
       }
       _products = products.entries
-          .map(
-            (entry) => CartProductViewModel.fromEntity(
-              entity: entry.value,
-              id: entry.key,
-            ),
-          )
+          .map((entry) => CartProductViewModel.fromEntity(entry.value))
           .toList();
       emit(CartLoaded(_products));
     } catch (e) {

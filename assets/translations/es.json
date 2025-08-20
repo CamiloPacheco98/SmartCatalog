@@ -23,7 +23,7 @@
     "add_products_error": "¡Ups! No pudimos agregar productos al carrito."
   },
   "success": {
-    "products_code_added_to_cart": "Códigos de producto agregados al carrito"
+    "products_added_to_cart": "Productos agregados al carrito"
   },
   "catalog": {
     "select_products": "Selecciona los códigos de producto",

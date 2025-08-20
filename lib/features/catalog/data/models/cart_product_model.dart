@@ -5,7 +5,7 @@ part 'cart_product_model.g.dart';
 
 @JsonSerializable()
 class CartProductModel extends CartProductEntity {
-  CartProductModel({required super.quantity});
+  CartProductModel({required super.id, required super.quantity});
 
   factory CartProductModel.fromJson(Map<String, dynamic> json) =>
       _$CartProductModelFromJson(json);
@@ -13,6 +13,6 @@ class CartProductModel extends CartProductEntity {
   Map<String, dynamic> toJson() => _$CartProductModelToJson(this);
 
   factory CartProductModel.fromEntity(CartProductEntity entity) {
-    return CartProductModel(quantity: entity.quantity);
+    return CartProductModel(id: entity.id, quantity: entity.quantity);
   }
 }

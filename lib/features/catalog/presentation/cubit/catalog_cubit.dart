@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:smart_catalog/features/catalog/domain/entities/cart_products_entity.dart';
 import 'package:smart_catalog/features/catalog/domain/repositories/catalog_repository.dart';
-
+import 'package:smart_catalog/features/cart/presentation/models/cart_product_view_model.dart';
 part 'catalog_state.dart';
 
 class CatalogCubit extends Cubit<CatalogState> {
@@ -23,7 +23,10 @@ class CatalogCubit extends Cubit<CatalogState> {
             debugPrint('catalog cubit Error: no products found');
             emit(CatalogError(message: 'errors.catalog_error'.tr()));
           } else {
-            emit(ProductsCodeLoaded(productsCode: productsCode));
+            final products = productsCode
+                .map((code) => CartProductViewModel(id: code, quantity: '0'))
+                .toList();
+            emit(ProductsLoaded(products: products));
           }
         })
         .catchError((error) {
@@ -34,16 +37,18 @@ class CatalogCubit extends Cubit<CatalogState> {
         });
   }
 
-  void addProductsCodeToCart(List<String> productsCode) async {
+  void addProductsCodeToCart(List<CartProductViewModel> products) async {
     try {
       emit(CatalogLoading());
-      final products = Map.fromEntries(
-        productsCode.map(
-          (code) => MapEntry(code, CartProductEntity(quantity: 1)),
-        ),
-      );
-      await _catalogRepository.addProductsCodeToCart(products);
-      emit(ProductsCodeAddedToCart());
+      final Map<String, CartProductEntity> productsEntityMap = {
+        for (var product in products)
+          product.id: CartProductEntity(
+            id: product.id,
+            quantity: int.parse(product.quantity),
+          ),
+      };
+      await _catalogRepository.addProductsCodeToCart(productsEntityMap);
+      emit(ProductsAddedToCart());
     } catch (e) {
       debugPrint('catalog cubit addProductsCodeToCart Error: ${e.toString()}');
       emit(CatalogError(message: 'errors.add_products_error'.tr()));

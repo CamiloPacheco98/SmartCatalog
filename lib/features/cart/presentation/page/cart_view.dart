@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:smart_catalog/core/constants/asset_paths.dart';
+import 'package:smart_catalog/core/widgets/product_item.dart';
 import 'package:smart_catalog/features/cart/presentation/cubit/cart_cubit.dart';
 import 'package:smart_catalog/features/cart/presentation/models/cart_product_view_model.dart';
 import 'package:go_router/go_router.dart';
@@ -75,64 +76,16 @@ class CartView extends StatelessWidget {
               Divider(height: 20, color: context.colorScheme.secondary),
           itemBuilder: (context, index) {
             final product = products[index];
-            return _buildProductItem(context, product);
+            return ProductItem(
+              product: product,
+              onDecreaseQuantity: (product) =>
+                  context.read<CartCubit>().decreaseQuantity(product.id),
+              onIncreaseQuantity: (product) =>
+                  context.read<CartCubit>().increaseQuantity(product.id),
+            );
           },
         ),
       ),
-    );
-  }
-
-  Widget _buildProductItem(BuildContext context, CartProductViewModel product) {
-    return Row(
-      children: [
-        // Product info
-        Expanded(
-          child: Text(
-            'cart.product_code'.tr(args: [product.id]),
-            style: context.textTheme.bodyLarge,
-          ),
-        ),
-        // Quantity controls
-        Container(
-          decoration: BoxDecoration(
-            color: context.colorScheme.secondary,
-            borderRadius: BorderRadius.circular(8),
-          ),
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              IconButton(
-                onPressed: () =>
-                    context.read<CartCubit>().decreaseQuantity(product.id),
-                icon: Icon(
-                  Icons.remove,
-                  size: 20,
-                  color: context.colorScheme.primary,
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 12,
-                  vertical: 8,
-                ),
-                child: Text(
-                  product.quantity,
-                  style: context.textTheme.bodyLarge,
-                ),
-              ),
-              IconButton(
-                onPressed: () =>
-                    context.read<CartCubit>().increaseQuantity(product.id),
-                icon: Icon(
-                  Icons.add,
-                  size: 20,
-                  color: context.colorScheme.primary,
-                ),
-              ),
-            ],
-          ),
-        ),
-      ],
     );
   }
 }
