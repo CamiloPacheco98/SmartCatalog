@@ -87,7 +87,6 @@ class _ProductListModalState extends State<ProductListModal> {
             // List of products
             Expanded(
               child: ListView.separated(
-                padding: const EdgeInsets.all(16),
                 itemCount: products.length,
                 separatorBuilder: (context, index) =>
                     Divider(height: 20, color: context.colorScheme.secondary),
