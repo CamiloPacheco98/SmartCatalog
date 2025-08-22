@@ -75,6 +75,7 @@ void setup() {
     CatalogRepositoryImpl(
       db: FirebaseFirestore.instance,
       auth: FirebaseAuth.instance,
+      cartBox: Hive.box<Map>(HiveBoxes.cart),
     ),
   );
   getIt.registerSingleton<CartRepository>(

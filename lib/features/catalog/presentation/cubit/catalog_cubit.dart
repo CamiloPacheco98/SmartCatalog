@@ -53,12 +53,23 @@ class CatalogCubit extends Cubit<CatalogState> {
           ),
       };
       CartSession.instance.addProductList(products);
-      await _catalogRepository.addProductsCodeToCart(productsEntityMap);
+      await _addProductsToCartLocals();
       emit(ProductsAddedToCart());
+      await _catalogRepository.addProductsCodeToCart(productsEntityMap);
     } catch (e) {
       debugPrint('catalog cubit addProductsCodeToCart Error: ${e.toString()}');
       emit(CatalogError(message: 'errors.add_products_error'.tr()));
     }
+  }
+
+  Future<void> _addProductsToCartLocals() async {
+    final products = CartSession.instance.cartProducts;
+    final productsEntityMap = products
+        .map(
+          (e) => CartProductEntity(id: e.id, quantity: int.parse(e.quantity)),
+        )
+        .toList();
+    await _catalogRepository.addProductsLocal(productsEntityMap);
   }
 
   void navigateToCart() {

@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:hive/hive.dart';
 import 'package:smart_catalog/core/domain/entities/cart_products_entity.dart';
 import 'package:smart_catalog/features/catalog/domain/entities/catalog_page_entity.dart';
 import 'package:smart_catalog/features/catalog/domain/repositories/catalog_repository.dart';
@@ -10,11 +11,15 @@ import 'package:smart_catalog/features/catalog/data/models/catalog_page_model.da
 class CatalogRepositoryImpl implements CatalogRepository {
   final FirebaseFirestore _db;
   final FirebaseAuth _auth;
+  final Box<Map> _cartBox;
+
   CatalogRepositoryImpl({
     required FirebaseFirestore db,
     required FirebaseAuth auth,
+    required Box<Map> cartBox,
   }) : _db = db,
-       _auth = auth;
+       _auth = auth,
+       _cartBox = cartBox;
 
   @override
   Future<CatalogPageEntity> getProductsCodeByPage(int page) async {
@@ -45,5 +50,13 @@ class CatalogRepositoryImpl implements CatalogRepository {
         .collection(FirestoreCollections.cart)
         .doc(uid)
         .set(productsJson, SetOptions(merge: true));
+  }
+
+  @override
+  Future<void> addProductsLocal(List<CartProductEntity> products) async {
+    _cartBox.clear();
+    await _cartBox.addAll(
+      products.map((e) => CartProductModel.fromEntity(e).toJson()),
+    );
   }
 }
