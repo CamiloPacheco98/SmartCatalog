@@ -1,32 +1,31 @@
-import 'package:smart_catalog/features/cart/domain/repositories/cart_repository.dart';
 import 'package:smart_catalog/core/data/models/cart_product_model.dart';
-import 'package:smart_catalog/core/domain/entities/cart_products_entity.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:smart_catalog/core/constants/firestore_collections.dart';
+import 'package:smart_catalog/features/cart/domain/repositories/cart_repository.dart';
+import 'package:hive/hive.dart';
 
 class CartRepositoryImpl extends CartRepository {
-  final FirebaseFirestore _db;
-  final FirebaseAuth _auth;
+  final Box<Map> _cartBox;
 
-  CartRepositoryImpl({
-    required FirebaseFirestore db,
-    required FirebaseAuth auth,
-  }) : _db = db,
-       _auth = auth;
+  CartRepositoryImpl({required Box<Map> cartBox}) : _cartBox = cartBox;
 
   @override
-  Future<Map<String, CartProductEntity>?> getCartProducts() async {
-    final uid = _auth.currentUser?.uid;
-    if (uid == null) throw Exception("User not logged in");
-    final products = await _db
-        .collection(FirestoreCollections.cart)
-        .doc(uid)
-        .get()
-        .then((value) => value.data());
-    if (products == null) return {};
-    return products.map(
-      (key, value) => MapEntry(key, CartProductModel.fromJson(value)),
-    );
+  Future<void> increaseQuantityLocalAt(int index) async {
+    final productKey = _cartBox.keyAt(index);
+    final productMap = _cartBox.get(productKey);
+    if (productMap == null) return;
+    final productJson = Map<String, dynamic>.from(productMap);
+    final product = CartProductModel.fromJson(productJson);
+    final updatedProduct = product.copyWith(quantity: product.quantity + 1);
+    await _cartBox.put(productKey, updatedProduct.toJson());
+  }
+
+  @override
+  Future<void> decreaseQuantityLocalAt(int index) async {
+    final productKey = _cartBox.keyAt(index);
+    final productMap = _cartBox.get(productKey);
+    if (productMap == null) return;
+    final productJson = Map<String, dynamic>.from(productMap);
+    final product = CartProductModel.fromJson(productJson);
+    final updatedProduct = product.copyWith(quantity: product.quantity - 1);
+    await _cartBox.put(productKey, updatedProduct.toJson());
   }
 }

@@ -79,10 +79,7 @@ void setup() {
     ),
   );
   getIt.registerSingleton<CartRepository>(
-    CartRepositoryImpl(
-      db: FirebaseFirestore.instance,
-      auth: FirebaseAuth.instance,
-    ),
+    CartRepositoryImpl(cartBox: Hive.box<Map>(HiveBoxes.cart)),
   );
   getIt.registerSingleton<SplashRepository>(
     SplashRepositoryImpl(

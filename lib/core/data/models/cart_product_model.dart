@@ -15,4 +15,8 @@ class CartProductModel extends CartProductEntity {
   factory CartProductModel.fromEntity(CartProductEntity entity) {
     return CartProductModel(id: entity.id, quantity: entity.quantity);
   }
+
+  CartProductModel copyWith({int? quantity}) {
+    return CartProductModel(id: id, quantity: quantity ?? this.quantity);
+  }
 }
