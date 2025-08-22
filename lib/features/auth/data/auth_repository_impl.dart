@@ -7,12 +7,12 @@ import 'package:smart_catalog/core/domain/entities/cart_products_entity.dart';
 import 'package:smart_catalog/features/auth/domain/auth_repository.dart';
 
 class AuthRepositoryImpl implements AuthRepository {
-  final Box<CartProductEntity> _cartBox;
+  final Box<Map> _cartBox;
   final FirebaseAuth _auth;
   final FirebaseFirestore _db;
 
   AuthRepositoryImpl({
-    required Box<CartProductEntity> cartBox,
+    required Box<Map> cartBox,
     required FirebaseAuth auth,
     required FirebaseFirestore db,
   }) : _cartBox = cartBox,
@@ -44,6 +44,9 @@ class AuthRepositoryImpl implements AuthRepository {
 
   @override
   Future<void> saveLocalCartProducts(List<CartProductEntity> products) async {
-    await _cartBox.addAll(products);
+    final productListJson = products
+        .map((e) => CartProductModel.fromEntity(e).toJson())
+        .toList();
+    await _cartBox.addAll(productListJson);
   }
 }

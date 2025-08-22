@@ -17,8 +17,7 @@ import 'package:smart_catalog/features/cart/data/repositories/cart_repository_im
 import 'package:smart_catalog/features/splash/data/repositories/splash_repository_impl.dart';
 import 'package:smart_catalog/features/splash/domain/repositories/splash_repository.dart';
 import 'package:hive/hive.dart';
-import 'package:smart_catalog/core/constants/hive_boxes.dart';
-import 'package:smart_catalog/core/domain/entities/cart_products_entity.dart';
+import 'package:smart_catalog/core/constants/hive_constants.dart';
 import 'package:path_provider/path_provider.dart';
 
 void main() async {
@@ -60,13 +59,14 @@ final getIt = GetIt.instance;
 Future<void> initHive() async {
   final directory = await getApplicationDocumentsDirectory();
   Hive.init(directory.path);
-  await Hive.openBox<CartProductEntity>(HiveBoxes.cart);
+  await Hive.openBox<Map>(HiveBoxes.cart);
+  await Hive.openBox<bool>(HiveBoxes.appSettings);
 }
 
 void setup() {
   getIt.registerSingleton<AuthRepository>(
     AuthRepositoryImpl(
-      cartBox: Hive.box<CartProductEntity>(HiveBoxes.cart),
+      cartBox: Hive.box<Map>(HiveBoxes.cart),
       auth: FirebaseAuth.instance,
       db: FirebaseFirestore.instance,
     ),
@@ -84,6 +84,11 @@ void setup() {
     ),
   );
   getIt.registerSingleton<SplashRepository>(
-    SplashRepositoryImpl(cartBox: Hive.box<CartProductEntity>(HiveBoxes.cart)),
+    SplashRepositoryImpl(
+      cartBox: Hive.box<Map>(HiveBoxes.cart),
+      appSettingsBox: Hive.box<bool>(HiveBoxes.appSettings),
+      db: FirebaseFirestore.instance,
+      auth: FirebaseAuth.instance,
+    ),
   );
 }

@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:smart_catalog/app/routes/app_path.dart';
+import 'package:smart_catalog/core/constants/hive_constants.dart';
 import 'package:smart_catalog/core/session/cart_session.dart';
 import 'package:smart_catalog/core/session/user_session.dart';
 import 'package:smart_catalog/features/cart/presentation/models/cart_product_view_model.dart';
@@ -19,6 +20,17 @@ class SplashCubit extends Cubit<SplashState> {
     Future.delayed(const Duration(seconds: 3), () async {
       List<CartProductViewModel> products = [];
       if (UserSession.instance.isLoggedIn) {
+        final isFirstLaunch = await _repository.getAppSettings(
+          HiveKeys.isFirstLaunch,
+          defaultValue: true,
+        );
+        if (isFirstLaunch) {
+          final cartProducts = await _repository.getCartProducts();
+          await _repository.saveLocalCartProducts(
+            cartProducts?.values.toList() ?? [],
+          );
+          await _repository.saveAppSettings(HiveKeys.isFirstLaunch, false);
+        }
         final localCartProducts = await _repository.getLocalCartProducts();
         products = localCartProducts
             .map((e) => CartProductViewModel.fromEntity(e))

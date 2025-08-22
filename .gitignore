@@ -50,3 +50,9 @@ android/app/google-services.json
 ios/Runner/GoogleService-Info.plist
 lib/firebase_options.dart
 .env
+
+# iOS
+/ios/build
+
+# Android
+android/app/build/
