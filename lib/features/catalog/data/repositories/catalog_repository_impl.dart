@@ -1,10 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:smart_catalog/features/catalog/domain/entities/cart_products_entity.dart';
+import 'package:smart_catalog/core/domain/entities/cart_products_entity.dart';
 import 'package:smart_catalog/features/catalog/domain/entities/catalog_page_entity.dart';
 import 'package:smart_catalog/features/catalog/domain/repositories/catalog_repository.dart';
 import 'package:smart_catalog/core/constants/firestore_collections.dart';
-import 'package:smart_catalog/features/catalog/data/models/cart_product_model.dart';
+import 'package:smart_catalog/core/data/models/cart_product_model.dart';
 import 'package:smart_catalog/features/catalog/data/models/catalog_page_model.dart';
 
 class CatalogRepositoryImpl implements CatalogRepository {

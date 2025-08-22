@@ -16,14 +16,14 @@ class SplashCubit extends Cubit<SplashState> {
       super(SplashInitial());
 
   void startSplashTimer() {
-    Future.delayed(const Duration(seconds: 3), () {
+    Future.delayed(const Duration(seconds: 3), () async {
+      List<CartProductViewModel> products = [];
       if (UserSession.instance.isLoggedIn) {
-        _repository.getCartProducts().then((productsMap) {
-          final products = productsMap?.values
-              .map((e) => CartProductViewModel.fromEntity(e))
-              .toList();
-          CartSession.instance.initializeProducts(products ?? []);
-        });
+        final localCartProducts = await _repository.getLocalCartProducts();
+        products = localCartProducts
+            .map((e) => CartProductViewModel.fromEntity(e))
+            .toList();
+        CartSession.instance.initializeProducts(products);
         emit(SplashNavigating(route: AppPaths.tabbar));
       } else {
         emit(SplashNavigating(route: AppPaths.login));

@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -16,13 +17,16 @@ import 'package:smart_catalog/features/cart/domain/repositories/cart_repository.
 import 'package:smart_catalog/features/cart/data/repositories/cart_repository_impl.dart';
 import 'package:smart_catalog/features/splash/data/repositories/splash_repository_impl.dart';
 import 'package:smart_catalog/features/splash/domain/repositories/splash_repository.dart';
+import 'package:hive/hive.dart';
+import 'package:smart_catalog/core/constants/hive_boxes.dart';
+import 'package:smart_catalog/core/domain/entities/cart_products_entity.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await EasyLocalization.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   await dotenv.load(fileName: ".env");
-
+  await initHive();
   setup();
   runApp(
     EasyLocalization(
@@ -53,8 +57,20 @@ class SmartCatalogApp extends StatelessWidget {
 
 final getIt = GetIt.instance;
 
+Future<void> initHive() async {
+  final path = Directory.current.path;
+  Hive.init(path);
+  Hive.openBox<CartProductEntity>(HiveBoxes.cart);
+}
+
 void setup() {
-  getIt.registerSingleton<AuthRepository>(AuthRepositoryImpl());
+  getIt.registerSingleton<AuthRepository>(
+    AuthRepositoryImpl(
+      cartBox: Hive.box<CartProductEntity>(HiveBoxes.cart),
+      auth: FirebaseAuth.instance,
+      db: FirebaseFirestore.instance,
+    ),
+  );
   getIt.registerSingleton<CatalogRepository>(
     CatalogRepositoryImpl(
       db: FirebaseFirestore.instance,
@@ -68,9 +84,6 @@ void setup() {
     ),
   );
   getIt.registerSingleton<SplashRepository>(
-    SplashRepositoryImpl(
-      db: FirebaseFirestore.instance,
-      auth: FirebaseAuth.instance,
-    ),
+    SplashRepositoryImpl(cartBox: Hive.box<CartProductEntity>(HiveBoxes.cart)),
   );
 }

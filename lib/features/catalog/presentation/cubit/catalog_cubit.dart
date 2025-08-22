@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:smart_catalog/core/session/cart_session.dart';
-import 'package:smart_catalog/features/catalog/domain/entities/cart_products_entity.dart';
+import 'package:smart_catalog/core/domain/entities/cart_products_entity.dart';
 import 'package:smart_catalog/features/catalog/domain/repositories/catalog_repository.dart';
 import 'package:smart_catalog/features/cart/presentation/models/cart_product_view_model.dart';
 part 'catalog_state.dart';
