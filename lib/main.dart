@@ -1,4 +1,3 @@
-import 'dart:io';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -20,6 +19,7 @@ import 'package:smart_catalog/features/splash/domain/repositories/splash_reposit
 import 'package:hive/hive.dart';
 import 'package:smart_catalog/core/constants/hive_boxes.dart';
 import 'package:smart_catalog/core/domain/entities/cart_products_entity.dart';
+import 'package:path_provider/path_provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -58,9 +58,9 @@ class SmartCatalogApp extends StatelessWidget {
 final getIt = GetIt.instance;
 
 Future<void> initHive() async {
-  final path = Directory.current.path;
-  Hive.init(path);
-  Hive.openBox<CartProductEntity>(HiveBoxes.cart);
+  final directory = await getApplicationDocumentsDirectory();
+  Hive.init(directory.path);
+  await Hive.openBox<CartProductEntity>(HiveBoxes.cart);
 }
 
 void setup() {

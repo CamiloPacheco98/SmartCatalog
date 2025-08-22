@@ -2,9 +2,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:hive/hive.dart';
 import 'package:smart_catalog/core/constants/firestore_collections.dart';
+import 'package:smart_catalog/core/data/models/cart_product_model.dart';
 import 'package:smart_catalog/core/domain/entities/cart_products_entity.dart';
 import 'package:smart_catalog/features/auth/domain/auth_repository.dart';
-import 'package:smart_catalog/features/catalog/data/models/cart_product_model.dart';
 
 class AuthRepositoryImpl implements AuthRepository {
   final Box<CartProductEntity> _cartBox;
