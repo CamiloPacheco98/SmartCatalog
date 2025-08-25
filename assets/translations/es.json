@@ -43,5 +43,8 @@
     "product_code": "Código: {}",
     "total_products": "Total de productos",
     "make_order": "Hacer pedido"
+  },
+  "orders": {
+    "title": "Pedidos"
   }
 }

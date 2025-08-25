@@ -27,7 +27,6 @@
     "delete_product_error": "Oops! We couldn’t delete product. Try again later.",
     "increase_quantity_error": "Oops! We couldn’t increase quantity. Try again later.",
     "decrease_quantity_error": "Oops! We couldn’t decrease quantity. Try again later."
-
   },
   "success": {
     "products_added_to_cart": "Products added to cart",
@@ -46,5 +45,8 @@
     "product_code": "Code: {}",
     "total_products": "Total products",
     "make_order": "Make order"
+  },
+  "orders": {
+    "title": "Orders"
   }
 }

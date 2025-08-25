@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:smart_catalog/features/catalog/presentation/page/catalog_page.dart';
+import 'package:smart_catalog/features/orders/presentation/page/orders_page.dart';
 import 'package:smart_catalog/features/tabbar/presentation/tabbar.dart';
 
 class TabbarView extends StatelessWidget {
@@ -11,7 +12,7 @@ class TabbarView extends StatelessWidget {
   //TODO: replace with pages
   final _pages = [
     Center(child: CatalogPage()),
-    Center(child: Text("Pedidos")),
+    Center(child: OrdersPage()),
     Center(child: Text("Perfil")),
   ];
 
