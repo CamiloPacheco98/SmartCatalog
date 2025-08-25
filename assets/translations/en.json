@@ -37,6 +37,8 @@
     "no_products_title": "Your cart is empty",
     "no_products_subtitle": "Explore the catalog to add products",
     "no_products_button": "View catalog",
-    "product_code": "Code: {}"
+    "product_code": "Code: {}",
+    "total_products": "Total products",
+    "make_order": "Make order"
   }
 }

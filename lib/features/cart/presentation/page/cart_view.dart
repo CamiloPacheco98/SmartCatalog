@@ -24,6 +24,7 @@ class CartView extends StatelessWidget {
         ),
       ),
       body: products.isEmpty ? _buildEmptyCart(context) : _buildCart(context),
+      bottomNavigationBar: products.isNotEmpty ? _footer(context) : null,
     );
   }
 
@@ -86,6 +87,53 @@ class CartView extends StatelessWidget {
                   context.read<CartCubit>().deleteProduct(product),
             );
           },
+        ),
+      ),
+    );
+  }
+
+  Widget _footer(BuildContext context) {
+    final totalProducts = products.fold<int>(
+      0,
+      (sum, product) => sum + int.parse(product.quantity),
+    );
+
+    return Container(
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(color: context.colorScheme.primary),
+      child: SafeArea(
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'cart.total_products'.tr(),
+                  style: context.textTheme.labelMedium,
+                ),
+                Text(
+                  totalProducts.toString(),
+                  style: context.textTheme.headlineLarge,
+                ),
+              ],
+            ),
+            ElevatedButton(
+              onPressed: () {
+                debugPrint('make order');
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: context.colorScheme.onPrimary,
+                foregroundColor: context.colorScheme.primary,
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 24,
+                  vertical: 12,
+                ),
+              ),
+              child: Text('cart.make_order'.tr()),
+            ),
+          ],
         ),
       ),
     );

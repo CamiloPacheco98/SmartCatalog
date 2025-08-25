@@ -31,11 +31,33 @@ class AppTheme {
         elevation: 0,
       ),
       textTheme: const TextTheme(
-        titleLarge: TextStyle(color: primaryColor, fontSize: 24, fontWeight: FontWeight.bold),
-        titleMedium: TextStyle(color: textColor, fontSize: 24, fontWeight: FontWeight.bold),
+        titleLarge: TextStyle(
+          color: primaryColor,
+          fontSize: 24,
+          fontWeight: FontWeight.bold,
+        ),
+        titleMedium: TextStyle(
+          color: textColor,
+          fontSize: 24,
+          fontWeight: FontWeight.bold,
+        ),
         bodyLarge: TextStyle(color: textColor, fontSize: 16),
         bodyMedium: TextStyle(color: textColor, fontSize: 14),
-        labelLarge: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 16),
+        labelLarge: TextStyle(
+          color: Colors.white,
+          fontWeight: FontWeight.bold,
+          fontSize: 16,
+        ),
+        labelMedium: TextStyle(
+          color: Colors.white,
+          fontSize: 14,
+          fontWeight: FontWeight.bold,
+        ),
+        headlineLarge: TextStyle(
+          color: Colors.white,
+          fontSize: 24,
+          fontWeight: FontWeight.bold,
+        ),
       ),
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
