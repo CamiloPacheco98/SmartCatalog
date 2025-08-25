@@ -49,4 +49,13 @@ class CartCubit extends Cubit<CartState> {
     emit(CartLoaded(_products));
     await _cartRepository.decreaseQuantity(productId);
   }
+
+  Future<void> deleteProduct(CartProductViewModel product) async {
+    final index = _products.indexWhere((p) => p.id == product.id);
+    _products.remove(product);
+    CartSession.instance.removeProduct(product);
+    await _cartRepository.deleteProductLocalAt(index);
+    emit(CartLoaded(_products));
+    await _cartRepository.deleteProduct(product.id);
+  }
 }

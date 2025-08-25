@@ -21,24 +21,22 @@ class CartRepositoryImpl extends CartRepository {
 
   @override
   Future<void> increaseQuantityLocalAt(int index) async {
-    final productKey = _cartBox.keyAt(index);
-    final productMap = _cartBox.get(productKey);
+    final productMap = _cartBox.getAt(index);
     if (productMap == null) return;
     final productJson = Map<String, dynamic>.from(productMap);
     final product = CartProductModel.fromJson(productJson);
     final updatedProduct = product.copyWith(quantity: product.quantity + 1);
-    await _cartBox.put(productKey, updatedProduct.toJson());
+    await _cartBox.putAt(index, updatedProduct.toJson());
   }
 
   @override
   Future<void> decreaseQuantityLocalAt(int index) async {
-    final productKey = _cartBox.keyAt(index);
-    final productMap = _cartBox.get(productKey);
+    final productMap = _cartBox.getAt(index);
     if (productMap == null) return;
     final productJson = Map<String, dynamic>.from(productMap);
     final product = CartProductModel.fromJson(productJson);
     final updatedProduct = product.copyWith(quantity: product.quantity - 1);
-    await _cartBox.put(productKey, updatedProduct.toJson());
+    await _cartBox.putAt(index, updatedProduct.toJson());
   }
 
   @override
@@ -56,6 +54,20 @@ class CartRepositoryImpl extends CartRepository {
     if (user == null) return debugPrint('User not found');
     await _firestore.collection(FirestoreCollections.cart).doc(user.uid).update(
       {'$productId.quantity': FieldValue.increment(-1)},
+    );
+  }
+
+  @override
+  Future<void> deleteProductLocalAt(int index) async {
+    await _cartBox.deleteAt(index);
+  }
+
+  @override
+  Future<void> deleteProduct(String productId) async {
+    final user = _auth.currentUser;
+    if (user == null) return debugPrint('User not found');
+    await _firestore.collection(FirestoreCollections.cart).doc(user.uid).update(
+      {productId: FieldValue.delete()},
     );
   }
 }

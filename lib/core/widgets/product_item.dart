@@ -9,11 +9,12 @@ class ProductItem extends StatelessWidget {
     required this.product,
     required this.onDecreaseQuantity,
     required this.onIncreaseQuantity,
+    this.onDeleteProduct,
   });
   final CartProductViewModel product;
   final Function(CartProductViewModel) onDecreaseQuantity;
   final Function(CartProductViewModel) onIncreaseQuantity;
-
+  final Function(CartProductViewModel)? onDeleteProduct;
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -65,6 +66,17 @@ class ProductItem extends StatelessWidget {
             ],
           ),
         ),
+        if (onDeleteProduct != null) ...[
+          const SizedBox(width: 10),
+          GestureDetector(
+            onTap: () => onDeleteProduct!(product),
+            child: Icon(
+              Icons.delete_rounded,
+              color: context.colorScheme.error,
+              size: 25,
+            ),
+          ),
+        ],
       ],
     );
   }

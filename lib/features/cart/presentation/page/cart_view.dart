@@ -82,6 +82,8 @@ class CartView extends StatelessWidget {
                   context.read<CartCubit>().decreaseQuantity(product.id),
               onIncreaseQuantity: (product) =>
                   context.read<CartCubit>().increaseQuantity(product.id),
+              onDeleteProduct: (product) =>
+                  context.read<CartCubit>().deleteProduct(product),
             );
           },
         ),
