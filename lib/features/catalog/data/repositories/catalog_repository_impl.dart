@@ -54,6 +54,7 @@ class CatalogRepositoryImpl implements CatalogRepository {
 
   @override
   Future<void> addProductsLocal(List<CartProductEntity> products) async {
+    // TODO: Improve cart box with putAll
     await _cartBox.clear();
     await _cartBox.addAll(
       products.map((e) => CartProductModel.fromEntity(e).toJson()),
