@@ -22,44 +22,59 @@ class CartCubit extends Cubit<CartState> {
   }
 
   Future<void> increaseQuantity(String productId) async {
-    final index = _products.indexWhere((product) => product.id == productId);
-    await _cartRepository.increaseQuantityLocalAt(index);
-    _products = _products.map((product) {
-      if (product.id == productId) {
-        return product.copyWith(
-          quantity: (int.parse(product.quantity) + 1).toString(),
-        );
-      }
-      return product;
-    }).toList();
-    CartSession.instance.addProductList(_products);
-    emit(CartLoaded(_products));
-    await _cartRepository.increaseQuantity(productId);
+    try {
+      final index = _products.indexWhere((product) => product.id == productId);
+      await _cartRepository.increaseQuantityLocalAt(index);
+      _products = _products.map((product) {
+        if (product.id == productId) {
+          return product.copyWith(
+            quantity: (int.parse(product.quantity) + 1).toString(),
+          );
+        }
+        return product;
+      }).toList();
+      CartSession.instance.addProductList(_products);
+      emit(CartLoaded(_products));
+      await _cartRepository.increaseQuantity(productId);
+    } catch (e) {
+      debugPrint('error increasing quantity: ${e.toString()}');
+      emit(CartError('errors.increase_quantity_error'.tr()));
+    }
   }
 
   Future<void> decreaseQuantity(String productId) async {
     final index = _products.indexWhere((product) => product.id == productId);
-    await _cartRepository.decreaseQuantityLocalAt(index);
-    _products = _products.map((product) {
-      if (product.id == productId) {
-        return product.copyWith(
-          quantity: (int.parse(product.quantity) - 1).toString(),
-        );
-      }
-      return product;
-    }).toList();
-    CartSession.instance.addProductList(_products);
-    emit(CartLoaded(_products));
-    await _cartRepository.decreaseQuantity(productId);
+    try {
+      await _cartRepository.decreaseQuantityLocalAt(index);
+      _products = _products.map((product) {
+        if (product.id == productId) {
+          return product.copyWith(
+            quantity: (int.parse(product.quantity) - 1).toString(),
+          );
+        }
+        return product;
+      }).toList();
+      CartSession.instance.addProductList(_products);
+      emit(CartLoaded(_products));
+      await _cartRepository.decreaseQuantity(productId);
+    } catch (e) {
+      debugPrint('error decreasing quantity: ${e.toString()}');
+      emit(CartError('errors.decrease_quantity_error'.tr()));
+    }
   }
 
   Future<void> deleteProduct(CartProductViewModel product) async {
     final index = _products.indexWhere((p) => p.id == product.id);
-    _products.remove(product);
-    CartSession.instance.removeProduct(product);
-    await _cartRepository.deleteProductLocalAt(index);
-    emit(CartLoaded(_products));
-    await _cartRepository.deleteProduct(product.id);
+    try {
+      _products.remove(product);
+      CartSession.instance.removeProduct(product);
+      await _cartRepository.deleteProductLocalAt(index);
+      emit(CartLoaded(_products));
+      await _cartRepository.deleteProduct(product.id);
+    } catch (e) {
+      debugPrint('error deleting product: ${e.toString()}');
+      emit(CartError('errors.delete_product_error'.tr()));
+    }
   }
 
   Future<void> makeOrder() async {
@@ -80,13 +95,17 @@ class CartCubit extends Cubit<CartState> {
         (sum, product) => sum + int.parse(product.quantity),
       ),
     );
-    //TODO: manage errors
-    CartSession.instance.clearCart();
-    await _cartRepository.deleteAllProducts();
-    await _cartRepository.deleteAllProductsLocal();
-    await _cartRepository.makeOrder(order);
-    _products = [];
-    emit(CartSuccess('success.order_made_successfully'.tr()));
-    emit(CartLoaded(_products));
+    try {
+      await _cartRepository.makeOrder(order);
+      _products = [];
+      CartSession.instance.clearCart();
+      await _cartRepository.deleteAllProducts();
+      await _cartRepository.deleteAllProductsLocal();
+      emit(CartSuccess('success.order_made_successfully'.tr()));
+      emit(CartLoaded(_products));
+    } catch (e) {
+      debugPrint('error making order: ${e.toString()}');
+      emit(CartError('errors.make_order_error'.tr()));
+    }
   }
 }

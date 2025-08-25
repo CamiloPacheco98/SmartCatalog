@@ -22,7 +22,12 @@
   "errors": {
     "login_error": "Oops! We couldn’t find that account.",
     "get_products_code_error": "Oops! We couldn’t find products on this page.",
-    "add_products_error": "Oops! We couldn’t add products to cart."
+    "add_products_error": "Oops! We couldn’t add products to cart.",
+    "make_order_error": "Oops! We couldn’t make order. Try again later.",
+    "delete_product_error": "Oops! We couldn’t delete product. Try again later.",
+    "increase_quantity_error": "Oops! We couldn’t increase quantity. Try again later.",
+    "decrease_quantity_error": "Oops! We couldn’t decrease quantity. Try again later."
+
   },
   "success": {
     "products_added_to_cart": "Products added to cart",

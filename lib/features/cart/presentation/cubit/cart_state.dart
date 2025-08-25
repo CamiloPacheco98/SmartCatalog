@@ -18,3 +18,9 @@ final class CartSuccess extends CartState {
 
   CartSuccess(this.message);
 }
+
+final class CartError extends CartState {
+  final String message;
+
+  CartError(this.message);
+}
