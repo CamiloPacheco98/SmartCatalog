@@ -35,8 +35,8 @@ class ProductItem extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               IconButton(
-                onPressed: int.parse(product.quantity) > 0 
-                    ? () => onDecreaseQuantity(product) 
+                onPressed: int.parse(product.quantity) > 1
+                    ? () => onDecreaseQuantity(product)
                     : null,
                 icon: Icon(
                   Icons.remove,
