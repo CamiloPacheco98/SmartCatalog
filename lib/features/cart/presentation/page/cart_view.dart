@@ -121,7 +121,7 @@ class CartView extends StatelessWidget {
             ),
             ElevatedButton(
               onPressed: () {
-                debugPrint('make order');
+                context.read<CartCubit>().makeOrder();
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: context.colorScheme.onPrimary,
