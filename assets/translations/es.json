@@ -45,6 +45,8 @@
     "make_order": "Hacer pedido"
   },
   "orders": {
-    "title": "Pedidos"
+    "title": "Pedidos",
+    "no_orders_title": "No tienes ningún pedido",
+    "no_orders_subtitle": "Explora el catálogo para agregar productos y hacer pedidos, así podrás ver tus pedidos aquí"
   }
 }
