@@ -31,6 +31,7 @@ class CartCubit extends Cubit<CartState> {
     }).toList();
     CartSession.instance.addProductList(_products);
     emit(CartLoaded(_products));
+    await _cartRepository.increaseQuantity(productId);
   }
 
   Future<void> decreaseQuantity(String productId) async {
@@ -46,5 +47,6 @@ class CartCubit extends Cubit<CartState> {
     }).toList();
     CartSession.instance.addProductList(_products);
     emit(CartLoaded(_products));
+    await _cartRepository.decreaseQuantity(productId);
   }
 }
