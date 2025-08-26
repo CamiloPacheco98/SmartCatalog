@@ -47,6 +47,13 @@
   "orders": {
     "title": "Pedidos",
     "no_orders_title": "No tienes ningún pedido",
-    "no_orders_subtitle": "Explora el catálogo para agregar productos y hacer pedidos, así podrás ver tus pedidos aquí"
+    "no_orders_subtitle": "Explora el catálogo para agregar productos y hacer pedidos, así podrás ver tus pedidos aquí",
+    "products": "productos",
+    "order_id": "Pedido",
+    "status": {
+      "pending": "Pendiente",
+      "completed": "Completado",
+      "cancelled": "Cancelado"
+    }
   }
 }

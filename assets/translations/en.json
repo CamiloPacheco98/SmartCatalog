@@ -49,6 +49,13 @@
   "orders": {
     "title": "Orders",
     "no_orders_title": "You don't have any orders",
-    "no_orders_subtitle": "Explore the catalog to add products and make orders, so you can see your orders here"
+    "no_orders_subtitle": "Explore the catalog to add products and make orders, so you can see your orders here",
+    "products": "products",
+    "order_id": "Order",
+    "status": {
+      "pending": "Pending",
+      "completed": "Completed",
+      "cancelled": "Cancelled"
+    }
   }
 }

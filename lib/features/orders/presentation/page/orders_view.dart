@@ -19,16 +19,121 @@ class OrdersView extends StatelessWidget {
   }
 
   Widget _buildOrders(BuildContext context) {
-    return ListView.builder(
-      itemCount: orders.length,
-      itemBuilder: (context, index) => Column(
-        children: [
-          Text(orders[index].id),
-          Text(orders[index].createdAt.toString()),
-          Text(orders[index].status.name),
-        ],
+    return Padding(
+      padding: const EdgeInsets.all(16.0),
+      child: ListView.separated(
+        itemCount: orders.length,
+        separatorBuilder: (context, index) => const SizedBox(height: 12),
+        itemBuilder: (context, index) =>
+            _buildOrderCard(context, orders[index]),
       ),
     );
+  }
+
+  Widget _buildOrderCard(BuildContext context, OrderEntity order) {
+    final formattedDate = DateFormat(
+      'dd MMMM yyyy',
+      context.locale.languageCode,
+    ).format(order.createdAt);
+    final totalProducts = order.products.fold<int>(
+      0,
+      (sum, product) => sum + product.quantity,
+    );
+
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(16),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: 0.08),
+            blurRadius: 10,
+            offset: const Offset(0, 4),
+          ),
+        ],
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(20),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Expanded(
+                  child: Text(
+                    formattedDate,
+                    style: context.textTheme.titleMedium,
+                  ),
+                ),
+                Container(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 12,
+                    vertical: 6,
+                  ),
+                  decoration: BoxDecoration(
+                    color: context.colorScheme.primary.withValues(alpha: 0.1),
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  child: Text(
+                    '$totalProducts ${"orders.products".tr()}',
+                    style: context.textTheme.titleSmall,
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 12),
+            Text(
+              '${"orders.order_id".tr()}: ${order.id}',
+              style: context.textTheme.bodyMedium,
+            ),
+            const SizedBox(height: 16),
+            Row(
+              children: [
+                Container(
+                  width: 8,
+                  height: 8,
+                  decoration: BoxDecoration(
+                    color: _getStatusColor(context, order.status),
+                    shape: BoxShape.circle,
+                  ),
+                ),
+                const SizedBox(width: 8),
+                Text(
+                  _getStatusText(order.status),
+                  style: context.textTheme.labelMedium?.copyWith(
+                    color: _getStatusColor(context, order.status),
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Color _getStatusColor(BuildContext context, OrderStatus status) {
+    switch (status) {
+      case OrderStatus.pending:
+        return context.colorScheme.primary;
+      case OrderStatus.completed:
+        return context.colorScheme.primary;
+      case OrderStatus.cancelled:
+        return context.colorScheme.error;
+    }
+  }
+
+  String _getStatusText(OrderStatus status) {
+    switch (status) {
+      case OrderStatus.pending:
+        return 'orders.status.pending'.tr();
+      case OrderStatus.completed:
+        return 'orders.status.completed'.tr();
+      case OrderStatus.cancelled:
+        return 'orders.status.cancelled'.tr();
+    }
   }
 
   Widget _buildEmptyCart(BuildContext context) {
