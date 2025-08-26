@@ -10,4 +10,5 @@ abstract class CartRepository {
   Future<void> deleteAllProducts();
   Future<void> deleteAllProductsLocal();
   Future<void> makeOrder(OrderEntity order);
+  Future<void> saveOrderLocal(OrderEntity order);
 }

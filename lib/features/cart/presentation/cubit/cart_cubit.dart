@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:smart_catalog/core/domain/entities/cart_products_entity.dart';
 import 'package:smart_catalog/core/domain/entities/order_entity.dart';
 import 'package:smart_catalog/core/session/cart_session.dart';
+import 'package:smart_catalog/core/session/orders_session.dart';
 import 'package:smart_catalog/features/cart/domain/repositories/cart_repository.dart';
 import 'package:smart_catalog/features/cart/presentation/models/cart_product_view_model.dart';
 
@@ -97,15 +98,21 @@ class CartCubit extends Cubit<CartState> {
     );
     try {
       await _cartRepository.makeOrder(order);
-      _products = [];
-      CartSession.instance.clearCart();
-      await _cartRepository.deleteAllProducts();
-      await _cartRepository.deleteAllProductsLocal();
-      emit(CartSuccess('success.order_made_successfully'.tr()));
-      emit(CartLoaded(_products));
+      await _cartRepository.saveOrderLocal(order);
+      OrdersSession.instance.addOrder(order);
+      await _makeOrderSuccess();
     } catch (e) {
       debugPrint('error making order: ${e.toString()}');
       emit(CartError('errors.make_order_error'.tr()));
     }
+  }
+
+  Future<void> _makeOrderSuccess() async {
+    _products = [];
+    CartSession.instance.clearCart();
+    await _cartRepository.deleteAllProducts();
+    await _cartRepository.deleteAllProductsLocal();
+    emit(CartSuccess('success.order_made_successfully'.tr()));
+    emit(CartLoaded(_products));
   }
 }

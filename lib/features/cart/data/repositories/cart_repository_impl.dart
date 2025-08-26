@@ -12,14 +12,17 @@ class CartRepositoryImpl extends CartRepository {
   final Box<Map> _cartBox;
   final FirebaseFirestore _firestore;
   final FirebaseAuth _auth;
+  final Box<Map> _ordersBox;
 
   CartRepositoryImpl({
     required Box<Map> cartBox,
     required FirebaseFirestore firestore,
     required FirebaseAuth auth,
+    required Box<Map> ordersBox,
   }) : _cartBox = cartBox,
        _firestore = firestore,
-       _auth = auth;
+       _auth = auth,
+       _ordersBox = ordersBox;
 
   @override
   Future<void> increaseQuantityLocalAt(int index) async {
@@ -96,5 +99,11 @@ class CartRepositoryImpl extends CartRepository {
     await _firestore.collection(FirestoreCollections.orders).doc(user.uid).set({
       order.id: orderModel.toJson(),
     }, SetOptions(merge: true));
+  }
+
+  @override
+  Future<void> saveOrderLocal(OrderEntity order) async {
+    final orderModel = OrderModel.fromEntity(order);
+    await _ordersBox.put(order.id, orderModel.toJson());
   }
 }

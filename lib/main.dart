@@ -85,6 +85,7 @@ void setup() {
       cartBox: Hive.box<Map>(HiveBoxes.cart),
       firestore: FirebaseFirestore.instance,
       auth: FirebaseAuth.instance,
+      ordersBox: Hive.box<Map>(HiveBoxes.orders),
     ),
   );
   getIt.registerSingleton<SplashRepository>(
