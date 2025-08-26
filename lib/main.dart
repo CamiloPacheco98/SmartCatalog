@@ -93,6 +93,7 @@ void setup() {
       appSettingsBox: Hive.box<bool>(HiveBoxes.appSettings),
       db: FirebaseFirestore.instance,
       auth: FirebaseAuth.instance,
+      ordersBox: Hive.box<Map>(HiveBoxes.orders),
     ),
   );
 }

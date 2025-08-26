@@ -3,7 +3,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:hive/hive.dart';
 import 'package:smart_catalog/core/constants/firestore_collections.dart';
 import 'package:smart_catalog/core/data/models/cart_product_model.dart';
+import 'package:smart_catalog/core/data/models/order_model.dart';
 import 'package:smart_catalog/core/domain/entities/cart_products_entity.dart';
+import 'package:smart_catalog/core/domain/entities/order_entity.dart';
 import 'package:smart_catalog/features/splash/domain/repositories/splash_repository.dart';
 
 class SplashRepositoryImpl extends SplashRepository {
@@ -11,16 +13,19 @@ class SplashRepositoryImpl extends SplashRepository {
   final Box<bool> _appSettingsBox;
   final FirebaseFirestore _db;
   final FirebaseAuth _auth;
+  final Box<Map> _ordersBox;
 
   SplashRepositoryImpl({
     required Box<Map> cartBox,
     required Box<bool> appSettingsBox,
     required FirebaseFirestore db,
     required FirebaseAuth auth,
+    required Box<Map> ordersBox,
   }) : _cartBox = cartBox,
        _appSettingsBox = appSettingsBox,
        _db = db,
-       _auth = auth;
+       _auth = auth,
+       _ordersBox = ordersBox;
 
   @override
   Future<List<CartProductEntity>> getLocalCartProducts() async {
@@ -65,5 +70,34 @@ class SplashRepositoryImpl extends SplashRepository {
       (key, value) =>
           MapEntry(key, CartProductModel.fromJson(value).toEntity()),
     );
+  }
+
+  @override
+  Future<List<OrderEntity>> getLocalOrders() async {
+    return _ordersBox.values
+        .map(
+          (e) => OrderModel.fromJson(Map<String, dynamic>.from(e)).toEntity(),
+        )
+        .toList();
+  }
+
+  @override
+  Future<void> saveLocalOrders(Map<String, OrderEntity> orders) async {
+    final orderListJson = orders.map(
+      (key, value) => MapEntry(key, OrderModel.fromEntity(value).toJson()),
+    );
+    await _ordersBox.putAll(orderListJson);
+  }
+
+  @override
+  Future<List<OrderEntity>> getOrders() async {
+    if (_auth.currentUser == null) throw Exception("User not logged in");
+    final orders = await _db
+        .collection(FirestoreCollections.orders)
+        .doc(_auth.currentUser?.uid)
+        .get()
+        .then((value) => value.data());
+    if (orders == null) return [];
+    return orders.values.map((e) => OrderModel.fromJson(e).toEntity()).toList();
   }
 }

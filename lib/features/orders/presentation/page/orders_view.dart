@@ -20,7 +20,14 @@ class OrdersView extends StatelessWidget {
 
   Widget _buildOrders(BuildContext context) {
     return ListView.builder(
-      itemBuilder: (context, index) => Text(orders[index].id),
+      itemCount: orders.length,
+      itemBuilder: (context, index) => Column(
+        children: [
+          Text(orders[index].id),
+          Text(orders[index].createdAt.toString()),
+          Text(orders[index].status.name),
+        ],
+      ),
     );
   }
 

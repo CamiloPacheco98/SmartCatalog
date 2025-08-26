@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:smart_catalog/app/routes/app_path.dart';
 import 'package:smart_catalog/core/constants/hive_constants.dart';
 import 'package:smart_catalog/core/session/cart_session.dart';
+import 'package:smart_catalog/core/session/orders_session.dart';
 import 'package:smart_catalog/core/session/user_session.dart';
 import 'package:smart_catalog/features/cart/presentation/models/cart_product_view_model.dart';
 import 'package:smart_catalog/features/splash/domain/repositories/splash_repository.dart';
@@ -29,6 +30,11 @@ class SplashCubit extends Cubit<SplashState> {
           await _repository.saveLocalCartProducts(
             cartProducts?.values.toList() ?? [],
           );
+          final orders = await _repository.getOrders();
+          final ordersMap = Map.fromEntries(
+            orders.map((e) => MapEntry(e.id, e)),
+          );
+          await _repository.saveLocalOrders(ordersMap);
           await _repository.saveAppSettings(HiveKeys.isFirstLaunch, false);
         }
         final localCartProducts = await _repository.getLocalCartProducts();
@@ -36,6 +42,8 @@ class SplashCubit extends Cubit<SplashState> {
             .map((e) => CartProductViewModel.fromEntity(e))
             .toList();
         CartSession.instance.initializeProducts(products);
+        final localOrders = await _repository.getLocalOrders();
+        OrdersSession.instance.initializeOrders(localOrders);
         emit(SplashNavigating(route: AppPaths.tabbar));
       } else {
         emit(SplashNavigating(route: AppPaths.login));

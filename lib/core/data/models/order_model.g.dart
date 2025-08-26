@@ -8,9 +8,7 @@ part of 'order_model.dart';
 
 OrderModel _$OrderModelFromJson(Map<String, dynamic> json) => OrderModel(
   id: json['id'] as String,
-  products: (json['products'] as List<dynamic>)
-      .map((e) => CartProductModel.fromJson(e as Map<String, dynamic>))
-      .toList(),
+  products: OrderModel._productsFromJson(json['products'] as List),
   createdAt: DateTime.parse(json['createdAt'] as String),
   status: $enumDecode(_$OrderStatusEnumMap, json['status']),
   total: (json['total'] as num).toInt(),
@@ -19,7 +17,7 @@ OrderModel _$OrderModelFromJson(Map<String, dynamic> json) => OrderModel(
 Map<String, dynamic> _$OrderModelToJson(OrderModel instance) =>
     <String, dynamic>{
       'id': instance.id,
-      'products': instance.products,
+      'products': instance.products.map((e) => e.toJson()).toList(),
       'createdAt': instance.createdAt.toIso8601String(),
       'status': _$OrderStatusEnumMap[instance.status]!,
       'total': instance.total,

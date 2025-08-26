@@ -4,9 +4,10 @@ import 'package:smart_catalog/core/domain/entities/order_entity.dart';
 
 part 'order_model.g.dart';
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class OrderModel {
   final String id;
+  @JsonKey(fromJson: _productsFromJson)
   final List<CartProductModel> products;
   final DateTime createdAt;
   final OrderStatus status;
@@ -42,4 +43,10 @@ class OrderModel {
       _$OrderModelFromJson(json);
 
   Map<String, dynamic> toJson() => _$OrderModelToJson(this);
+
+  //Added to fix hive returning a Map<dynamic, dynamic> instead Map<String, dynamic>
+  static List<CartProductModel> _productsFromJson(List<dynamic> jsonList) =>
+      jsonList
+          .map((e) => CartProductModel.fromJson(Map<String, dynamic>.from(e)))
+          .toList();
 }
