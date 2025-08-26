@@ -32,7 +32,7 @@ class CatalogRepositoryImpl implements CatalogRepository {
           if (data == null) {
             throw Exception('Catalog page not found');
           }
-          return CatalogPageModel.fromJson(data);
+          return CatalogPageModel.fromJson(data).toEntity();
         });
   }
 

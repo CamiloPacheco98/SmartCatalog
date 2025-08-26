@@ -4,7 +4,7 @@ import 'package:smart_catalog/core/domain/entities/order_entity.dart';
 
 part 'order_model.g.dart';
 
-@JsonSerializable(explicitToJson: true)
+@JsonSerializable()
 class OrderModel {
   final String id;
   final List<CartProductModel> products;
@@ -28,6 +28,14 @@ class OrderModel {
     createdAt: entity.createdAt,
     status: entity.status,
     total: entity.total,
+  );
+
+  OrderEntity toEntity() => OrderEntity(
+    id: id,
+    products: products.map((e) => e.toEntity()).toList(),
+    createdAt: createdAt,
+    status: status,
+    total: total,
   );
 
   factory OrderModel.fromJson(Map<String, dynamic> json) =>

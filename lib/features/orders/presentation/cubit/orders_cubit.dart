@@ -5,5 +5,9 @@ import 'package:smart_catalog/core/domain/entities/order_entity.dart';
 part 'orders_state.dart';
 
 class OrdersCubit extends Cubit<OrdersState> {
-  OrdersCubit() : super(OrdersInitial());
+  late final List<OrderEntity> _orders;
+  OrdersCubit({required List<OrderEntity> orders}) : super(OrdersInitial()) {
+    _orders = orders;
+    emit(OrdersLoaded(_orders));
+  }
 }

@@ -61,12 +61,14 @@ Future<void> initHive() async {
   Hive.init(directory.path);
   await Hive.openBox<Map>(HiveBoxes.cart);
   await Hive.openBox<bool>(HiveBoxes.appSettings);
+  await Hive.openBox<Map>(HiveBoxes.orders);
 }
 
 void setup() {
   getIt.registerSingleton<AuthRepository>(
     AuthRepositoryImpl(
       cartBox: Hive.box<Map>(HiveBoxes.cart),
+      ordersBox: Hive.box<Map>(HiveBoxes.orders),
       auth: FirebaseAuth.instance,
       db: FirebaseFirestore.instance,
     ),

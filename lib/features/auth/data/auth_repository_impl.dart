@@ -3,19 +3,24 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:hive/hive.dart';
 import 'package:smart_catalog/core/constants/firestore_collections.dart';
 import 'package:smart_catalog/core/data/models/cart_product_model.dart';
+import 'package:smart_catalog/core/data/models/order_model.dart';
 import 'package:smart_catalog/core/domain/entities/cart_products_entity.dart';
+import 'package:smart_catalog/core/domain/entities/order_entity.dart';
 import 'package:smart_catalog/features/auth/domain/auth_repository.dart';
 
 class AuthRepositoryImpl implements AuthRepository {
   final Box<Map> _cartBox;
+  final Box<Map> _ordersBox;
   final FirebaseAuth _auth;
   final FirebaseFirestore _db;
 
   AuthRepositoryImpl({
     required Box<Map> cartBox,
+    required Box<Map> ordersBox,
     required FirebaseAuth auth,
     required FirebaseFirestore db,
   }) : _cartBox = cartBox,
+       _ordersBox = ordersBox,
        _auth = auth,
        _db = db;
 
@@ -38,7 +43,8 @@ class AuthRepositoryImpl implements AuthRepository {
         .then((value) => value.data());
     if (products == null) return {};
     return products.map(
-      (key, value) => MapEntry(key, CartProductModel.fromJson(value)),
+      (key, value) =>
+          MapEntry(key, CartProductModel.fromJson(value).toEntity()),
     );
   }
 
@@ -48,5 +54,25 @@ class AuthRepositoryImpl implements AuthRepository {
         .map((e) => CartProductModel.fromEntity(e).toJson())
         .toList();
     await _cartBox.addAll(productListJson);
+  }
+
+  @override
+  Future<void> saveLocalOrders(Map<String, OrderEntity> orders) async {
+    final orderListJson = orders.map(
+      (key, value) => MapEntry(key, OrderModel.fromEntity(value).toJson()),
+    );
+    await _ordersBox.putAll(orderListJson);
+  }
+
+  @override
+  Future<List<OrderEntity>> getOrders() async {
+    if (_auth.currentUser == null) throw Exception("User not logged in");
+    final orders = await _db
+        .collection(FirestoreCollections.orders)
+        .doc(_auth.currentUser?.uid)
+        .get()
+        .then((value) => value.data());
+    if (orders == null) return [];
+    return orders.values.map((e) => OrderModel.fromJson(e).toEntity()).toList();
   }
 }

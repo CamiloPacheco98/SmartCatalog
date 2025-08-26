@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:smart_catalog/core/domain/entities/order_entity.dart';
 import 'package:smart_catalog/extensions/context_extensions.dart';
 import 'package:smart_catalog/core/constants/asset_paths.dart';
 
 class OrdersView extends StatelessWidget {
-  const OrdersView({super.key});
+  final List<OrderEntity> orders;
+  const OrdersView({super.key, required this.orders});
 
   @override
   Widget build(BuildContext context) {
@@ -12,7 +14,13 @@ class OrdersView extends StatelessWidget {
       appBar: AppBar(
         title: Text('orders.title'.tr(), style: context.textTheme.labelLarge),
       ),
-      body: _buildEmptyCart(context),
+      body: orders.isEmpty ? _buildEmptyCart(context) : _buildOrders(context),
+    );
+  }
+
+  Widget _buildOrders(BuildContext context) {
+    return ListView.builder(
+      itemBuilder: (context, index) => Text(orders[index].id),
     );
   }
 

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:smart_catalog/core/session/cart_session.dart';
+import 'package:smart_catalog/core/session/orders_session.dart';
 import 'package:smart_catalog/features/auth/domain/auth_repository.dart';
 import 'package:smart_catalog/features/auth/presentation/cubit/login_state.dart';
 import 'package:smart_catalog/features/cart/presentation/models/cart_product_view_model.dart';
@@ -16,8 +17,9 @@ class LoginCubit extends Cubit<LoginState> {
     emit(LoginState.loading);
     _authRepository
         .login(email, password)
-        .then((value) {
-          initCartProducts();
+        .then((value) async {
+          await _initCartProducts();
+          await _initOrders();
           emit(LoginState.success);
         })
         .catchError((error) {
@@ -26,7 +28,7 @@ class LoginCubit extends Cubit<LoginState> {
         });
   }
 
-  Future<void> initCartProducts() async {
+  Future<void> _initCartProducts() async {
     try {
       final products = await _authRepository.getCartProducts();
       _authRepository.saveLocalCartProducts(products?.values.toList() ?? []);
@@ -36,6 +38,17 @@ class LoginCubit extends Cubit<LoginState> {
       CartSession.instance.initializeProducts(productsViewModel ?? []);
     } catch (error) {
       debugPrint('initCartProducts Error: ${error.toString()}');
+    }
+  }
+
+  Future<void> _initOrders() async {
+    try {
+      final orders = await _authRepository.getOrders();
+      final ordersMap = Map.fromEntries(orders.map((e) => MapEntry(e.id, e)));
+      _authRepository.saveLocalOrders(ordersMap);
+      OrdersSession.instance.initializeOrders(ordersMap.values.toList());
+    } catch (error) {
+      debugPrint('initOrders Error: ${error.toString()}');
     }
   }
 }

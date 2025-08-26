@@ -19,7 +19,7 @@ OrderModel _$OrderModelFromJson(Map<String, dynamic> json) => OrderModel(
 Map<String, dynamic> _$OrderModelToJson(OrderModel instance) =>
     <String, dynamic>{
       'id': instance.id,
-      'products': instance.products.map((e) => e.toJson()).toList(),
+      'products': instance.products,
       'createdAt': instance.createdAt.toIso8601String(),
       'status': _$OrderStatusEnumMap[instance.status]!,
       'total': instance.total,

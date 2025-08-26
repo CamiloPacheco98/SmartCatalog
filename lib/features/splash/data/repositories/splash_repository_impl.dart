@@ -25,7 +25,11 @@ class SplashRepositoryImpl extends SplashRepository {
   @override
   Future<List<CartProductEntity>> getLocalCartProducts() async {
     return _cartBox.values
-        .map((e) => CartProductModel.fromJson(Map<String, dynamic>.from(e)))
+        .map(
+          (e) => CartProductModel.fromJson(
+            Map<String, dynamic>.from(e),
+          ).toEntity(),
+        )
         .toList();
   }
 
@@ -58,7 +62,8 @@ class SplashRepositoryImpl extends SplashRepository {
         .then((value) => value.data());
     if (products == null) return {};
     return products.map(
-      (key, value) => MapEntry(key, CartProductModel.fromJson(value)),
+      (key, value) =>
+          MapEntry(key, CartProductModel.fromJson(value).toEntity()),
     );
   }
 }
