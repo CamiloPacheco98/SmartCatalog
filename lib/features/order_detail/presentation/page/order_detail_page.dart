@@ -1,0 +1,15 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:smart_catalog/features/order_detail/presentation/order_detail.dart';
+
+class OrderDetailPage extends StatelessWidget {
+  const OrderDetailPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocProvider(
+      create: (context) => OrderDetailCubit(),
+      child: const OrderDetailView(),
+    );
+  }
+}

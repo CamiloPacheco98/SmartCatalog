@@ -1,5 +1,6 @@
 import 'package:go_router/go_router.dart';
 import 'package:smart_catalog/app/routes/app_path.dart';
+import 'package:smart_catalog/features/order_detail/presentation/order_detail.dart';
 import 'package:smart_catalog/features/splash/presentation/page/splash_page.dart';
 import 'package:smart_catalog/features/auth/presentation/page/login_page.dart';
 import 'package:smart_catalog/features/tabbar/presentation/page/tabbar_page.dart';
@@ -27,6 +28,11 @@ final appRouter = GoRouter(
       name: AppPaths.cart,
       path: AppPaths.cart,
       builder: (context, state) => const CartPage(),
+    ),
+    GoRoute(
+      name: AppPaths.orderDetail,
+      path: AppPaths.orderDetail,
+      builder: (context, state) => const OrderDetailPage(),
     ),
   ],
 );

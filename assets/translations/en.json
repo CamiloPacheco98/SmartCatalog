@@ -57,5 +57,8 @@
       "completed": "Completed",
       "cancelled": "Cancelled"
     }
+  },
+  "order_detail": {
+    "title": "Order Detail"
   }
 }

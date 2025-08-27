@@ -3,6 +3,8 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:smart_catalog/core/domain/entities/order_entity.dart';
 import 'package:smart_catalog/extensions/context_extensions.dart';
 import 'package:smart_catalog/core/constants/asset_paths.dart';
+import 'package:smart_catalog/app/routes/app_path.dart';
+import 'package:go_router/go_router.dart';
 
 class OrdersView extends StatelessWidget {
   final List<OrderEntity> orders;
@@ -24,8 +26,10 @@ class OrdersView extends StatelessWidget {
       child: ListView.separated(
         itemCount: orders.length,
         separatorBuilder: (context, index) => const SizedBox(height: 12),
-        itemBuilder: (context, index) =>
-            _buildOrderCard(context, orders[index]),
+        itemBuilder: (context, index) => GestureDetector(
+          onTap: () => context.pushNamed(AppPaths.orderDetail),
+          child: _buildOrderCard(context, orders[index]),
+        ),
       ),
     );
   }

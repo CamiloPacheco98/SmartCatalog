@@ -55,5 +55,8 @@
       "completed": "Completado",
       "cancelled": "Cancelado"
     }
+  },
+  "order_detail": {
+    "title": "Detalle del pedido"
   }
 }
