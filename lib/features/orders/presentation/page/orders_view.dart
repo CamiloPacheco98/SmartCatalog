@@ -27,7 +27,10 @@ class OrdersView extends StatelessWidget {
         itemCount: orders.length,
         separatorBuilder: (context, index) => const SizedBox(height: 12),
         itemBuilder: (context, index) => GestureDetector(
-          onTap: () => context.pushNamed(AppPaths.orderDetail),
+          onTap: () => context.pushNamed(
+            AppPaths.orderDetail,
+            extra: orders[index],
+          ),
           child: _buildOrderCard(context, orders[index]),
         ),
       ),

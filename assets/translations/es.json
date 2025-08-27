@@ -57,6 +57,14 @@
     }
   },
   "order_detail": {
-    "title": "Detalle del pedido"
+    "title": "Detalle del pedido",
+    "order_info": "Información del pedido",
+    "order_id": "ID del pedido",
+    "order_date": "Fecha del pedido",
+    "order_status": "Estado",
+    "products_list": "Productos",
+    "total_products": "Total de productos",
+    "product_code": "Producto: {}",
+    "quantity": "Cant: {}"
   }
 }

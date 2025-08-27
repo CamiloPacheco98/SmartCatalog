@@ -59,6 +59,14 @@
     }
   },
   "order_detail": {
-    "title": "Order Detail"
+    "title": "Order Detail",
+    "order_info": "Order Information",
+    "order_id": "Order ID",
+    "order_date": "Order Date",
+    "order_status": "Status",
+    "products_list": "Products",
+    "total_products": "Total Products",
+    "product_code": "Product: {}",
+    "quantity": "Qty: {}"
   }
 }
