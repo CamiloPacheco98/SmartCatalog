@@ -66,5 +66,8 @@
     "total_products": "Total de productos",
     "product_code": "Producto: {}",
     "quantity": "Cant: {}"
+  },
+  "settings": {
+    "title": "Configuración"
   }
 }
