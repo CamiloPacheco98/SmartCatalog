@@ -68,6 +68,10 @@
     "quantity": "Cant: {}"
   },
   "settings": {
-    "title": "Configuración"
+    "title": "Configuración",
+    "logout": "Cerrar sesión",
+    "logout_confirmation": "¿Estás seguro de que quieres cerrar sesión?",
+    "cancel": "Cancelar",
+    "confirm": "Confirmar"
   }
 }
