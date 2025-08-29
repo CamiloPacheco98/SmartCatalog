@@ -19,6 +19,8 @@ import 'package:smart_catalog/features/splash/domain/repositories/splash_reposit
 import 'package:hive/hive.dart';
 import 'package:smart_catalog/core/constants/hive_constants.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:smart_catalog/features/settings/data/repositories/settings_repository_impl.dart';
+import 'package:smart_catalog/features/settings/domain/repositories/settings_repository.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -96,5 +98,8 @@ void setup() {
       auth: FirebaseAuth.instance,
       ordersBox: Hive.box<Map>(HiveBoxes.orders),
     ),
+  );
+  getIt.registerSingleton<SettingsRepository>(
+    SettingsRepositoryImpl(auth: FirebaseAuth.instance),
   );
 }

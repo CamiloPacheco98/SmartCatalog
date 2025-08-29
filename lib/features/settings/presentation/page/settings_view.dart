@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:smart_catalog/extensions/context_extensions.dart';
+import 'package:smart_catalog/features/settings/presentation/cubit/settings_cubit.dart';
 import 'package:smart_catalog/features/settings/presentation/widgets/logout_dialog.dart';
 
 class SettingsView extends StatelessWidget {
@@ -18,7 +20,10 @@ class SettingsView extends StatelessWidget {
             SizedBox(
               width: double.infinity,
               child: ElevatedButton.icon(
-                onPressed: () => LogoutDialog.show(context),
+                onPressed: () => LogoutDialog.show(
+                  context,
+                  onConfirm: () => context.read<SettingsCubit>().logout(),
+                ),
                 icon: const Icon(Icons.logout),
                 label: Text('settings.logout'.tr()),
                 style: ElevatedButton.styleFrom(
