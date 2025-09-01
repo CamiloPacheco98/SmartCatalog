@@ -65,6 +65,7 @@ class _LoginViewState extends State<LoginView> {
                         height: 50,
                         child: ElevatedButton(
                           onPressed: () {
+                            FocusScope.of(context).unfocus();
                             if (_formKey.currentState!.validate()) {
                               context.read<LoginCubit>().login(
                                 email: emailController.text.trim(),
