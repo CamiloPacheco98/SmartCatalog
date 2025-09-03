@@ -10,11 +10,13 @@ class ProductItem extends StatelessWidget {
     required this.onDecreaseQuantity,
     required this.onIncreaseQuantity,
     this.onDeleteProduct,
+    this.minQuantity = 1,
   });
   final CartProductViewModel product;
   final Function(CartProductViewModel) onDecreaseQuantity;
   final Function(CartProductViewModel) onIncreaseQuantity;
   final Function(CartProductViewModel)? onDeleteProduct;
+  final int minQuantity;
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -36,7 +38,7 @@ class ProductItem extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               IconButton(
-                onPressed: int.parse(product.quantity) > 1
+                onPressed: int.parse(product.quantity) > minQuantity
                     ? () => onDecreaseQuantity(product)
                     : null,
                 icon: Icon(

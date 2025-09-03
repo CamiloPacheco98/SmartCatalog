@@ -26,11 +26,13 @@ class ProductListModal extends StatefulWidget {
 
 class _ProductListModalState extends State<ProductListModal> {
   late List<CartProductViewModel> products;
+  late List<CartProductViewModel> initialProducts;
 
   @override
   void initState() {
     super.initState();
     products = widget.products;
+    initialProducts = widget.products;
   }
 
   void increaseQuantity(CartProductViewModel product) {
@@ -55,6 +57,16 @@ class _ProductListModalState extends State<ProductListModal> {
         return e;
       }).toList();
     });
+  }
+
+  bool get hasProductsChanged {
+    // Check if any product quantity has changed from initial state
+    for (int i = 0; i < products.length; i++) {
+      if (products[i].quantity != initialProducts[i].quantity) {
+        return true;
+      }
+    }
+    return false;
   }
 
   @override
@@ -92,10 +104,14 @@ class _ProductListModalState extends State<ProductListModal> {
                     Divider(height: 20, color: context.colorScheme.secondary),
                 itemBuilder: (context, index) {
                   final product = products[index];
+                  final initialProduct = initialProducts[index];
                   return ProductItem(
                     product: product,
                     onDecreaseQuantity: (product) => decreaseQuantity(product),
                     onIncreaseQuantity: (product) => increaseQuantity(product),
+                    minQuantity: initialProduct.quantity.isNotEmpty
+                        ? int.parse(initialProduct.quantity)
+                        : 0,
                   );
                 },
               ),
@@ -106,18 +122,20 @@ class _ProductListModalState extends State<ProductListModal> {
             SizedBox(
               width: double.infinity,
               child: ElevatedButton(
-                onPressed: () {
-                  // Get selected products
-                  final selectedProducts = products
-                      .where((e) => int.parse(e.quantity) > 0)
-                      .toList();
+                onPressed: hasProductsChanged
+                    ? () {
+                        // Get selected products
+                        final selectedProducts = products
+                            .where((e) => int.parse(e.quantity) > 0)
+                            .toList();
 
-                  // Send selected products to the callback
-                  widget.addProductsToCart(selectedProducts);
+                        // Send selected products to the callback
+                        widget.addProductsToCart(selectedProducts);
 
-                  // Close modal
-                  context.pop();
-                },
+                        // Close modal
+                        context.pop();
+                      }
+                    : null,
                 child: Text(
                   widget.buttonName,
                   style: context.textTheme.labelLarge,
