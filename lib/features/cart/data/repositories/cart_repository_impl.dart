@@ -2,8 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:smart_catalog/core/constants/firestore_collections.dart';
-import 'package:smart_catalog/core/data/models/cart_product_model.dart';
 import 'package:smart_catalog/core/data/models/order_model.dart';
+import 'package:smart_catalog/core/data/models/product_model.dart';
 import 'package:smart_catalog/core/domain/entities/order_entity.dart';
 import 'package:smart_catalog/features/cart/domain/repositories/cart_repository.dart';
 import 'package:hive/hive.dart';
@@ -29,8 +29,9 @@ class CartRepositoryImpl extends CartRepository {
     final productMap = _cartBox.getAt(index);
     if (productMap == null) return;
     final productJson = Map<String, dynamic>.from(productMap);
-    final product = CartProductModel.fromJson(productJson);
-    final updatedProduct = product.copyWith(quantity: product.quantity + 1);
+    final product = ProductModel.fromJson(productJson);
+    final quantity = int.parse(product.quantity) + 1;
+    final updatedProduct = product.copyWith(quantity: quantity.toString());
     await _cartBox.putAt(index, updatedProduct.toJson());
   }
 
@@ -39,8 +40,9 @@ class CartRepositoryImpl extends CartRepository {
     final productMap = _cartBox.getAt(index);
     if (productMap == null) return;
     final productJson = Map<String, dynamic>.from(productMap);
-    final product = CartProductModel.fromJson(productJson);
-    final updatedProduct = product.copyWith(quantity: product.quantity - 1);
+    final product = ProductModel.fromJson(productJson);
+    final quantity = int.parse(product.quantity) - 1;
+    final updatedProduct = product.copyWith(quantity: quantity.toString());
     await _cartBox.putAt(index, updatedProduct.toJson());
   }
 

@@ -27,10 +27,8 @@ class OrdersView extends StatelessWidget {
         itemCount: orders.length,
         separatorBuilder: (context, index) => const SizedBox(height: 12),
         itemBuilder: (context, index) => GestureDetector(
-          onTap: () => context.pushNamed(
-            AppPaths.orderDetail,
-            extra: orders[index],
-          ),
+          onTap: () =>
+              context.pushNamed(AppPaths.orderDetail, extra: orders[index]),
           child: _buildOrderCard(context, orders[index]),
         ),
       ),
@@ -44,7 +42,7 @@ class OrdersView extends StatelessWidget {
     ).format(order.createdAt);
     final totalProducts = order.products.fold<int>(
       0,
-      (sum, product) => sum + product.quantity,
+      (sum, product) => sum + int.parse(product.quantity),
     );
 
     return Container(

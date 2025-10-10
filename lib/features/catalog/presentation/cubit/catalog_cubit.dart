@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:smart_catalog/core/session/cart_session.dart';
-import 'package:smart_catalog/core/domain/entities/cart_products_entity.dart';
+import 'package:smart_catalog/core/domain/entities/product_entity.dart';
 import 'package:smart_catalog/features/catalog/domain/repositories/catalog_repository.dart';
 import 'package:smart_catalog/features/cart/presentation/models/cart_product_view_model.dart';
 part 'catalog_state.dart';
@@ -17,21 +17,21 @@ class CatalogCubit extends Cubit<CatalogState> {
   void getProductsCodeByPage(int page) async {
     emit(CatalogLoading());
     _catalogRepository
-        .getProductsCodeByPage(page)
+        .getProductsByPage(page)
         .then((page) {
-          final productsCode = page.productsCode;
-          if (productsCode.isEmpty) {
+          final products = page.products;
+          if (products.isEmpty) {
             debugPrint('catalog cubit Error: no products found');
             emit(CatalogError(message: 'errors.catalog_error'.tr()));
           } else {
             final cartProducts = CartSession.instance.cartProducts;
-            final products = productsCode.map((code) {
+            final productsViewModel = products.map((product) {
               return cartProducts.firstWhere(
-                (p) => p.id == code,
-                orElse: () => CartProductViewModel(id: code, quantity: '0'),
+                (p) => p.id == product.id,
+                orElse: () => CartProductViewModel.fromEntity(product),
               );
             }).toList();
-            emit(ProductsLoaded(products: products));
+            emit(ProductsLoaded(products: productsViewModel));
           }
         })
         .catchError((error) {
@@ -45,11 +45,18 @@ class CatalogCubit extends Cubit<CatalogState> {
   void addProductsCodeToCart(List<CartProductViewModel> products) async {
     try {
       emit(CatalogLoading());
-      final Map<String, CartProductEntity> productsEntityMap = {
+      final Map<String, ProductEntity> productsEntityMap = {
         for (var product in products)
-          product.id: CartProductEntity(
+          product.id: ProductEntity(
             id: product.id,
-            quantity: int.parse(product.quantity),
+            name: product.name,
+            desc: product.desc,
+            price: product.price,
+            createdAt: product.createdAt,
+            updatedAt: product.updatedAt,
+            quantity: product.quantity,
+            pageName: product.pageName,
+            pageIndex: product.pageIndex,
           ),
       };
       CartSession.instance.addProductList(products);
@@ -66,7 +73,17 @@ class CatalogCubit extends Cubit<CatalogState> {
     final products = CartSession.instance.cartProducts;
     final productsEntityMap = products
         .map(
-          (e) => CartProductEntity(id: e.id, quantity: int.parse(e.quantity)),
+          (e) => ProductEntity(
+            id: e.id,
+            name: e.name,
+            desc: e.desc,
+            price: e.price,
+            createdAt: e.createdAt,
+            updatedAt: e.updatedAt,
+            quantity: e.quantity,
+            pageName: e.pageName,
+            pageIndex: e.pageIndex,
+          ),
         )
         .toList();
     await _catalogRepository.addProductsLocal(productsEntityMap);

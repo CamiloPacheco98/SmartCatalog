@@ -1,15 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:smart_catalog/extensions/context_extensions.dart';
-import 'package:smart_catalog/core/domain/entities/cart_products_entity.dart';
+import 'package:smart_catalog/core/domain/entities/product_entity.dart';
 
 class OrderProductsSection extends StatelessWidget {
-  final List<CartProductEntity> products;
+  final List<ProductEntity> products;
 
-  const OrderProductsSection({
-    super.key,
-    required this.products,
-  });
+  const OrderProductsSection({super.key, required this.products});
 
   @override
   Widget build(BuildContext context) {
@@ -49,7 +46,7 @@ class OrderProductsSection extends StatelessWidget {
     );
   }
 
-  Widget _buildProductItem(BuildContext context, CartProductEntity product) {
+  Widget _buildProductItem(BuildContext context, ProductEntity product) {
     return Row(
       children: [
         Expanded(

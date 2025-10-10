@@ -1,7 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/material.dart';
-import 'package:smart_catalog/core/domain/entities/cart_products_entity.dart';
+import 'package:smart_catalog/core/domain/entities/product_entity.dart';
 import 'package:smart_catalog/core/domain/entities/order_entity.dart';
 import 'package:smart_catalog/core/session/cart_session.dart';
 import 'package:smart_catalog/core/session/orders_session.dart';
@@ -82,7 +82,13 @@ class CartCubit extends Cubit<CartState> {
     emit(CartLoading());
     final products = _products
         .map(
-          (e) => CartProductEntity(id: e.id, quantity: int.parse(e.quantity)),
+          (e) => ProductEntity(id: e.id,
+            name: e.name,
+            desc: e.desc,
+            price: e.price,
+            pageIndex: e.pageIndex,
+            pageName: e.pageName,
+            createdAt: e.createdAt, updatedAt: e.updatedAt, quantity: e.quantity),
         )
         .toList();
 

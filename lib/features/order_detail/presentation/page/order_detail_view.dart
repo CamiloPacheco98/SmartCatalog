@@ -36,7 +36,7 @@ class OrderDetailView extends StatelessWidget {
 
     final totalProducts = order.products.fold<int>(
       0,
-      (sum, product) => sum + product.quantity,
+      (sum, product) => sum + int.parse(product.quantity),
     );
 
     return SingleChildScrollView(

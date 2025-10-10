@@ -1,12 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:hive/hive.dart';
-import 'package:smart_catalog/core/domain/entities/cart_products_entity.dart';
+import 'package:smart_catalog/core/domain/entities/product_entity.dart';
 import 'package:smart_catalog/features/catalog/domain/entities/catalog_page_entity.dart';
 import 'package:smart_catalog/features/catalog/domain/repositories/catalog_repository.dart';
 import 'package:smart_catalog/core/constants/firestore_collections.dart';
-import 'package:smart_catalog/core/data/models/cart_product_model.dart';
-import 'package:smart_catalog/features/catalog/data/models/catalog_page_model.dart';
+import 'package:smart_catalog/core/data/models/product_model.dart';
 
 class CatalogRepositoryImpl implements CatalogRepository {
   final FirebaseFirestore _db;
@@ -22,29 +21,27 @@ class CatalogRepositoryImpl implements CatalogRepository {
        _cartBox = cartBox;
 
   @override
-  Future<CatalogPageEntity> getProductsCodeByPage(int page) async {
+  Future<CatalogPageEntity> getProductsByPage(int page) async {
     return await _db
         .collection(FirestoreCollections.catalog)
-        .doc(page.toString())
+        .where('pageIndex', isEqualTo: page)
         .get()
-        .then((event) {
-          final data = event.data();
-          if (data == null) {
-            throw Exception('Catalog page not found');
-          }
-          return CatalogPageModel.fromJson(data).toEntity();
+        .then((querySnapshot) {
+          final products = querySnapshot.docs
+              .map((doc) => ProductModel.fromJson(doc.data()).toEntity())
+              .toList();
+          return CatalogPageEntity(page: page, products: products);
         });
   }
 
   @override
   Future<void> addProductsCodeToCart(
-    Map<String, CartProductEntity> products,
+    Map<String, ProductEntity> products,
   ) async {
     final uid = _auth.currentUser?.uid;
     if (uid == null) throw Exception("User not logged in");
     final productsJson = products.map(
-      (key, value) =>
-          MapEntry(key, CartProductModel.fromEntity(value).toJson()),
+      (key, value) => MapEntry(key, ProductModel.fromEntity(value).toJson()),
     );
     await _db
         .collection(FirestoreCollections.cart)
@@ -53,11 +50,11 @@ class CatalogRepositoryImpl implements CatalogRepository {
   }
 
   @override
-  Future<void> addProductsLocal(List<CartProductEntity> products) async {
+  Future<void> addProductsLocal(List<ProductEntity> products) async {
     // TODO: Improve cart box with putAll
     await _cartBox.clear();
     await _cartBox.addAll(
-      products.map((e) => CartProductModel.fromEntity(e).toJson()),
+      products.map((e) => ProductModel.fromEntity(e).toJson()),
     );
   }
 }

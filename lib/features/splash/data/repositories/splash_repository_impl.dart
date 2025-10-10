@@ -2,9 +2,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:hive/hive.dart';
 import 'package:smart_catalog/core/constants/firestore_collections.dart';
-import 'package:smart_catalog/core/data/models/cart_product_model.dart';
+import 'package:smart_catalog/core/data/models/product_model.dart';
 import 'package:smart_catalog/core/data/models/order_model.dart';
-import 'package:smart_catalog/core/domain/entities/cart_products_entity.dart';
+import 'package:smart_catalog/core/domain/entities/product_entity.dart';
 import 'package:smart_catalog/core/domain/entities/order_entity.dart';
 import 'package:smart_catalog/features/splash/domain/repositories/splash_repository.dart';
 
@@ -28,10 +28,10 @@ class SplashRepositoryImpl extends SplashRepository {
        _ordersBox = ordersBox;
 
   @override
-  Future<List<CartProductEntity>> getLocalCartProducts() async {
+  Future<List<ProductEntity>> getLocalCartProducts() async {
     return _cartBox.values
         .map(
-          (e) => CartProductModel.fromJson(
+          (e) => ProductModel.fromJson(
             Map<String, dynamic>.from(e),
           ).toEntity(),
         )
@@ -39,9 +39,9 @@ class SplashRepositoryImpl extends SplashRepository {
   }
 
   @override
-  Future<void> saveLocalCartProducts(List<CartProductEntity> products) async {
+  Future<void> saveLocalCartProducts(List<ProductEntity> products) async {
     final productListJson = products
-        .map((e) => CartProductModel.fromEntity(e).toJson())
+        .map((e) => ProductModel.fromEntity(e).toJson())
         .toList();
     await _cartBox.addAll(productListJson);
   }
@@ -57,7 +57,7 @@ class SplashRepositoryImpl extends SplashRepository {
   }
 
   @override
-  Future<Map<String, CartProductEntity>?> getCartProducts() async {
+  Future<Map<String, ProductEntity>?> getCartProducts() async {
     final uid = _auth.currentUser?.uid;
     if (uid == null) throw Exception("User not logged in");
     final products = await _db
@@ -68,7 +68,7 @@ class SplashRepositoryImpl extends SplashRepository {
     if (products == null) return {};
     return products.map(
       (key, value) =>
-          MapEntry(key, CartProductModel.fromJson(value).toEntity()),
+          MapEntry(key, ProductModel.fromJson(value).toEntity()),
     );
   }
 

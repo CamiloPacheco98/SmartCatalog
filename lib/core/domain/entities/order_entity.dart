@@ -1,10 +1,10 @@
-import 'package:smart_catalog/core/domain/entities/cart_products_entity.dart';
+import 'package:smart_catalog/core/domain/entities/product_entity.dart';
 
 enum OrderStatus { pending, completed, cancelled }
 
 class OrderEntity {
   final String id;
-  final List<CartProductEntity> products;
+  final List<ProductEntity> products;
   final DateTime createdAt;
   final OrderStatus status;
   final int total;

@@ -1,5 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'package:smart_catalog/core/data/models/cart_product_model.dart';
+import 'package:smart_catalog/core/data/models/product_model.dart';
 import 'package:smart_catalog/core/domain/entities/order_entity.dart';
 
 part 'order_model.g.dart';
@@ -8,7 +8,7 @@ part 'order_model.g.dart';
 class OrderModel {
   final String id;
   @JsonKey(fromJson: _productsFromJson)
-  final List<CartProductModel> products;
+  final List<ProductModel> products;
   final DateTime createdAt;
   final OrderStatus status;
   final int total;
@@ -23,9 +23,7 @@ class OrderModel {
 
   factory OrderModel.fromEntity(OrderEntity entity) => OrderModel(
     id: entity.id,
-    products: entity.products
-        .map((e) => CartProductModel.fromEntity(e))
-        .toList(),
+    products: entity.products.map((e) => ProductModel.fromEntity(e)).toList(),
     createdAt: entity.createdAt,
     status: entity.status,
     total: entity.total,
@@ -45,8 +43,8 @@ class OrderModel {
   Map<String, dynamic> toJson() => _$OrderModelToJson(this);
 
   //Added to fix hive returning a Map<dynamic, dynamic> instead Map<String, dynamic>
-  static List<CartProductModel> _productsFromJson(List<dynamic> jsonList) =>
+  static List<ProductModel> _productsFromJson(List<dynamic> jsonList) =>
       jsonList
-          .map((e) => CartProductModel.fromJson(Map<String, dynamic>.from(e)))
+          .map((e) => ProductModel.fromJson(Map<String, dynamic>.from(e)))
           .toList();
 }

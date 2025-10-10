@@ -9,13 +9,10 @@ part of 'catalog_page_model.dart';
 CatalogPageModel _$CatalogPageModelFromJson(Map<String, dynamic> json) =>
     CatalogPageModel(
       page: (json['page'] as num).toInt(),
-      productsCode: (json['productsCode'] as List<dynamic>)
-          .map((e) => e as String)
+      products: (json['products'] as List<dynamic>)
+          .map((e) => ProductModel.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
 
 Map<String, dynamic> _$CatalogPageModelToJson(CatalogPageModel instance) =>
-    <String, dynamic>{
-      'page': instance.page,
-      'productsCode': instance.productsCode,
-    };
+    <String, dynamic>{'page': instance.page, 'products': instance.products};
