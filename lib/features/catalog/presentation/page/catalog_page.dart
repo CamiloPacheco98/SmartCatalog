@@ -12,7 +12,8 @@ import 'package:go_router/go_router.dart';
 import 'package:smart_catalog/app/routes/app_path.dart';
 
 class CatalogPage extends StatelessWidget {
-  const CatalogPage({super.key});
+  const CatalogPage({super.key, required this.imageUrls});
+  final List<String> imageUrls;
 
   @override
   Widget build(BuildContext context) {
@@ -57,7 +58,7 @@ class CatalogPage extends StatelessWidget {
           builder: (context, state) {
             return Stack(
               children: [
-                const CatalogView(),
+                CatalogView(imageUrls: imageUrls),
                 if (state is CatalogLoading) const CustomLoading(),
               ],
             );

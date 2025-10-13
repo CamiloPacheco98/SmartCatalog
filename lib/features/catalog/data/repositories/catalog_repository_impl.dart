@@ -22,16 +22,24 @@ class CatalogRepositoryImpl implements CatalogRepository {
 
   @override
   Future<CatalogPageEntity> getProductsByPage(int page) async {
-    return await _db
-        .collection(FirestoreCollections.catalog)
-        .where('pageIndex', isEqualTo: page)
+    final catalog = await _db
+        .collection(FirestoreCollections.catalogs)
+        .orderBy('createdAt', descending: true)
+        .limit(1)
         .get()
-        .then((querySnapshot) {
-          final products = querySnapshot.docs
-              .map((doc) => ProductModel.fromJson(doc.data()).toEntity())
-              .toList();
-          return CatalogPageEntity(page: page, products: products);
-        });
+        .then((value) => value.docs);
+
+    if (catalog.isEmpty) return CatalogPageEntity(page: page, products: []);
+    final lastCatalogDoc = catalog.first;
+    final data = lastCatalogDoc.data();
+    final products = data['products'] as List<dynamic>?;
+    final productsList =
+        products?.map((e) => ProductModel.fromJson(e).toEntity()).toList() ??
+        [];
+    final filteredProducts = productsList
+        .where((e) => e.pageIndex == page)
+        .toList();
+    return CatalogPageEntity(page: page, products: filteredProducts);
   }
 
   @override

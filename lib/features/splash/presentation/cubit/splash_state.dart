@@ -11,5 +11,6 @@ final class SplashInitial extends SplashState {
 
 final class SplashNavigating extends SplashState {
   final String route;
-  const SplashNavigating({required this.route});
+  final Map<String, dynamic> arguments;
+  const SplashNavigating({required this.route, required this.arguments});
 }

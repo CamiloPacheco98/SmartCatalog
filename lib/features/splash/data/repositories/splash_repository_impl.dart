@@ -31,9 +31,7 @@ class SplashRepositoryImpl extends SplashRepository {
   Future<List<ProductEntity>> getLocalCartProducts() async {
     return _cartBox.values
         .map(
-          (e) => ProductModel.fromJson(
-            Map<String, dynamic>.from(e),
-          ).toEntity(),
+          (e) => ProductModel.fromJson(Map<String, dynamic>.from(e)).toEntity(),
         )
         .toList();
   }
@@ -67,8 +65,7 @@ class SplashRepositoryImpl extends SplashRepository {
         .then((value) => value.data());
     if (products == null) return {};
     return products.map(
-      (key, value) =>
-          MapEntry(key, ProductModel.fromJson(value).toEntity()),
+      (key, value) => MapEntry(key, ProductModel.fromJson(value).toEntity()),
     );
   }
 
@@ -99,5 +96,30 @@ class SplashRepositoryImpl extends SplashRepository {
         .then((value) => value.data());
     if (orders == null) return [];
     return orders.values.map((e) => OrderModel.fromJson(e).toEntity()).toList();
+  }
+
+  @override
+  Future<List<String>> getCatalogImages() async {
+    try {
+      if (_auth.currentUser == null) throw Exception("User not logged in");
+
+      final catalogInfo = await _db
+          .collection(FirestoreCollections.catalog)
+          .orderBy('createdAt', descending: true)
+          .limit(1)
+          .get()
+          .then((value) => value.docs);
+
+      if (catalogInfo.isEmpty) return [];
+
+      // Assuming the catalog documents have an 'images' field with a list of image URLs
+      final lastCatalogDoc = catalogInfo.first;
+      final data = lastCatalogDoc.data();
+      final images = data['downloadUrls'] as List<dynamic>?;
+
+      return images?.map((e) => e.toString()).toList() ?? [];
+    } catch (e) {
+      throw Exception('Error al obtener imágenes del catálogo: $e');
+    }
   }
 }

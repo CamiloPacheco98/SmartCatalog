@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:smart_catalog/app/routes/app_path.dart';
+import 'package:smart_catalog/core/constants/navigation_extra_keys.dart';
 import 'package:smart_catalog/core/constants/hive_constants.dart';
 import 'package:smart_catalog/core/session/cart_session.dart';
 import 'package:smart_catalog/core/session/orders_session.dart';
@@ -44,9 +45,15 @@ class SplashCubit extends Cubit<SplashState> {
         CartSession.instance.initializeProducts(products);
         final localOrders = await _repository.getLocalOrders();
         OrdersSession.instance.initializeOrders(localOrders);
-        emit(SplashNavigating(route: AppPaths.tabbar));
+        final catalogImages = await _repository.getCatalogImages();
+        emit(
+          SplashNavigating(
+            route: AppPaths.tabbar,
+            arguments: {NavigationExtraKeys.catalogImages: catalogImages},
+          ),
+        );
       } else {
-        emit(SplashNavigating(route: AppPaths.login));
+        emit(SplashNavigating(route: AppPaths.login, arguments: {}));
       }
     });
   }

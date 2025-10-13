@@ -3,7 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:smart_catalog/features/tabbar/presentation/tabbar.dart';
 
 class TabbarPage extends StatelessWidget {
-  const TabbarPage({super.key});
+  final List<String> imageUrls;
+  const TabbarPage({super.key, required this.imageUrls});
 
   @override
   Widget build(BuildContext context) {
@@ -11,7 +12,7 @@ class TabbarPage extends StatelessWidget {
       create: (context) => TabbarCubit(),
       child: BlocBuilder<TabbarCubit, int>(
         builder: (context, currentIndex) {
-          return TabbarView(currentIndex: currentIndex);
+          return TabbarView(currentIndex: currentIndex, imageUrls: imageUrls);
         },
       ),
     );

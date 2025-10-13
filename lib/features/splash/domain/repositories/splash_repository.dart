@@ -10,4 +10,5 @@ abstract class SplashRepository {
   Future<void> saveLocalOrders(Map<String, OrderEntity> orders);
   Future<List<OrderEntity>> getLocalOrders();
   Future<List<OrderEntity>> getOrders();
+  Future<List<String>> getCatalogImages();
 }

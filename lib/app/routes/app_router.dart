@@ -1,5 +1,6 @@
 import 'package:go_router/go_router.dart';
 import 'package:smart_catalog/app/routes/app_path.dart';
+import 'package:smart_catalog/core/constants/navigation_extra_keys.dart';
 import 'package:smart_catalog/features/order_detail/presentation/order_detail.dart';
 import 'package:smart_catalog/features/splash/presentation/page/splash_page.dart';
 import 'package:smart_catalog/features/auth/presentation/page/login_page.dart';
@@ -23,7 +24,16 @@ final appRouter = GoRouter(
     GoRoute(
       name: AppPaths.tabbar,
       path: AppPaths.tabbar,
-      builder: (context, state) => const TabbarPage(),
+      builder: (context, state) {
+        try {
+          final arguments = state.extra as Map<String, dynamic>;
+          final imageUrls =
+              arguments[NavigationExtraKeys.catalogImages] as List<String>;
+          return TabbarPage(imageUrls: imageUrls);
+        } catch (e) {
+          return const TabbarPage(imageUrls: []);
+        }
+      },
     ),
     GoRoute(
       name: AppPaths.cart,

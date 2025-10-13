@@ -1,20 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:smart_catalog/extensions/context_extensions.dart';
-import 'package:smart_catalog/core/utils/env_manager.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:smart_catalog/features/catalog/presentation/catalog.dart';
 
 class CatalogView extends StatefulWidget {
-  const CatalogView({super.key});
+  const CatalogView({super.key, required this.imageUrls});
+
+  final List<String> imageUrls;
 
   @override
   State<CatalogView> createState() => _CatalogViewState();
 }
 
 class _CatalogViewState extends State<CatalogView> {
-  static const int _totalPages = 125;
   int _currentPage = 0;
 
   @override
@@ -33,20 +33,17 @@ class _CatalogViewState extends State<CatalogView> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          context.read<CatalogCubit>().getProductsCodeByPage(_currentPage + 1);
+          context.read<CatalogCubit>().getProductsCodeByPage(_currentPage);
         },
         child: const Icon(Icons.add_shopping_cart_sharp),
       ),
       body: Stack(
         children: [
           CarouselSlider.builder(
-            itemCount: _totalPages,
+            itemCount: widget.imageUrls.length,
             itemBuilder: (context, index, realIndex) {
               return CachedNetworkImage(
-                imageUrl: EnvManager.imageBaseUrl.replaceAll(
-                  '{page}',
-                  '${index + 1}',
-                ),
+                imageUrl: widget.imageUrls[index],
                 fit: BoxFit.cover,
                 memCacheHeight: 1000,
               );
@@ -72,7 +69,7 @@ class _CatalogViewState extends State<CatalogView> {
                 borderRadius: BorderRadius.circular(12),
               ),
               child: Text(
-                '${_currentPage + 1} / $_totalPages',
+                '${_currentPage + 1} / ${widget.imageUrls.length}',
                 style: const TextStyle(
                   color: Colors.white,
                   fontWeight: FontWeight.w600,

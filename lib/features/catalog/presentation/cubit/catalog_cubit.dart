@@ -22,7 +22,7 @@ class CatalogCubit extends Cubit<CatalogState> {
           final products = page.products;
           if (products.isEmpty) {
             debugPrint('catalog cubit Error: no products found');
-            emit(CatalogError(message: 'errors.catalog_error'.tr()));
+            emit(CatalogError(message: 'errors.get_products_code_error'.tr()));
           } else {
             final cartProducts = CartSession.instance.cartProducts;
             final productsViewModel = products.map((product) {

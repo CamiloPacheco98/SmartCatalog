@@ -4,19 +4,23 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:smart_catalog/features/tabbar/presentation/tabbar.dart';
 
 class TabbarView extends StatelessWidget {
-  TabbarView({super.key, required this.currentIndex});
+  const TabbarView({
+    super.key,
+    required this.currentIndex,
+    required this.imageUrls,
+  });
   final int currentIndex;
-
-  final _pages = [
-    Center(child: CatalogPage()),
-    Center(child: OrdersPage()),
-    Center(child: SettingsPage()),
-  ];
+  final List<String> imageUrls;
 
   @override
   Widget build(BuildContext context) {
+    final pages = [
+      Center(child: CatalogPage(imageUrls: imageUrls)),
+      Center(child: OrdersPage()),
+      Center(child: SettingsPage()),
+    ];
     return Scaffold(
-      body: IndexedStack(index: currentIndex, children: _pages),
+      body: IndexedStack(index: currentIndex, children: pages),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: currentIndex,
         onTap: (index) => context.read<TabbarCubit>().changeTab(index),
