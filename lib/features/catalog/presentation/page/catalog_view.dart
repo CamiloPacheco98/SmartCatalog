@@ -46,6 +46,15 @@ class _CatalogViewState extends State<CatalogView> {
                 imageUrl: widget.imageUrls[index],
                 fit: BoxFit.cover,
                 memCacheHeight: 1000,
+                placeholder: (context, url) =>
+                    const Center(child: CircularProgressIndicator()),
+                errorWidget: (context, url, error) => const Center(
+                  child: Icon(
+                    Icons.error_outline,
+                    color: Colors.grey,
+                    size: 50,
+                  ),
+                ),
               );
             },
             options: CarouselOptions(
