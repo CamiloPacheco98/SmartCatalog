@@ -41,7 +41,7 @@
     "no_products_subtitle": "Explora el catálogo para agregar productos",
     "no_products_button": "Ver catálogo",
     "product_code": "Código: {}",
-    "total_products": "Total de productos",
+    "total_price": "Precio total",
     "make_order": "Hacer pedido"
   },
   "orders": {

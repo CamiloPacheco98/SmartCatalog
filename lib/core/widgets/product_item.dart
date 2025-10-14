@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:smart_catalog/extensions/context_extensions.dart';
 import 'package:smart_catalog/features/cart/presentation/models/cart_product_view_model.dart';
+import 'package:smart_catalog/core/utils/string_formatters.dart';
 
 class ProductItem extends StatelessWidget {
   const ProductItem({
@@ -41,7 +42,7 @@ class ProductItem extends StatelessWidget {
               ),
               const SizedBox(height: 2),
               Text(
-                '\$${product.price.toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},')}',
+                product.price.formattedPriceWithCurrency,
                 style: context.textTheme.bodyMedium?.copyWith(
                   color: context.colorScheme.primary,
                   fontWeight: FontWeight.w500,

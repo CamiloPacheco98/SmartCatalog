@@ -7,6 +7,7 @@ import 'package:smart_catalog/features/cart/presentation/cubit/cart_cubit.dart';
 import 'package:smart_catalog/features/cart/presentation/models/cart_product_view_model.dart';
 import 'package:go_router/go_router.dart';
 import 'package:smart_catalog/extensions/context_extensions.dart';
+import 'package:smart_catalog/core/utils/string_formatters.dart';
 
 class CartView extends StatelessWidget {
   final List<CartProductViewModel> products;
@@ -93,9 +94,9 @@ class CartView extends StatelessWidget {
   }
 
   Widget _footer(BuildContext context) {
-    final totalProducts = products.fold<int>(
+    final totalPrice = products.fold<int>(
       0,
-      (sum, product) => sum + int.parse(product.quantity),
+      (sum, product) => sum + (product.price * int.parse(product.quantity)),
     );
 
     return Container(
@@ -110,12 +111,15 @@ class CartView extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'cart.total_products'.tr(),
+                  'cart.total_price'.tr(),
                   style: context.textTheme.labelMedium,
                 ),
                 Text(
-                  totalProducts.toString(),
-                  style: context.textTheme.headlineLarge,
+                  totalPrice.formattedPriceWithCurrency,
+                  style: context.textTheme.headlineLarge?.copyWith(
+                    color: context.colorScheme.onPrimary,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ],
             ),

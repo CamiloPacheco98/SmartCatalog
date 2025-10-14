@@ -82,13 +82,17 @@ class CartCubit extends Cubit<CartState> {
     emit(CartLoading());
     final products = _products
         .map(
-          (e) => ProductEntity(id: e.id,
+          (e) => ProductEntity(
+            id: e.id,
             name: e.name,
             desc: e.desc,
             price: e.price,
             pageIndex: e.pageIndex,
             pageName: e.pageName,
-            createdAt: e.createdAt, updatedAt: e.updatedAt, quantity: e.quantity),
+            createdAt: e.createdAt,
+            updatedAt: e.updatedAt,
+            quantity: e.quantity,
+          ),
         )
         .toList();
 
@@ -97,9 +101,9 @@ class CartCubit extends Cubit<CartState> {
       products: products,
       createdAt: DateTime.now(),
       status: OrderStatus.pending,
-      total: _products.fold<int>(
+      total: products.fold<int>(
         0,
-        (sum, product) => sum + int.parse(product.quantity),
+        (sum, product) => sum + (product.price * int.parse(product.quantity)),
       ),
     );
     try {

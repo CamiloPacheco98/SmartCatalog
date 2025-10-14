@@ -43,7 +43,7 @@
     "no_products_subtitle": "Explore the catalog to add products",
     "no_products_button": "View catalog",
     "product_code": "Code: {}",
-    "total_products": "Total products",
+    "total_price": "Total price",
     "make_order": "Make order"
   },
   "orders": {
