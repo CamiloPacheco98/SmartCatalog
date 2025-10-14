@@ -4,6 +4,7 @@ import 'package:smart_catalog/core/domain/entities/order_entity.dart';
 import 'package:smart_catalog/extensions/context_extensions.dart';
 import 'package:smart_catalog/core/constants/asset_paths.dart';
 import 'package:smart_catalog/app/routes/app_path.dart';
+import 'package:smart_catalog/core/utils/string_formatters.dart';
 import 'package:go_router/go_router.dart';
 
 class OrdersView extends StatelessWidget {
@@ -91,6 +92,14 @@ class OrdersView extends StatelessWidget {
             Text(
               '${"orders.order_id".tr()}: ${order.id}',
               style: context.textTheme.bodyMedium,
+            ),
+            const SizedBox(height: 8),
+            Text(
+              order.total.formattedPriceWithCurrency,
+              style: context.textTheme.titleMedium?.copyWith(
+                fontWeight: FontWeight.bold,
+                color: context.colorScheme.primary,
+              ),
             ),
             const SizedBox(height: 16),
             Row(

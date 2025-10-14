@@ -50,7 +50,10 @@ class OrderDetailView extends StatelessWidget {
           OrderProductsSection(products: order.products),
           const SizedBox(height: 24),
 
-          OrderSummarySection(totalProducts: totalProducts),
+          OrderSummarySection(
+            totalProducts: totalProducts,
+            totalAmount: order.total,
+          ),
         ],
       ),
     );

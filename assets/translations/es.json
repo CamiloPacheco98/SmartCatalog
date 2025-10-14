@@ -50,6 +50,7 @@
     "no_orders_subtitle": "Explora el catálogo para agregar productos y hacer pedidos, así podrás ver tus pedidos aquí",
     "products": "productos",
     "order_id": "Pedido",
+    "total_price": "Total",
     "status": {
       "pending": "Pendiente",
       "completed": "Completado",
@@ -65,7 +66,10 @@
     "products_list": "Productos",
     "total_products": "Total de productos",
     "product_code": "Producto: {}",
-    "quantity": "Cant: {}"
+    "product_name": "Nombre: {}",
+    "product_price": "Precio: {}",
+    "quantity": "Cant: {}",
+    "total_amount": "Monto Total"
   },
   "settings": {
     "title": "Configuración",

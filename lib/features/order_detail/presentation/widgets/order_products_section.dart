@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:smart_catalog/extensions/context_extensions.dart';
 import 'package:smart_catalog/core/domain/entities/product_entity.dart';
+import 'package:smart_catalog/core/utils/string_formatters.dart';
 
 class OrderProductsSection extends StatelessWidget {
   final List<ProductEntity> products;
@@ -47,24 +48,49 @@ class OrderProductsSection extends StatelessWidget {
   }
 
   Widget _buildProductItem(BuildContext context, ProductEntity product) {
-    return Row(
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Expanded(
-          child: Text(
-            'order_detail.product_code'.tr(args: [product.id]),
-            style: context.textTheme.bodyLarge,
+        // Product code
+        Text(
+          'order_detail.product_code'.tr(args: [product.id]),
+          style: context.textTheme.bodyLarge?.copyWith(
+            fontWeight: FontWeight.w600,
           ),
         ),
-        Container(
-          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-          decoration: BoxDecoration(
-            color: context.colorScheme.primary.withValues(alpha: 0.1),
-            borderRadius: BorderRadius.circular(20),
-          ),
-          child: Text(
-            'order_detail.quantity'.tr(args: [product.quantity.toString()]),
-            style: context.textTheme.titleSmall,
-          ),
+        const SizedBox(height: 4),
+        
+        // Product name
+        Text(
+          'order_detail.product_name'.tr(args: [product.name]),
+          style: context.textTheme.bodyMedium,
+        ),
+        const SizedBox(height: 4),
+        
+        // Price and quantity row
+        Row(
+          children: [
+            Expanded(
+              child: Text(
+                'order_detail.product_price'.tr(args: [product.price.formattedPriceWithCurrency]),
+                style: context.textTheme.bodyMedium?.copyWith(
+                  color: context.colorScheme.primary,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+            ),
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+              decoration: BoxDecoration(
+                color: context.colorScheme.primary.withValues(alpha: 0.1),
+                borderRadius: BorderRadius.circular(20),
+              ),
+              child: Text(
+                'order_detail.quantity'.tr(args: [product.quantity.toString()]),
+                style: context.textTheme.titleSmall,
+              ),
+            ),
+          ],
         ),
       ],
     );
