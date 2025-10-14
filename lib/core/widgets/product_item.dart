@@ -51,14 +51,16 @@ class ProductItem extends StatelessWidget {
             ],
           ),
         ),
+        const SizedBox(width: 10),
         // Quantity controls
         Container(
+          width: 120, // Ancho fijo
           decoration: BoxDecoration(
             color: context.colorScheme.secondary,
             borderRadius: BorderRadius.circular(8),
           ),
           child: Row(
-            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               IconButton(
                 onPressed: int.parse(product.quantity) > minQuantity
@@ -70,14 +72,12 @@ class ProductItem extends StatelessWidget {
                   color: context.colorScheme.primary,
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 12,
-                  vertical: 8,
-                ),
-                child: Text(
-                  product.quantity,
-                  style: context.textTheme.bodyLarge,
+              Expanded(
+                child: Center(
+                  child: Text(
+                    product.quantity,
+                    style: context.textTheme.bodyLarge,
+                  ),
                 ),
               ),
               IconButton(
