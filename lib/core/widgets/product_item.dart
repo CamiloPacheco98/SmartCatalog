@@ -23,9 +23,31 @@ class ProductItem extends StatelessWidget {
       children: [
         // Product info
         Expanded(
-          child: Text(
-            'cart.product_code'.tr(args: [product.id]),
-            style: context.textTheme.bodyLarge,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'cart.product_code'.tr(args: [product.id]),
+                style: context.textTheme.bodyLarge?.copyWith(
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+              const SizedBox(height: 2),
+              Text(
+                product.name,
+                style: context.textTheme.bodyMedium?.copyWith(
+                  color: context.colorScheme.onSurface.withValues(alpha: 0.8),
+                ),
+              ),
+              const SizedBox(height: 2),
+              Text(
+                '\$${product.price.toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},')}',
+                style: context.textTheme.bodyMedium?.copyWith(
+                  color: context.colorScheme.primary,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+            ],
           ),
         ),
         // Quantity controls
