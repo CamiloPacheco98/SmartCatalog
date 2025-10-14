@@ -8,4 +8,5 @@ abstract class AuthRepository {
   Future<void> saveLocalCartProducts(List<ProductEntity> products);
   Future<void> saveLocalOrders(Map<String, OrderEntity> orders);
   Future<List<OrderEntity>> getOrders();
+  Future<List<String>> getCatalogImages();
 }

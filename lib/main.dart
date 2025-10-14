@@ -100,6 +100,10 @@ void setup() {
     ),
   );
   getIt.registerSingleton<SettingsRepository>(
-    SettingsRepositoryImpl(auth: FirebaseAuth.instance),
+    SettingsRepositoryImpl(
+      auth: FirebaseAuth.instance,
+      cartBox: Hive.box<Map>(HiveBoxes.cart),
+      ordersBox: Hive.box<Map>(HiveBoxes.orders),
+    ),
   );
 }

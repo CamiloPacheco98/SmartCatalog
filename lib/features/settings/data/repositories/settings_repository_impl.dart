@@ -3,13 +3,26 @@ import 'package:smart_catalog/features/settings/domain/repositories/settings_rep
 import 'package:firebase_auth/firebase_auth.dart';
 
 class SettingsRepositoryImpl implements SettingsRepository {
-  SettingsRepositoryImpl({required FirebaseAuth auth}) : _auth = auth;
+  SettingsRepositoryImpl({
+    required FirebaseAuth auth,
+    required Box<Map> cartBox,
+    required Box<Map> ordersBox,
+  }) : _auth = auth,
+       _cartBox = cartBox,
+       _ordersBox = ordersBox;
 
   final FirebaseAuth _auth;
+  final Box<Map> _cartBox;
+  final Box<Map> _ordersBox;
 
   @override
   Future<void> logout() async {
-    await Hive.deleteFromDisk();
+    await _clearCache();
     await _auth.signOut();
+  }
+
+  Future<void> _clearCache() async {
+    await _cartBox.clear();
+    await _ordersBox.clear();
   }
 }

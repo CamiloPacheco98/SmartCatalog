@@ -1,30 +1,33 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:smart_catalog/core/session/cart_session.dart';
 import 'package:smart_catalog/core/session/orders_session.dart';
 import 'package:smart_catalog/features/auth/domain/auth_repository.dart';
-import 'package:smart_catalog/features/auth/presentation/cubit/login_state.dart';
 import 'package:smart_catalog/features/cart/presentation/models/cart_product_view_model.dart';
+
+part 'login_state.dart';
 
 class LoginCubit extends Cubit<LoginState> {
   final AuthRepository _authRepository;
 
   LoginCubit({required AuthRepository authRepository})
     : _authRepository = authRepository,
-      super(LoginState.initial);
+      super(LoginInitial());
 
   void login({required String email, required String password}) {
-    emit(LoginState.loading);
+    emit(LoginLoading());
     _authRepository
         .login(email, password)
         .then((value) async {
           await _initCartProducts();
           await _initOrders();
-          emit(LoginState.success);
+          final catalogImages = await _initCatalogImages();
+          emit(LoginSuccess(catalogImages: catalogImages));
         })
         .catchError((error) {
           debugPrint('login cubit Error: ${error.toString()}');
-          emit(LoginState.error);
+          emit(LoginError(message: 'errors.login_error'.tr()));
         });
   }
 
@@ -49,6 +52,15 @@ class LoginCubit extends Cubit<LoginState> {
       OrdersSession.instance.initializeOrders(ordersMap.values.toList());
     } catch (error) {
       debugPrint('initOrders Error: ${error.toString()}');
+    }
+  }
+
+  Future<List<String>> _initCatalogImages() async {
+    try {
+      return await _authRepository.getCatalogImages();
+    } catch (error) {
+      debugPrint('initCatalogImages Error: ${error.toString()}');
+      return [];
     }
   }
 }
