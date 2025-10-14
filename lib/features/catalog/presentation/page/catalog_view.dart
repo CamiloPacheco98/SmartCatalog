@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:photo_view/photo_view_gallery.dart';
 import 'package:smart_catalog/extensions/context_extensions.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:smart_catalog/features/catalog/presentation/catalog.dart';
 
 class CatalogView extends StatefulWidget {
@@ -39,34 +39,22 @@ class _CatalogViewState extends State<CatalogView> {
       ),
       body: Stack(
         children: [
-          CarouselSlider.builder(
+          PhotoViewGallery.builder(
             itemCount: widget.imageUrls.length,
-            itemBuilder: (context, index, realIndex) {
-              return CachedNetworkImage(
-                imageUrl: widget.imageUrls[index],
-                fit: BoxFit.cover,
-                memCacheHeight: 1000,
-                placeholder: (context, url) =>
-                    const Center(child: CircularProgressIndicator()),
-                errorWidget: (context, url, error) => const Center(
-                  child: Icon(
-                    Icons.error_outline,
-                    color: Colors.grey,
-                    size: 50,
-                  ),
+            builder: (context, index) {
+              return PhotoViewGalleryPageOptions(
+                imageProvider: CachedNetworkImageProvider(
+                  widget.imageUrls[index],
                 ),
               );
             },
-            options: CarouselOptions(
-              height: double.infinity,
-              viewportFraction: 1,
-              enableInfiniteScroll: false,
-              onPageChanged: (index, reason) {
-                if (index != _currentPage) {
-                  setState(() => _currentPage = index);
-                }
-              },
-            ),
+            pageController: PageController(initialPage: _currentPage),
+            onPageChanged: (index) {
+              if (index != _currentPage) {
+                setState(() => _currentPage = index);
+              }
+            },
+            backgroundDecoration: BoxDecoration(color: Colors.white),
           ),
           Positioned(
             left: 16,
