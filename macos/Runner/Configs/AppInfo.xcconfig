@@ -8,7 +8,7 @@
 PRODUCT_NAME = smart_catalog
 
 // The application's bundle identifier
-PRODUCT_BUNDLE_IDENTIFIER = com.example.smartCatalog
+PRODUCT_BUNDLE_IDENTIFIER = com.pcreat.smartCatalog
 
 // The copyright displayed in application information
-PRODUCT_COPYRIGHT = Copyright © 2025 com.example. All rights reserved.
+PRODUCT_COPYRIGHT = Copyright © 2025 com.pcreat. All rights reserved.
