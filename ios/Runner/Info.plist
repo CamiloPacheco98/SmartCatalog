@@ -50,5 +50,10 @@
 		<string>en</string>
 		<string>tr</string>
 	</array>
+	<!-- Permissions for image picker -->
+	<key>NSCameraUsageDescription</key>
+	<string>This app needs access to camera to take photos for your profile.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>This app needs access to photo library to select images for your profile.</string>
 </dict>
 </plist>

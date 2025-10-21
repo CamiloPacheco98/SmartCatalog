@@ -1,5 +1,7 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:smart_catalog/core/utils/image_picker_util.dart';
 import 'package:smart_catalog/extensions/context_extensions.dart';
 import 'package:smart_catalog/features/profile/presentation/profile.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -71,8 +73,8 @@ class _ProfileViewState extends State<ProfileView> {
                       ),
                       child: selectedImagePath != null
                           ? ClipOval(
-                              child: Image.asset(
-                                selectedImagePath!,
+                              child: Image.file(
+                                File(selectedImagePath!),
                                 fit: BoxFit.cover,
                                 width: 120,
                                 height: 120,
@@ -182,11 +184,12 @@ class _ProfileViewState extends State<ProfileView> {
     );
   }
 
-  void _selectImage() {
-    // For now, we'll just simulate selecting an image
-    // In a real app, you would use image_picker or similar
-    setState(() {
-      selectedImagePath = 'assets/images/logo.png'; // Placeholder
-    });
+  Future<void> _selectImage() async {
+    final imagePath = await ImagePickerUtil().showImageSourceDialog(context);
+    if (imagePath != null && imagePath.isNotEmpty) {
+      setState(() {
+        selectedImagePath = imagePath;
+      });
+    }
   }
 }
