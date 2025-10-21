@@ -83,5 +83,17 @@
     "logout_confirmation": "Are you sure you want to logout?",
     "cancel": "Cancel",
     "confirm": "Confirm"
+  },
+  "profile": {
+    "create_profile": "Create Profile",
+    "create_profile_subtitle": "Please fill in your personal information",
+    "first_name": "First Name",
+    "last_name": "Last Name",
+    "document": "Document",
+    "profile_image_subtitle": "Tap to add profile image",
+    "create": "Create",
+    "first_name_required": "First name is required",
+    "last_name_required": "Last name is required",
+    "document_required": "Document is required"
   }
 }

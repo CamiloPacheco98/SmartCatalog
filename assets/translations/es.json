@@ -81,5 +81,17 @@
     "logout_confirmation": "¿Estás seguro de que quieres cerrar sesión?",
     "cancel": "Cancelar",
     "confirm": "Confirmar"
+  },
+  "profile": {
+    "create_profile": "Crear Perfil",
+    "create_profile_subtitle": "Por favor, ingrese su información personal",
+    "first_name": "Nombre",
+    "last_name": "Apellido",
+    "document": "Documento",
+    "profile_image_subtitle": "Toca para agregar imagen de perfil",
+    "create": "Crear",
+    "first_name_required": "El nombre es obligatorio",
+    "last_name_required": "El apellido es obligatorio",
+    "document_required": "El documento es obligatorio"
   }
 }

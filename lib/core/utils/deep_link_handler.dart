@@ -4,13 +4,8 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:smart_catalog/app/routes/app_path.dart';
-import 'package:smart_catalog/core/constants/navigation_extra_keys.dart';
-import 'package:smart_catalog/core/session/cart_session.dart';
-import 'package:smart_catalog/core/session/orders_session.dart';
 import 'package:smart_catalog/core/utils/navigation_service.dart';
-import 'package:smart_catalog/features/auth/domain/auth_repository.dart';
-import 'package:smart_catalog/features/cart/presentation/models/cart_product_view_model.dart';
-import 'package:smart_catalog/main.dart';
+import 'package:smart_catalog/core/constants/navigation_extra_keys.dart';
 
 class DeepLinkHandler {
   static final DeepLinkHandler _instance = DeepLinkHandler._internal();
@@ -20,7 +15,6 @@ class DeepLinkHandler {
   final AppLinks _appLinks = AppLinks();
   StreamSubscription<Uri>? _linkSubscription;
   final FirebaseAuth _auth = FirebaseAuth.instance;
-  final AuthRepository _authRepository = getIt<AuthRepository>();
   final NavigationService _navigationService = NavigationService();
   bool _signInWithEmailLink = false;
   bool _handledInitialLink = false;
@@ -99,8 +93,7 @@ class DeepLinkHandler {
       final queryParams = parseAuthLink(uri);
 
       final storedEmail = queryParams['email']?.trim() ?? '';
-      // TODO: Add to user info
-      // final adminUID = queryParams['adminUid']?.trim() ?? '';
+      final adminUid = queryParams['adminUid']?.trim() ?? '';
 
       if (storedEmail.isEmpty) {
         _navigationService.showErrorSnackBar('errors.email_not_found'.tr());
@@ -114,9 +107,8 @@ class DeepLinkHandler {
       );
 
       if (userCredential.user != null) {
-        await _initializeUserSession();
-        // Navigate to the main app
-        await _navigateToMainApp();
+        // Navigate to profile screen
+        await _navigateToProfile(email: storedEmail, adminUid: adminUid);
       }
     } catch (e) {
       debugPrint('Error processing email link sign-in: $e');
@@ -149,56 +141,18 @@ class DeepLinkHandler {
     return {'adminUid': adminUid, 'email': email};
   }
 
-  /// Initialize user session after successful sign-in
-  Future<void> _initializeUserSession() async {
-    try {
-      await _initCartProducts();
-      await _initOrders();
-    } catch (e) {
-      debugPrint('Error initializing user session: $e');
-    }
-  }
-
-  Future<void> _initCartProducts() async {
-    try {
-      final products = await _authRepository.getCartProducts();
-      _authRepository.saveLocalCartProducts(products?.values.toList() ?? []);
-      final productsViewModel = products?.values
-          .map((e) => CartProductViewModel.fromEntity(e))
-          .toList();
-      CartSession.instance.initializeProducts(productsViewModel ?? []);
-    } catch (error) {
-      debugPrint('initCartProducts Error: ${error.toString()}');
-    }
-  }
-
-  Future<void> _initOrders() async {
-    try {
-      final orders = await _authRepository.getOrders();
-      final ordersMap = Map.fromEntries(orders.map((e) => MapEntry(e.id, e)));
-      _authRepository.saveLocalOrders(ordersMap);
-      OrdersSession.instance.initializeOrders(ordersMap.values.toList());
-    } catch (error) {
-      debugPrint('initOrders Error: ${error.toString()}');
-    }
-  }
-
-  Future<List<String>> _initCatalogImages() async {
-    try {
-      return await _authRepository.getCatalogImages();
-    } catch (error) {
-      debugPrint('initCatalogImages Error: ${error.toString()}');
-      return [];
-    }
-  }
-
-  /// Navigate to the main app
-  Future<void> _navigateToMainApp() async {
-    final catalogImages = await _initCatalogImages();
+  /// Navigate to the profile screen
+  Future<void> _navigateToProfile({
+    required String email,
+    required String adminUid,
+  }) async {
     _signInWithEmailLink = true;
     _navigationService.goNamed(
-      AppPaths.tabbar,
-      extra: {NavigationExtraKeys.catalogImages: catalogImages},
+      AppPaths.profile,
+      extra: {
+        NavigationExtraKeys.email: email,
+        NavigationExtraKeys.adminUid: adminUid,
+      },
     );
   }
 
