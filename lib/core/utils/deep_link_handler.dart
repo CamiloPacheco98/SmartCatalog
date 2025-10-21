@@ -22,9 +22,30 @@ class DeepLinkHandler {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final AuthRepository _authRepository = getIt<AuthRepository>();
   final NavigationService _navigationService = NavigationService();
+  bool _signInWithEmailLink = false;
+  bool _handledInitialLink = false;
+
+  bool get signInWithEmailLink => _signInWithEmailLink;
 
   /// Initialize the deep link handler
-  void initialize() {
+  Future<void> initialize() async {
+    await handleInitialLink();
+    _startListeningLinks();
+  }
+
+  Future<void> handleInitialLink() async {
+    try {
+      final initialLink = await _appLinks.getInitialLink();
+      if (initialLink != null) {
+        await _handleIncomingLink(initialLink);
+        _handledInitialLink = true;
+      }
+    } catch (e) {
+      debugPrint('Error getting initial link: $e');
+    }
+  }
+
+  void _startListeningLinks() {
     _linkSubscription = _appLinks.uriLinkStream.listen(
       _handleIncomingLink,
       onError: (err) {
@@ -35,7 +56,9 @@ class DeepLinkHandler {
 
   /// Handle incoming deep links
   Future<void> _handleIncomingLink(Uri uri) async {
-    debugPrint('Received deep link: $uri');
+    if (_handledInitialLink) {
+      return;
+    }
 
     // Check if this is a Firebase auth link
     if (_isFirebaseAuthLink(uri)) {
@@ -63,7 +86,6 @@ class DeepLinkHandler {
         );
       }
     } catch (e) {
-      debugPrint('Error handling Firebase auth link: $e');
       _navigationService.showErrorSnackBar(
         'errors.failed_to_process_authentication_link'.tr(),
       );
@@ -94,7 +116,7 @@ class DeepLinkHandler {
       if (userCredential.user != null) {
         await _initializeUserSession();
         // Navigate to the main app
-        _navigateToMainApp();
+        await _navigateToMainApp();
       }
     } catch (e) {
       debugPrint('Error processing email link sign-in: $e');
@@ -173,6 +195,7 @@ class DeepLinkHandler {
   /// Navigate to the main app
   Future<void> _navigateToMainApp() async {
     final catalogImages = await _initCatalogImages();
+    _signInWithEmailLink = true;
     _navigationService.goNamed(
       AppPaths.tabbar,
       extra: {NavigationExtraKeys.catalogImages: catalogImages},
