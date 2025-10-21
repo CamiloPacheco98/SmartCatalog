@@ -7,8 +7,10 @@ import 'package:smart_catalog/features/auth/presentation/page/login_page.dart';
 import 'package:smart_catalog/features/tabbar/presentation/page/tabbar_page.dart';
 import 'package:smart_catalog/features/cart/presentation/cart.dart';
 import 'package:smart_catalog/core/domain/entities/order_entity.dart';
+import 'package:smart_catalog/core/utils/navigation_service.dart';
 
 final appRouter = GoRouter(
+  navigatorKey: NavigationService().navigatorKey,
   initialLocation: AppPaths.splash,
   routes: [
     GoRoute(

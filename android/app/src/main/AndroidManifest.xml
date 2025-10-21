@@ -20,6 +20,7 @@
               android:name="io.flutter.embedding.android.NormalTheme"
               android:resource="@style/NormalTheme"
               />
+            <meta-data android:name="flutter_deeplinking_enabled" android:value="false" />
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
@@ -30,7 +31,7 @@
                 <category android:name="android.intent.category.DEFAULT" />
                 <data
                   android:scheme="https"
-                  android:host="smartcatalog-32439.web.app"
+                  android:host="smartcatalog-32439.firebaseapp.com"
                   android:pathPrefix="/__/auth/links"/>
               </intent-filter>
         </activity>

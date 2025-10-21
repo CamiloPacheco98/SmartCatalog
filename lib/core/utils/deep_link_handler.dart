@@ -3,6 +3,8 @@ import 'package:app_links/app_links.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:smart_catalog/app/routes/app_path.dart';
+import 'package:smart_catalog/core/constants/navigation_extra_keys.dart';
 import 'package:smart_catalog/core/session/cart_session.dart';
 import 'package:smart_catalog/core/session/orders_session.dart';
 import 'package:smart_catalog/core/utils/navigation_service.dart';
@@ -56,11 +58,15 @@ class DeepLinkHandler {
       if (_auth.isSignInWithEmailLink(uri.toString())) {
         await _processEmailLinkSignIn(uri);
       } else {
-        _navigationService.showErrorSnackBar('errors.failed_to_process_authentication_link'.tr());
+        _navigationService.showErrorSnackBar(
+          'errors.failed_to_process_authentication_link'.tr(),
+        );
       }
     } catch (e) {
       debugPrint('Error handling Firebase auth link: $e');
-      _navigationService.showErrorSnackBar('errors.failed_to_process_authentication_link'.tr());
+      _navigationService.showErrorSnackBar(
+        'errors.failed_to_process_authentication_link'.tr(),
+      );
     }
   }
 
@@ -68,7 +74,11 @@ class DeepLinkHandler {
   Future<void> _processEmailLinkSignIn(Uri uri) async {
     try {
       // Get the email from the URI
-      final storedEmail = uri.queryParameters['email'] ?? '';
+      final queryParams = parseAuthLink(uri);
+
+      final storedEmail = queryParams['email']?.trim() ?? '';
+      // TODO: Add to user info
+      // final adminUID = queryParams['adminUid']?.trim() ?? '';
 
       if (storedEmail.isEmpty) {
         _navigationService.showErrorSnackBar('errors.email_not_found'.tr());
@@ -88,8 +98,33 @@ class DeepLinkHandler {
       }
     } catch (e) {
       debugPrint('Error processing email link sign-in: $e');
-      _navigationService.showErrorSnackBar('errors.failed_to_sign_in_with_email_link'.tr());
+      _navigationService.showErrorSnackBar(
+        'errors.failed_to_sign_in_with_email_link'.tr(),
+      );
     }
+  }
+
+  Map<String, String?> parseAuthLink(Uri uri) {
+    // 1️⃣ Get the "link" parameter (contains another nested URL)
+    final innerLink = uri.queryParameters['link'];
+    if (innerLink == null) return {};
+
+    // 2️⃣ Parse the inner Firebase Auth action URL
+    final innerUri = Uri.parse(innerLink);
+
+    // 3️⃣ Get the "continueUrl" parameter (still encoded)
+    final continueUrl = innerUri.queryParameters['continueUrl'];
+    if (continueUrl == null) return {};
+
+    // 4️⃣ Decode and parse the continueUrl to access final query parameters
+    final decodedContinue = Uri.decodeFull(continueUrl);
+    final continueUri = Uri.parse(decodedContinue);
+
+    // 5️⃣ Extract adminUid and email
+    final adminUid = continueUri.queryParameters['adminUid'];
+    final email = continueUri.queryParameters['email'];
+
+    return {'adminUid': adminUid, 'email': email};
   }
 
   /// Initialize user session after successful sign-in
@@ -138,9 +173,11 @@ class DeepLinkHandler {
   /// Navigate to the main app
   Future<void> _navigateToMainApp() async {
     final catalogImages = await _initCatalogImages();
-    _navigationService.navigateToMainApp(catalogImages);
+    _navigationService.goNamed(
+      AppPaths.tabbar,
+      extra: {NavigationExtraKeys.catalogImages: catalogImages},
+    );
   }
-
 
   /// Dispose the deep link handler
   void dispose() {

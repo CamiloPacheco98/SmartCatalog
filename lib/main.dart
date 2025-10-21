@@ -22,7 +22,6 @@ import 'package:path_provider/path_provider.dart';
 import 'package:smart_catalog/features/settings/data/repositories/settings_repository_impl.dart';
 import 'package:smart_catalog/features/settings/domain/repositories/settings_repository.dart';
 import 'package:smart_catalog/core/utils/deep_link_handler.dart';
-import 'package:smart_catalog/core/widgets/navigation_wrapper.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -38,9 +37,7 @@ void main() async {
       supportedLocales: const [Locale('en'), Locale('es')],
       path: 'assets/translations',
       fallbackLocale: const Locale('en'),
-      child: NavigationWrapper(
-        child: SmartCatalogApp(),
-      ),
+      child: SmartCatalogApp(),
     ),
   );
 }
