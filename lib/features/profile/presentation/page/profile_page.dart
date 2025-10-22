@@ -32,7 +32,7 @@ class ProfilePage extends StatelessWidget {
           builder: (context, state) {
             return Stack(
               children: [
-                const ProfileView(),
+                ProfileView(email: email),
                 if (state is ProfileLoading) const CustomLoading(),
               ],
             );

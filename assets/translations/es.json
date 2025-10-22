@@ -89,6 +89,7 @@
     "first_name": "Nombre",
     "last_name": "Apellido",
     "document": "Documento",
+    "email": "Correo electrónico",
     "profile_image_subtitle": "Toca para agregar imagen de perfil",
     "create": "Crear",
     "first_name_required": "El nombre es obligatorio",

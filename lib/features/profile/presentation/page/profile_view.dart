@@ -7,7 +7,8 @@ import 'package:smart_catalog/features/profile/presentation/profile.dart';
 import 'package:easy_localization/easy_localization.dart';
 
 class ProfileView extends StatefulWidget {
-  const ProfileView({super.key});
+  final String email;
+  const ProfileView({super.key, required this.email});
 
   @override
   State<ProfileView> createState() => _ProfileViewState();
@@ -18,6 +19,7 @@ class _ProfileViewState extends State<ProfileView> {
   final nameController = TextEditingController();
   final lastNameController = TextEditingController();
   final documentController = TextEditingController();
+
   String? selectedImagePath;
 
   @override
@@ -145,6 +147,16 @@ class _ProfileViewState extends State<ProfileView> {
                     return null;
                   },
                   keyboardType: TextInputType.number,
+                ),
+                const SizedBox(height: 16),
+
+                TextFormField(
+                  decoration: InputDecoration(
+                    labelText: 'profile.email'.tr(),
+                    prefixIcon: Icon(Icons.email),
+                  ),
+                  readOnly: true,
+                  initialValue: widget.email,
                 ),
                 const SizedBox(height: 40),
 

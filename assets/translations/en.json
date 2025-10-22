@@ -91,6 +91,7 @@
     "first_name": "First Name",
     "last_name": "Last Name",
     "document": "Document",
+    "email": "Email",
     "profile_image_subtitle": "Tap to add profile image",
     "create": "Create",
     "first_name_required": "First name is required",
