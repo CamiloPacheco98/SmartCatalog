@@ -80,6 +80,7 @@
   },
   "settings": {
     "title": "Settings",
+    "profile": "Profile",
     "logout": "Logout",
     "logout_confirmation": "Are you sure you want to logout?",
     "cancel": "Cancel",

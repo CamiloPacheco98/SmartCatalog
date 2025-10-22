@@ -78,6 +78,7 @@
   },
   "settings": {
     "title": "Configuración",
+    "profile": "Perfil",
     "logout": "Cerrar sesión",
     "logout_confirmation": "¿Estás seguro de que quieres cerrar sesión?",
     "cancel": "Cancelar",

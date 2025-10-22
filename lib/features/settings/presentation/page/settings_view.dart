@@ -4,6 +4,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:smart_catalog/extensions/context_extensions.dart';
 import 'package:smart_catalog/features/settings/presentation/cubit/settings_cubit.dart';
 import 'package:smart_catalog/features/settings/presentation/widgets/logout_dialog.dart';
+import 'package:smart_catalog/features/settings/presentation/widgets/settings_option.dart';
+import 'package:go_router/go_router.dart';
+import 'package:smart_catalog/app/routes/app_path.dart';
 
 class SettingsView extends StatelessWidget {
   const SettingsView({super.key});
@@ -12,12 +15,18 @@ class SettingsView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text('settings.title'.tr())),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          children: [
-            const Spacer(),
-            SizedBox(
+      body: Column(
+        children: [
+          const SizedBox(height: 16),
+          SettingsOption(
+            icon: Icons.person,
+            title: 'settings.profile'.tr(),
+            onTap: () => context.pushNamed(AppPaths.profile),
+          ),
+          Spacer(),
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: SizedBox(
               width: double.infinity,
               child: ElevatedButton.icon(
                 onPressed: () => LogoutDialog.show(
@@ -36,9 +45,9 @@ class SettingsView extends StatelessWidget {
                 ),
               ),
             ),
-            const SizedBox(height: 32),
-          ],
-        ),
+          ),
+          const SizedBox(height: 32),
+        ],
       ),
     );
   }
