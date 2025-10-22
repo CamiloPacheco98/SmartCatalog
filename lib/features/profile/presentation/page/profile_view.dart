@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:smart_catalog/core/utils/image_picker_util.dart';
+import 'package:smart_catalog/core/utils/informative_modal_util.dart';
 import 'package:smart_catalog/extensions/context_extensions.dart';
 import 'package:smart_catalog/features/profile/presentation/profile.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -168,11 +169,24 @@ class _ProfileViewState extends State<ProfileView> {
                     onPressed: () {
                       FocusScope.of(context).unfocus();
                       if (_formKey.currentState!.validate()) {
-                        context.read<ProfileCubit>().createProfile(
-                          name: nameController.text.trim(),
-                          lastName: lastNameController.text.trim(),
-                          document: documentController.text.trim(),
-                          imagePath: selectedImagePath,
+                        InformativeModalUtil.showInformativeModal(
+                          context: context,
+                          title: 'profile.create_profile_confirmation'.tr(),
+                          subtitle:
+                              'profile.create_profile_confirmation_subtitle'
+                                  .tr(),
+                          acceptText:
+                              'profile.create_profile_confirmation_accept'.tr(),
+                          rejectText:
+                              'profile.create_profile_confirmation_reject'.tr(),
+                          onAccept: () {
+                            context.read<ProfileCubit>().createProfile(
+                              name: nameController.text.trim(),
+                              lastName: lastNameController.text.trim(),
+                              document: documentController.text.trim(),
+                              imagePath: selectedImagePath,
+                            );
+                          },
                         );
                       }
                     },

@@ -88,6 +88,10 @@
   "profile": {
     "create_profile": "Create Profile",
     "create_profile_subtitle": "Please fill in your personal information",
+    "create_profile_confirmation": "Are you sure you want to create your profile?",
+    "create_profile_confirmation_subtitle": "The profile will be created and sent to your respective director for validation. This action cannot be undone.",
+    "create_profile_confirmation_accept": "Confirm",
+    "create_profile_confirmation_reject": "Cancel",
     "first_name": "First Name",
     "last_name": "Last Name",
     "document": "Document",
