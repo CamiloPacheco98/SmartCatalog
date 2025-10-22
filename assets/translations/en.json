@@ -30,7 +30,8 @@
     "failed_to_process_authentication_link": "Failed to process authentication link",
     "email_not_found": "Email not found. Please try signing in again.",
     "failed_to_sign_in_with_email_link": "Failed to sign in with email link",
-    "error_initializing_user_session": "Error initializing user session"
+    "error_initializing_user_session": "Error initializing user session",
+    "create_profile_error": "Failed to create profile"
   },
   "success": {
     "products_added_to_cart": "Products added to cart",

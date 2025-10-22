@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:smart_catalog/core/widgets/custom_loading.dart';
+import 'package:smart_catalog/features/profile/domain/repositories/user_profile_repository.dart';
 import 'package:smart_catalog/features/profile/presentation/profile.dart';
 import 'package:smart_catalog/core/utils/navigation_service.dart';
+import 'package:smart_catalog/main.dart';
 
 class ProfilePage extends StatelessWidget {
   final String email;
@@ -13,7 +15,11 @@ class ProfilePage extends StatelessWidget {
   Widget build(BuildContext context) {
     final navigationService = NavigationService();
     return BlocProvider(
-      create: (context) => ProfileCubit(email: email, adminUid: adminUid),
+      create: (context) => ProfileCubit(
+        email: email,
+        adminUid: adminUid,
+        userProfileRepository: getIt<UserProfileRepository>(),
+      ),
       child: BlocListener<ProfileCubit, ProfileState>(
         listener: (context, state) {
           if (state is ProfileSuccess) {

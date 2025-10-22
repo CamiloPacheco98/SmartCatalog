@@ -28,7 +28,8 @@
     "failed_to_process_authentication_link": "No pudimos procesar el enlace de autenticación",
     "email_not_found": "No encontramos el correo electrónico. Por favor, intenta iniciar sesión nuevamente.",
     "failed_to_sign_in_with_email_link": "No pudimos iniciar sesión con el enlace de correo electrónico",
-    "error_initializing_user_session": "Error al inicializar la sesión del usuario"
+    "error_initializing_user_session": "Error al inicializar la sesión del usuario",
+    "create_profile_error": "No pudimos crear el perfil"
   },
   "success": {
     "products_added_to_cart": "Productos agregados al carrito",

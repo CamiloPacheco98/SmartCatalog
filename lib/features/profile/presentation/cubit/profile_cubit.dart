@@ -1,30 +1,44 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
+import 'package:smart_catalog/features/profile/domain/repositories/user_profile_repository.dart';
 part 'profile_state.dart';
 
 class ProfileCubit extends Cubit<ProfileState> {
   final String _email;
   final String _adminUid;
-  ProfileCubit({required String email, required String adminUid})
-    : _email = email,
-      _adminUid = adminUid,
-      super(ProfileInitial());
+  final UserProfileRepository _userProfileRepository;
+  ProfileCubit({
+    required String email,
+    required String adminUid,
+    required UserProfileRepository userProfileRepository,
+  }) : _email = email,
+       _adminUid = adminUid,
+       _userProfileRepository = userProfileRepository,
+       super(ProfileInitial());
 
-  void createProfile({
+  Future<void> createProfile({
     required String name,
     required String lastName,
     required String document,
     String? imagePath,
-  }) {
+  }) async {
     emit(ProfileLoading());
-    debugPrint('email: $_email');
-    debugPrint('adminUid: $_adminUid');
-    // Simulate API call
-    Future.delayed(const Duration(seconds: 2), () {
-      // Here you would typically call a repository to save the profile
+    // Simulate API
+    try {
+      await _userProfileRepository.createProfile(
+        _adminUid,
+        name,
+        lastName,
+        document,
+        imagePath ?? '',
+        _email,
+      );
       emit(ProfileSuccess());
-    });
+    } catch (error) {
+      debugPrint('createProfile Error: ${error.toString()}');
+      emit(ProfileError(message: 'errors.create_profile_error'.tr()));
+    }
   }
 
   void resetState() {

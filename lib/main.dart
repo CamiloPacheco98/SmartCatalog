@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:get_it/get_it.dart';
@@ -21,6 +22,9 @@ import 'package:smart_catalog/core/constants/hive_constants.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:smart_catalog/features/settings/data/repositories/settings_repository_impl.dart';
 import 'package:smart_catalog/features/settings/domain/repositories/settings_repository.dart';
+import 'package:smart_catalog/features/profile/domain/repositories/user_profile_repository.dart';
+import 'package:smart_catalog/features/profile/data/repositories/user_profile_repository_impl.dart';
+import 'package:smart_catalog/features/profile/data/source/firebase_storage_datasource.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -61,10 +65,20 @@ final getIt = GetIt.instance;
 
 Future<void> initHive() async {
   final directory = await getApplicationDocumentsDirectory();
+  final storageDatasource = FirebaseStorageDatasource(
+    storage: FirebaseStorage.instance,
+  );
   Hive.init(directory.path);
   await Hive.openBox<Map>(HiveBoxes.cart);
   await Hive.openBox<bool>(HiveBoxes.appSettings);
   await Hive.openBox<Map>(HiveBoxes.orders);
+
+  getIt.registerSingleton<UserProfileRepository>(
+    UserProfileRepositoryImpl(
+      firebaseStorageDatasource: storageDatasource,
+      firestore: FirebaseFirestore.instance,
+    ),
+  );
 }
 
 void setup() {

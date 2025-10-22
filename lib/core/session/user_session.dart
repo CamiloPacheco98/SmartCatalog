@@ -14,4 +14,6 @@ class UserSession {
   }
 
   bool get isLoggedIn => _auth.currentUser != null;
+
+  String get userId => _auth.currentUser?.uid ?? '';
 }
