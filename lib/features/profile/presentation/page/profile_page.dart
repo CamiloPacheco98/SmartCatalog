@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:smart_catalog/core/constants/navigation_extra_keys.dart';
 import 'package:smart_catalog/core/widgets/custom_loading.dart';
 import 'package:smart_catalog/features/profile/domain/repositories/user_profile_repository.dart';
 import 'package:smart_catalog/features/profile/presentation/profile.dart';
 import 'package:smart_catalog/core/utils/navigation_service.dart';
 import 'package:smart_catalog/main.dart';
+import 'package:smart_catalog/features/auth/domain/auth_repository.dart';
+import 'package:go_router/go_router.dart';
+import 'package:smart_catalog/app/routes/app_path.dart';
 
 class ProfilePage extends StatelessWidget {
   final String email;
@@ -19,11 +23,15 @@ class ProfilePage extends StatelessWidget {
         email: email,
         adminUid: adminUid,
         userProfileRepository: getIt<UserProfileRepository>(),
+        authRepository: getIt<AuthRepository>(),
       ),
       child: BlocListener<ProfileCubit, ProfileState>(
         listener: (context, state) {
           if (state is ProfileSuccess) {
-            // TODO: Navigate to the next screen
+            context.goNamed(
+              AppPaths.tabbar,
+              extra: {NavigationExtraKeys.catalogImages: state.catalogImages},
+            );
           } else if (state is ProfileError) {
             navigationService.showErrorSnackBar(state.message);
           }

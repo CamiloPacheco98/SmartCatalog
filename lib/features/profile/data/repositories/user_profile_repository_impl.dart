@@ -21,7 +21,9 @@ class UserProfileRepositoryImpl implements UserProfileRepository {
     String email,
   ) async {
     final path = 'users/${UserSession.instance.userId}/profile.jpg';
-    await _firebaseStorageDatasource.uploadFile(path, imagePath);
+    if (imagePath.isNotEmpty) {
+      await _firebaseStorageDatasource.uploadFile(path, imagePath);
+    }
     await _firestore.collection('users').doc(UserSession.instance.userId).set({
       'name': name,
       'lastName': lastName,
