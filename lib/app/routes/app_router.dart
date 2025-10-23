@@ -26,7 +26,16 @@ final appRouter = GoRouter(
     GoRoute(
       name: AppPaths.login,
       path: AppPaths.login,
-      builder: (context, state) => const LoginPage(),
+      builder: (context, state) {
+        try {
+          final arguments = state.extra as Map<String, dynamic>;
+          final showResetSuccess =
+              arguments[NavigationExtraKeys.showResetSuccess] as bool;
+          return LoginPage(showResetSuccess: showResetSuccess);
+        } catch (e) {
+          return const LoginPage(showResetSuccess: false);
+        }
+      },
     ),
     GoRoute(
       name: AppPaths.tabbar,

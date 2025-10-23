@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:smart_catalog/app/routes/app_path.dart';
+import 'package:smart_catalog/core/constants/navigation_extra_keys.dart';
 import 'package:smart_catalog/core/widgets/custom_loading.dart';
 import 'package:smart_catalog/features/auth/domain/auth_repository.dart';
 import 'package:smart_catalog/main.dart';
@@ -23,7 +24,10 @@ class ResetPasswordPage extends StatelessWidget {
       child: BlocListener<ResetPasswordCubit, ResetPasswordState>(
         listener: (context, state) {
           if (state is ResetPasswordSuccess) {
-            context.goNamed(AppPaths.login);
+            context.goNamed(
+              AppPaths.login,
+              extra: {NavigationExtraKeys.showResetSuccess: true},
+            );
           } else if (state is ResetPasswordError) {
             navigationService.showErrorSnackBar(state.message);
           }

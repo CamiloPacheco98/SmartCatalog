@@ -22,6 +22,14 @@ class LoginCubit extends Cubit<LoginState> {
        _userRepository = userRepository,
        super(LoginInitial());
 
+  void showResetSuccess(bool showResetSuccess) {
+    Future.delayed(const Duration(milliseconds: 500), () {
+      emit(
+        LoginShowSuccessMessage(message: 'success.reset_password_success'.tr()),
+      );
+    });
+  }
+
   void login({required String email, required String password}) {
     emit(LoginLoading());
     _authRepository

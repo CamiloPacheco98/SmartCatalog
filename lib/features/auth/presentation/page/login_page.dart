@@ -12,7 +12,8 @@ import 'package:smart_catalog/core/widgets/custom_loading.dart';
 import 'package:smart_catalog/features/auth/presentation/login.dart';
 
 class LoginPage extends StatelessWidget {
-  const LoginPage({super.key});
+  final bool showResetSuccess;
+  const LoginPage({super.key, required this.showResetSuccess});
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +21,7 @@ class LoginPage extends StatelessWidget {
       create: (context) => LoginCubit(
         authRepository: getIt<AuthRepository>(),
         userRepository: getIt<UserRepository>(),
-      ),
+      )..showResetSuccess(showResetSuccess),
       child: BlocListener<LoginCubit, LoginState>(
         listener: (context, state) {
           if (state is LoginSuccess) {
