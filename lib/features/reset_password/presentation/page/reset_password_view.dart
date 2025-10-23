@@ -8,11 +8,26 @@ import 'package:smart_catalog/extensions/context_extensions.dart';
 
 import '../reset_password.dart';
 
-class ResetPasswordView extends StatelessWidget {
+class ResetPasswordView extends StatefulWidget {
+  const ResetPasswordView({super.key});
+
+  @override
+  State<ResetPasswordView> createState() => _ResetPasswordViewState();
+}
+
+class _ResetPasswordViewState extends State<ResetPasswordView> {
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   final passwordController = TextEditingController();
   final confirmPasswordController = TextEditingController();
-  final formKey = GlobalKey<FormState>();
-  ResetPasswordView({super.key});
+  bool isPasswordVisible = false;
+  bool isConfirmPasswordVisible = false;
+
+  @override
+  void dispose() {
+    passwordController.dispose();
+    confirmPasswordController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -47,21 +62,46 @@ class ResetPasswordView extends StatelessWidget {
                     controller: passwordController,
                     decoration: InputDecoration(
                       hintText: 'reset_password.password'.tr(),
+                      suffixIcon: IconButton(
+                        onPressed: () {
+                          setState(() {
+                            isPasswordVisible = !isPasswordVisible;
+                          });
+                        },
+                        icon: Icon(
+                          isPasswordVisible
+                              ? Icons.visibility
+                              : Icons.visibility_off,
+                        ),
+                      ),
                     ),
                     validator: Validators.password,
-                    obscureText: true,
+                    obscureText: !isPasswordVisible,
                   ),
                   const SizedBox(height: 16),
                   TextFormField(
                     controller: confirmPasswordController,
                     decoration: InputDecoration(
                       hintText: 'reset_password.confirm_password'.tr(),
+                      suffixIcon: IconButton(
+                        onPressed: () {
+                          setState(() {
+                            isConfirmPasswordVisible =
+                                !isConfirmPasswordVisible;
+                          });
+                        },
+                        icon: Icon(
+                          isConfirmPasswordVisible
+                              ? Icons.visibility
+                              : Icons.visibility_off,
+                        ),
+                      ),
                     ),
                     validator: (value) => Validators.confirmPassword(
                       value,
                       passwordController.text,
                     ),
-                    obscureText: true,
+                    obscureText: !isConfirmPasswordVisible,
                   ),
                   const SizedBox(height: 24),
                   Padding(

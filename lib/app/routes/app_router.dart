@@ -27,6 +27,7 @@ final appRouter = GoRouter(
       name: AppPaths.login,
       path: AppPaths.login,
       builder: (context, state) {
+        //TODO: improve this logic to avoid try catch
         try {
           final arguments = state.extra as Map<String, dynamic>;
           final showResetSuccess =

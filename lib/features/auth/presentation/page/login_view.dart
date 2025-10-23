@@ -18,6 +18,14 @@ class _LoginViewState extends State<LoginView> {
   final _formKey = GlobalKey<FormState>();
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
+  bool isPasswordVisible = false;
+
+  @override
+  void dispose() {
+    emailController.dispose();
+    passwordController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -50,8 +58,20 @@ class _LoginViewState extends State<LoginView> {
                       controller: passwordController,
                       decoration: InputDecoration(
                         hintText: 'login.password'.tr(),
+                        suffixIcon: IconButton(
+                          onPressed: () {
+                            setState(() {
+                              isPasswordVisible = !isPasswordVisible;
+                            });
+                          },
+                          icon: Icon(
+                            isPasswordVisible
+                                ? Icons.visibility
+                                : Icons.visibility_off,
+                          ),
+                        ),
                       ),
-                      obscureText: true,
+                      obscureText: !isPasswordVisible,
                       validator: Validators.password,
                     ),
                     Align(
