@@ -9,6 +9,7 @@ final class SettingsLoading extends SettingsState {}
 
 final class SettingsNavigate extends SettingsState {
   final String route;
+  final Map<String, dynamic>? extra;
 
-  SettingsNavigate(this.route);
+  SettingsNavigate(this.route, {this.extra = const {}});
 }

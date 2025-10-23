@@ -2,6 +2,7 @@ import 'package:smart_catalog/features/profile/data/source/firebase_storage_data
 import 'package:smart_catalog/features/profile/domain/repositories/user_profile_repository.dart';
 import 'package:smart_catalog/core/session/user_session.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:smart_catalog/core/constants/firestore_collections.dart';
 
 class UserProfileRepositoryImpl implements UserProfileRepository {
   final FirebaseStorageDatasource _firebaseStorageDatasource;
@@ -24,16 +25,20 @@ class UserProfileRepositoryImpl implements UserProfileRepository {
     if (imagePath.isNotEmpty) {
       await _firebaseStorageDatasource.uploadFile(path, imagePath);
     }
-    await _firestore.collection('users').doc(UserSession.instance.userId).set({
-      'name': name,
-      'lastName': lastName,
-      'document': document,
-      'imagePath': path,
-      'email': email,
-      'adminUid': adminUid,
-      'createdAt': DateTime.now(),
-      'updatedAt': DateTime.now(),
-      'verified': false,
-    });
+    await _firestore
+        .collection(FirestoreCollections.users)
+        .doc(UserSession.instance.userId)
+        .set({
+          'id': UserSession.instance.userId,
+          'name': name,
+          'lastName': lastName,
+          'document': document,
+          'imagePath': path,
+          'email': email,
+          'adminUid': adminUid,
+          'createdAt': DateTime.now(),
+          'updatedAt': DateTime.now(),
+          'verified': false,
+        });
   }
 }

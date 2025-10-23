@@ -148,7 +148,7 @@ class DeepLinkHandler {
   }) async {
     _signInWithEmailLink = true;
     _navigationService.goNamed(
-      AppPaths.profile,
+      AppPaths.createProfile,
       extra: {
         NavigationExtraKeys.email: email,
         NavigationExtraKeys.adminUid: adminUid,

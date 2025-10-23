@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:smart_catalog/app/routes/app_path.dart';
+import 'package:smart_catalog/core/domain/repositories/user_repository.dart';
 import 'package:smart_catalog/features/auth/domain/auth_repository.dart';
 import 'package:smart_catalog/core/constants/navigation_extra_keys.dart';
 import 'package:smart_catalog/main.dart';
@@ -16,7 +17,10 @@ class LoginPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => LoginCubit(authRepository: getIt<AuthRepository>()),
+      create: (context) => LoginCubit(
+        authRepository: getIt<AuthRepository>(),
+        userRepository: getIt<UserRepository>(),
+      ),
       child: BlocListener<LoginCubit, LoginState>(
         listener: (context, state) {
           if (state is LoginSuccess) {

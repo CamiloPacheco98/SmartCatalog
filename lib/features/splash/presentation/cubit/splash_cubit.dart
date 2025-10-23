@@ -10,14 +10,19 @@ import 'package:smart_catalog/core/session/user_session.dart';
 import 'package:smart_catalog/core/utils/deep_link_handler.dart';
 import 'package:smart_catalog/features/cart/presentation/models/cart_product_view_model.dart';
 import 'package:smart_catalog/features/splash/domain/repositories/splash_repository.dart';
-
+import 'package:smart_catalog/core/domain/entities/user_entity.dart';
+import 'package:smart_catalog/core/domain/repositories/user_repository.dart';
 part 'splash_state.dart';
 
 class SplashCubit extends Cubit<SplashState> {
   final SplashRepository _repository;
-  SplashCubit({required SplashRepository repository})
-    : _repository = repository,
-      super(SplashInitial());
+  final UserRepository _userRepository;
+  SplashCubit({
+    required SplashRepository repository,
+    required UserRepository userRepository,
+  }) : _repository = repository,
+       _userRepository = userRepository,
+       super(SplashInitial());
 
   Future<void> startSplashTimer() async {
     final deepLinkHandler = DeepLinkHandler();
@@ -35,6 +40,7 @@ class SplashCubit extends Cubit<SplashState> {
         HiveKeys.isFirstLaunch,
         defaultValue: true,
       );
+      await _initializeUser(isFirstLaunch: isFirstLaunch);
       if (isFirstLaunch) {
         final cartProducts = await _repository.getCartProducts();
         await _repository.saveLocalCartProducts(
@@ -62,5 +68,28 @@ class SplashCubit extends Cubit<SplashState> {
     } else {
       emit(SplashNavigating(route: AppPaths.login, arguments: {}));
     }
+  }
+
+  Future<void> _initializeUser({required bool isFirstLaunch}) async {
+    final UserEntity user;
+    if (isFirstLaunch) {
+      user = await getUser();
+      await saveLocalUser(user);
+    } else {
+      user = await getLocalUser();
+    }
+    UserSession.instance.initializeUser(user);
+  }
+
+  Future<UserEntity> getUser() async {
+    return _userRepository.getUser(UserSession.instance.userId);
+  }
+
+  Future<UserEntity> getLocalUser() async {
+    return _userRepository.getLocalUser();
+  }
+
+  Future<void> saveLocalUser(UserEntity user) async {
+    return _userRepository.saveLocalUser(user);
   }
 }

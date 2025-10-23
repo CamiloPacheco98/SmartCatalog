@@ -25,6 +25,8 @@ import 'package:smart_catalog/features/settings/domain/repositories/settings_rep
 import 'package:smart_catalog/features/profile/domain/repositories/user_profile_repository.dart';
 import 'package:smart_catalog/features/profile/data/repositories/user_profile_repository_impl.dart';
 import 'package:smart_catalog/features/profile/data/source/firebase_storage_datasource.dart';
+import 'package:smart_catalog/core/data/repositories/user_repository_impl.dart';
+import 'package:smart_catalog/core/domain/repositories/user_repository.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -72,6 +74,7 @@ Future<void> initHive() async {
   await Hive.openBox<Map>(HiveBoxes.cart);
   await Hive.openBox<bool>(HiveBoxes.appSettings);
   await Hive.openBox<Map>(HiveBoxes.orders);
+  await Hive.openBox<Map>(HiveBoxes.user);
 
   getIt.registerSingleton<UserProfileRepository>(
     UserProfileRepositoryImpl(
@@ -112,6 +115,12 @@ void setup() {
       db: FirebaseFirestore.instance,
       auth: FirebaseAuth.instance,
       ordersBox: Hive.box<Map>(HiveBoxes.orders),
+    ),
+  );
+  getIt.registerSingleton<UserRepository>(
+    UserRepositoryImpl(
+      firestore: FirebaseFirestore.instance,
+      userBox: Hive.box<Map>(HiveBoxes.user),
     ),
   );
   getIt.registerSingleton<SettingsRepository>(

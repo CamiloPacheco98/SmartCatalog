@@ -1,19 +1,26 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:smart_catalog/core/domain/entities/user_entity.dart';
 import 'package:smart_catalog/core/session/cart_session.dart';
 import 'package:smart_catalog/core/session/orders_session.dart';
 import 'package:smart_catalog/features/auth/domain/auth_repository.dart';
 import 'package:smart_catalog/features/cart/presentation/models/cart_product_view_model.dart';
+import 'package:smart_catalog/core/domain/repositories/user_repository.dart';
+import 'package:smart_catalog/core/session/user_session.dart';
 
 part 'login_state.dart';
 
 class LoginCubit extends Cubit<LoginState> {
   final AuthRepository _authRepository;
+  final UserRepository _userRepository;
 
-  LoginCubit({required AuthRepository authRepository})
-    : _authRepository = authRepository,
-      super(LoginInitial());
+  LoginCubit({
+    required AuthRepository authRepository,
+    required UserRepository userRepository,
+  }) : _authRepository = authRepository,
+       _userRepository = userRepository,
+       super(LoginInitial());
 
   void login({required String email, required String password}) {
     emit(LoginLoading());
@@ -22,6 +29,7 @@ class LoginCubit extends Cubit<LoginState> {
         .then((value) async {
           await _initCartProducts();
           await _initOrders();
+          await _initUser();
           final catalogImages = await _initCatalogImages();
           emit(LoginSuccess(catalogImages: catalogImages));
         })
@@ -62,5 +70,19 @@ class LoginCubit extends Cubit<LoginState> {
       debugPrint('initCatalogImages Error: ${error.toString()}');
       return [];
     }
+  }
+
+  Future<void> _initUser() async {
+    final user = await getUser();
+    await saveLocalUser(user);
+    UserSession.instance.initializeUser(user);
+  }
+
+  Future<UserEntity> getUser() async {
+    return _userRepository.getUser(UserSession.instance.userId);
+  }
+
+  Future<void> saveLocalUser(UserEntity user) async {
+    return _userRepository.saveLocalUser(user);
   }
 }

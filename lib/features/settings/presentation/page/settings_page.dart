@@ -16,7 +16,7 @@ class SettingsPage extends StatelessWidget {
       child: BlocListener<SettingsCubit, SettingsState>(
         listener: (context, state) {
           if (state is SettingsNavigate) {
-            context.goNamed(state.route);
+            context.pushNamed(state.route, extra: state.extra);
           }
         },
         child: BlocBuilder<SettingsCubit, SettingsState>(

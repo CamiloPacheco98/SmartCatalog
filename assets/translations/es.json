@@ -86,6 +86,7 @@
   },
   "profile": {
     "create_profile": "Crear Perfil",
+    "profile": "Perfil",
     "create_profile_subtitle": "Por favor, ingrese su información personal",
     "create_profile_confirmation": "¿Estás seguro de que quieres crear tu perfil?",
     "create_profile_confirmation_subtitle": "El perfil se enviará a su directora para validación. Esta acción no se puede deshacer",

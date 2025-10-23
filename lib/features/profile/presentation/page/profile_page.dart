@@ -9,11 +9,22 @@ import 'package:smart_catalog/main.dart';
 import 'package:smart_catalog/features/auth/domain/auth_repository.dart';
 import 'package:go_router/go_router.dart';
 import 'package:smart_catalog/app/routes/app_path.dart';
+import 'package:smart_catalog/features/profile/presentation/models/user_viewmodel.dart';
+import 'package:smart_catalog/core/domain/repositories/user_repository.dart';
 
 class ProfilePage extends StatelessWidget {
   final String email;
   final String adminUid;
-  const ProfilePage({super.key, required this.email, required this.adminUid});
+  final bool fromSettings;
+  final UserViewModel? user;
+
+  const ProfilePage({
+    super.key,
+    this.email = '',
+    this.adminUid = '',
+    this.user,
+    required this.fromSettings,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -24,6 +35,7 @@ class ProfilePage extends StatelessWidget {
         adminUid: adminUid,
         userProfileRepository: getIt<UserProfileRepository>(),
         authRepository: getIt<AuthRepository>(),
+        userRepository: getIt<UserRepository>(),
       ),
       child: BlocListener<ProfileCubit, ProfileState>(
         listener: (context, state) {
@@ -40,7 +52,11 @@ class ProfilePage extends StatelessWidget {
           builder: (context, state) {
             return Stack(
               children: [
-                ProfileView(email: email),
+                ProfileView(
+                  email: email,
+                  fromSettings: fromSettings,
+                  user: user,
+                ),
                 if (state is ProfileLoading) const CustomLoading(),
               ],
             );

@@ -5,8 +5,6 @@ import 'package:smart_catalog/extensions/context_extensions.dart';
 import 'package:smart_catalog/features/settings/presentation/cubit/settings_cubit.dart';
 import 'package:smart_catalog/features/settings/presentation/widgets/logout_dialog.dart';
 import 'package:smart_catalog/features/settings/presentation/widgets/settings_option.dart';
-import 'package:go_router/go_router.dart';
-import 'package:smart_catalog/app/routes/app_path.dart';
 
 class SettingsView extends StatelessWidget {
   const SettingsView({super.key});
@@ -21,7 +19,7 @@ class SettingsView extends StatelessWidget {
           SettingsOption(
             icon: Icons.person,
             title: 'settings.profile'.tr(),
-            onTap: () => context.pushNamed(AppPaths.profile),
+            onTap: () => context.read<SettingsCubit>().goToProfile(),
           ),
           Spacer(),
           Padding(
