@@ -24,7 +24,7 @@ import 'package:smart_catalog/features/settings/data/repositories/settings_repos
 import 'package:smart_catalog/features/settings/domain/repositories/settings_repository.dart';
 import 'package:smart_catalog/features/profile/domain/repositories/user_profile_repository.dart';
 import 'package:smart_catalog/features/profile/data/repositories/user_profile_repository_impl.dart';
-import 'package:smart_catalog/features/profile/data/source/firebase_storage_datasource.dart';
+import 'package:smart_catalog/core/data/source/firebase_storage_datasource.dart';
 import 'package:smart_catalog/core/data/repositories/user_repository_impl.dart';
 import 'package:smart_catalog/core/domain/repositories/user_repository.dart';
 
@@ -67,24 +67,19 @@ final getIt = GetIt.instance;
 
 Future<void> initHive() async {
   final directory = await getApplicationDocumentsDirectory();
-  final storageDatasource = FirebaseStorageDatasource(
-    storage: FirebaseStorage.instance,
-  );
+
   Hive.init(directory.path);
   await Hive.openBox<Map>(HiveBoxes.cart);
   await Hive.openBox<bool>(HiveBoxes.appSettings);
   await Hive.openBox<Map>(HiveBoxes.orders);
   await Hive.openBox<Map>(HiveBoxes.user);
-
-  getIt.registerSingleton<UserProfileRepository>(
-    UserProfileRepositoryImpl(
-      firebaseStorageDatasource: storageDatasource,
-      firestore: FirebaseFirestore.instance,
-    ),
-  );
 }
 
 void setup() {
+  final storageDatasource = FirebaseStorageDatasource(
+    storage: FirebaseStorage.instance,
+  );
+
   getIt.registerSingleton<AuthRepository>(
     AuthRepositoryImpl(
       cartBox: Hive.box<Map>(HiveBoxes.cart),
@@ -121,6 +116,7 @@ void setup() {
     UserRepositoryImpl(
       firestore: FirebaseFirestore.instance,
       userBox: Hive.box<Map>(HiveBoxes.user),
+      firebaseStorageDatasource: storageDatasource,
     ),
   );
   getIt.registerSingleton<SettingsRepository>(
@@ -129,6 +125,13 @@ void setup() {
       cartBox: Hive.box<Map>(HiveBoxes.cart),
       ordersBox: Hive.box<Map>(HiveBoxes.orders),
       userBox: Hive.box<Map>(HiveBoxes.user),
+    ),
+  );
+
+  getIt.registerSingleton<UserProfileRepository>(
+    UserProfileRepositoryImpl(
+      firebaseStorageDatasource: storageDatasource,
+      firestore: FirebaseFirestore.instance,
     ),
   );
 }

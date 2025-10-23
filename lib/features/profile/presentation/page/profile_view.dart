@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:smart_catalog/core/utils/image_picker_util.dart';
 import 'package:smart_catalog/core/utils/informative_modal_util.dart';
 import 'package:smart_catalog/extensions/context_extensions.dart';
@@ -105,14 +106,22 @@ class _ProfileViewState extends State<ProfileView> {
                         ),
                         color: context.colorScheme.surfaceContainerHighest,
                       ),
-                      child: selectedImagePath != null
+                      child:
+                          selectedImagePath != null ||
+                              (widget.user?.imagePath.isNotEmpty ?? false)
                           ? ClipOval(
-                              child: Image.file(
-                                File(selectedImagePath!),
-                                fit: BoxFit.cover,
-                                width: 120,
-                                height: 120,
-                              ),
+                              child: widget.fromSettings
+                                  ? CachedNetworkImage(
+                                      imageUrl: widget.user!.imagePath,
+                                      placeholder: (context, url) =>
+                                          const CircularProgressIndicator(),
+                                    )
+                                  : Image.file(
+                                      File(selectedImagePath!),
+                                      fit: BoxFit.cover,
+                                      width: 120,
+                                      height: 120,
+                                    ),
                             )
                           : Icon(
                               Icons.person_add,

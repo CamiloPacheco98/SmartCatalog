@@ -1,4 +1,4 @@
-import 'package:smart_catalog/features/profile/data/source/firebase_storage_datasource.dart';
+import 'package:smart_catalog/core/data/source/firebase_storage_datasource.dart';
 import 'package:smart_catalog/features/profile/domain/repositories/user_profile_repository.dart';
 import 'package:smart_catalog/core/session/user_session.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';

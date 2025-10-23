@@ -11,4 +11,8 @@ class FirebaseStorageDatasource {
     final file = File(filePath);
     await _storage.ref(path).putFile(file);
   }
+
+  Future<String> getFileUrl(String path) async {
+    return await _storage.ref(path).getDownloadURL();
+  }
 }
