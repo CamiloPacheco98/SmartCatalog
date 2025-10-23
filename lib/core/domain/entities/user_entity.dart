@@ -6,6 +6,7 @@ class UserEntity {
   final String imagePath;
   final String email;
   final String adminUid;
+  final bool verified;
   final DateTime createdAt;
   final DateTime updatedAt;
   UserEntity({
@@ -16,6 +17,7 @@ class UserEntity {
     required this.imagePath,
     required this.email,
     required this.adminUid,
+    required this.verified,
     required this.createdAt,
     required this.updatedAt,
   });

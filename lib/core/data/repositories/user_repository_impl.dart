@@ -56,6 +56,7 @@ class UserRepositoryImpl implements UserRepository {
       imagePath: '',
       email: '',
       adminUid: '',
+      verified: false,
       createdAt: DateTime.now(),
       updatedAt: DateTime.now(),
     );

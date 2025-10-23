@@ -132,7 +132,35 @@ class _ProfileViewState extends State<ProfileView> {
                   ),
                 ),
                 const SizedBox(height: 16),
-                if (!widget.fromSettings)
+                //status section
+                if (widget.fromSettings)
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Container(
+                        width: 8,
+                        height: 8,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: (widget.user?.verified ?? false)
+                              ? context.colorScheme.tertiary
+                              : context.colorScheme.onTertiary,
+                        ),
+                      ),
+                      const SizedBox(width: 8),
+                      Text(
+                        widget.user?.verified ?? false
+                            ? 'profile.verified'.tr()
+                            : 'profile.unverified'.tr(),
+                        style: context.textTheme.bodySmall?.copyWith(
+                          color: (widget.user?.verified ?? false)
+                              ? context.colorScheme.tertiary
+                              : context.colorScheme.onTertiary,
+                        ),
+                      ),
+                    ],
+                  )
+                else
                   Center(
                     child: Text(
                       'profile.profile_image_subtitle'.tr(),

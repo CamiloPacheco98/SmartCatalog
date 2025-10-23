@@ -8,6 +8,7 @@ class UserViewModel {
   final String imagePath;
   final String email;
   final String adminUid;
+  final bool verified;
   final DateTime createdAt;
   final DateTime updatedAt;
 
@@ -19,11 +20,13 @@ class UserViewModel {
     required this.imagePath,
     required this.email,
     required this.adminUid,
+    required this.verified,
     required this.createdAt,
     required this.updatedAt,
   });
   factory UserViewModel.fromEntity(UserEntity entity) => UserViewModel(
     id: entity.id,
+    verified: entity.verified,
     name: entity.name,
     lastName: entity.lastName,
     document: entity.document,

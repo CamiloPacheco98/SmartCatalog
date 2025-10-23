@@ -7,6 +7,7 @@ part 'user_model.g.dart';
 @JsonSerializable()
 class UserModel {
   final String id;
+  final bool verified;
   final String name;
   final String lastName;
   final String document;
@@ -20,6 +21,7 @@ class UserModel {
 
   UserModel({
     required this.id,
+    required this.verified,
     required this.name,
     required this.lastName,
     required this.document,
@@ -37,6 +39,7 @@ class UserModel {
 
   factory UserModel.fromEntity(UserEntity entity) => UserModel(
     id: entity.id,
+    verified: entity.verified,
     name: entity.name,
     lastName: entity.lastName,
     document: entity.document,
@@ -49,6 +52,7 @@ class UserModel {
 
   UserEntity toEntity() => UserEntity(
     id: id,
+    verified: verified,
     name: name,
     lastName: lastName,
     document: document,

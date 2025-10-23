@@ -111,7 +111,9 @@
     "create": "Create",
     "first_name_required": "First name is required",
     "last_name_required": "Last name is required",
-    "document_required": "Document is required"
+    "document_required": "Document is required",
+    "verified": "Verified",
+    "unverified": "Unverified"
   },
   "forgot_password": {
     "title": "Forgot Password",
