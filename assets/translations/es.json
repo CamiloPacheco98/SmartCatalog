@@ -32,12 +32,13 @@
     "delete_product_error": "¡Ups! No pudimos eliminar el producto. Intenta nuevamente más tarde.",
     "increase_quantity_error": "¡Ups! No pudimos aumentar la cantidad. Intenta nuevamente más tarde.",
     "decrease_quantity_error": "¡Ups! No pudimos disminuir la cantidad. Intenta nuevamente más tarde.",
-    "failed_to_process_authentication_link": "No pudimos procesar el enlace de autenticación",
+    "failed_to_process_link": "No pudimos abrir el enlace. Por favor, intenta nuevamente más tarde.",
     "email_not_found": "No encontramos el correo electrónico. Por favor, intenta iniciar sesión nuevamente.",
     "failed_to_sign_in_with_email_link": "No pudimos iniciar sesión con el enlace de correo electrónico",
     "error_initializing_user_session": "Error al inicializar la sesión del usuario",
     "create_profile_error": "No pudimos crear el perfil",
-    "reset_password_error": "No pudimos restablecer la contraseña"
+    "reset_password_error": "No pudimos restablecer la contraseña",
+    "failed_to_process_reset_password_link": "No pudimos abrir el enlace de restablecimiento de contraseña. Por favor, intenta nuevamente más tarde."
   },
   "success": {
     "products_added_to_cart": "Productos agregados al carrito",

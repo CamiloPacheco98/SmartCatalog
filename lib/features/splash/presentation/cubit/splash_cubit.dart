@@ -27,10 +27,8 @@ class SplashCubit extends Cubit<SplashState> {
   Future<void> startSplashTimer() async {
     final deepLinkHandler = DeepLinkHandler();
     await deepLinkHandler.initialize();
-    if (deepLinkHandler.signInWithEmailLink) {
-      debugPrint(
-        '#deeplink - already sign in with email link, navigation handled by deep link handler',
-      );
+    if (deepLinkHandler.navigationHandled) {
+      debugPrint('Navigation handled by deep link handler');
       return;
     }
 

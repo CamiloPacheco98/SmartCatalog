@@ -16,10 +16,10 @@ class DeepLinkHandler {
   StreamSubscription<Uri>? _linkSubscription;
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final NavigationService _navigationService = NavigationService();
-  bool _signInWithEmailLink = false;
+  bool _navigationHandled = false;
   bool _handledInitialLink = false;
 
-  bool get signInWithEmailLink => _signInWithEmailLink;
+  bool get navigationHandled => _navigationHandled;
 
   /// Initialize the deep link handler
   Future<void> initialize() async {
@@ -74,14 +74,16 @@ class DeepLinkHandler {
       // Check if this is a sign-in with email link
       if (_auth.isSignInWithEmailLink(uri.toString())) {
         await _processEmailLinkSignIn(uri);
+      } else if (_isResetPasswordLink(uri)) {
+        await _handleResetPasswordLink(uri);
       } else {
         _navigationService.showErrorSnackBar(
-          'errors.failed_to_process_authentication_link'.tr(),
+          'errors.failed_to_process_link'.tr(),
         );
       }
     } catch (e) {
       _navigationService.showErrorSnackBar(
-        'errors.failed_to_process_authentication_link'.tr(),
+        'errors.failed_to_process_link'.tr(),
       );
     }
   }
@@ -118,13 +120,28 @@ class DeepLinkHandler {
     }
   }
 
-  Map<String, String?> parseAuthLink(Uri uri) {
-    // 1️⃣ Get the "link" parameter (contains another nested URL)
-    final innerLink = uri.queryParameters['link'];
-    if (innerLink == null) return {};
+  Future<void> _handleResetPasswordLink(Uri uri) async {
+    try {
+      final innerUri = _getInnerUri(uri);
+      if (innerUri == null) return;
+      final oobCode = innerUri.queryParameters['oobCode'];
+      if (oobCode == null) return;
+      _navigationHandled = true;
+      _navigationService.goNamed(
+        AppPaths.resetPassword,
+        extra: {NavigationExtraKeys.code: oobCode},
+      );
+    } catch (e) {
+      debugPrint('Error handling reset password link: $e');
+      _navigationService.showErrorSnackBar(
+        'errors.failed_to_process_reset_password_link'.tr(),
+      );
+    }
+  }
 
-    // 2️⃣ Parse the inner Firebase Auth action URL
-    final innerUri = Uri.parse(innerLink);
+  Map<String, String?> parseAuthLink(Uri uri) {
+    final innerUri = _getInnerUri(uri);
+    if (innerUri == null) return {};
 
     // 3️⃣ Get the "continueUrl" parameter (still encoded)
     final continueUrl = innerUri.queryParameters['continueUrl'];
@@ -141,12 +158,27 @@ class DeepLinkHandler {
     return {'adminUid': adminUid, 'email': email};
   }
 
+  bool _isResetPasswordLink(Uri uri) {
+    final innerUri = _getInnerUri(uri);
+    if (innerUri == null) return false;
+    return innerUri.queryParameters['mode'] == 'resetPassword';
+  }
+
+  Uri? _getInnerUri(Uri uri) {
+    // 1️⃣ Get the "link" parameter (contains another nested URL)
+    final innerLink = uri.queryParameters['link'];
+    if (innerLink == null) return null;
+
+    // 2️⃣ Parse the inner Firebase Auth action URL
+    return Uri.parse(innerLink);
+  }
+
   /// Navigate to the profile screen
   Future<void> _navigateToProfile({
     required String email,
     required String adminUid,
   }) async {
-    _signInWithEmailLink = true;
+    _navigationHandled = true;
     _navigationService.goNamed(
       AppPaths.createProfile,
       extra: {

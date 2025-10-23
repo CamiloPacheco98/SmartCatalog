@@ -32,12 +32,13 @@
     "delete_product_error": "Oops! We couldn’t delete product. Try again later.",
     "increase_quantity_error": "Oops! We couldn’t increase quantity. Try again later.",
     "decrease_quantity_error": "Oops! We couldn’t decrease quantity. Try again later.",
-    "failed_to_process_authentication_link": "Failed to process authentication link",
+    "failed_to_process_link": "We were unable to open the link. Please try again later.",
     "email_not_found": "Email not found. Please try signing in again.",
     "failed_to_sign_in_with_email_link": "Failed to sign in with email link",
     "error_initializing_user_session": "Error initializing user session",
     "create_profile_error": "Failed to create profile",
-    "reset_password_error": "Failed to reset password"
+    "reset_password_error": "Failed to reset password",
+    "failed_to_process_reset_password_link": "We were unable to open the reset password link. Please try again later."
   },
   "success": {
     "products_added_to_cart": "Products added to cart",
