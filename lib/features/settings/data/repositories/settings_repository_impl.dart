@@ -7,13 +7,16 @@ class SettingsRepositoryImpl implements SettingsRepository {
     required FirebaseAuth auth,
     required Box<Map> cartBox,
     required Box<Map> ordersBox,
+    required Box<Map> userBox,
   }) : _auth = auth,
        _cartBox = cartBox,
-       _ordersBox = ordersBox;
+       _ordersBox = ordersBox,
+       _userBox = userBox;
 
   final FirebaseAuth _auth;
   final Box<Map> _cartBox;
   final Box<Map> _ordersBox;
+  final Box<Map> _userBox;
 
   @override
   Future<void> logout() async {
@@ -24,5 +27,6 @@ class SettingsRepositoryImpl implements SettingsRepository {
   Future<void> _clearCache() async {
     await _cartBox.clear();
     await _ordersBox.clear();
+    await _userBox.clear();
   }
 }
