@@ -12,6 +12,8 @@ import 'package:smart_catalog/core/domain/entities/order_entity.dart';
 import 'package:smart_catalog/core/utils/navigation_service.dart';
 import 'package:smart_catalog/features/profile/presentation/models/user_viewmodel.dart';
 
+import '../../features/reset_password/presentation/page/view.dart';
+
 final appRouter = GoRouter(
   navigatorKey: NavigationService().navigatorKey,
   initialLocation: AppPaths.splash,
@@ -82,6 +84,19 @@ final appRouter = GoRouter(
           return ProfilePage(fromSettings: true, user: userViewModel);
         } catch (e) {
           return const ProfilePage(fromSettings: true);
+        }
+      },
+    ),
+    GoRoute(
+      name: AppPaths.resetPassword,
+      path: AppPaths.resetPassword,
+      builder: (context, state) {
+        try {
+          final arguments = state.extra as Map<String, dynamic>;
+          final code = arguments[NavigationExtraKeys.code] as String;
+          return ResetPasswordPage(code: code);
+        } catch (e) {
+          return const ResetPasswordPage(code: '');
         }
       },
     ),

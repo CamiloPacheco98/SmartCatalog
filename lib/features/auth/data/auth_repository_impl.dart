@@ -113,4 +113,9 @@ class AuthRepositoryImpl implements AuthRepository {
       ),
     );
   }
+
+  @override
+  Future<void> resetPassword(String code, String newPassword) async {
+    await _auth.confirmPasswordReset(code: code, newPassword: newPassword);
+  }
 }

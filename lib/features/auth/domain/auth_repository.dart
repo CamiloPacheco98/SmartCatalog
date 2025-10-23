@@ -10,4 +10,5 @@ abstract class AuthRepository {
   Future<List<OrderEntity>> getOrders();
   Future<List<String>> getCatalogImages();
   Future<void> forgotPassword(String email);
+  Future<void> resetPassword(String code, String newPassword);
 }

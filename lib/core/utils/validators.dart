@@ -3,8 +3,9 @@ import 'package:easy_localization/easy_localization.dart';
 class Validators {
   Validators._();
 
-  static final RegExp _emailRegExp =
-      RegExp(r'^[\w\.\-]+@([\w\-]+\.)+[a-zA-Z]{2,}$');
+  static final RegExp _emailRegExp = RegExp(
+    r'^[\w\.\-]+@([\w\-]+\.)+[a-zA-Z]{2,}$',
+  );
 
   static String? requiredField(String? value, {String fieldName = 'Field'}) {
     if (value == null || value.trim().isEmpty) {
@@ -14,7 +15,7 @@ class Validators {
   }
 
   static String? email(String? value) {
-    final requiredError = requiredField(value, fieldName: 'email'.tr());
+    final requiredError = requiredField(value, fieldName: 'form.email'.tr());
     if (requiredError != null) return requiredError;
     final trimmed = value!.trim();
     if (!_emailRegExp.hasMatch(trimmed)) {
@@ -24,13 +25,23 @@ class Validators {
   }
 
   static String? password(String? value, {int minLength = 6}) {
-    final requiredError = requiredField(value, fieldName: 'password'.tr());
+    final requiredError = requiredField(value, fieldName: 'form.password'.tr());
     if (requiredError != null) return requiredError;
     if (value!.length < minLength) {
       return 'validation.password_min'.tr(args: [minLength.toString()]);
     }
     return null;
   }
+
+  static String? confirmPassword(String? value, String? confirmValue) {
+    final requiredError = requiredField(
+      value,
+      fieldName: 'form.confirm_password'.tr(),
+    );
+    if (requiredError != null) return requiredError;
+    if (value != confirmValue) {
+      return 'validation.confirm_password_matches'.tr();
+    }
+    return null;
+  }
 }
-
-

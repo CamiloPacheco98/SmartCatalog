@@ -6,4 +6,5 @@ class AppPaths {
   static const orderDetail = '/order-detail';
   static const profile = '/profile';
   static const createProfile = '/create-profile';
+  static const resetPassword = '/reset-password';
 }

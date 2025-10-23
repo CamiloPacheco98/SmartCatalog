@@ -16,7 +16,13 @@
   "validation": {
     "required": "{} es obligatorio",
     "email_invalid": "Ingresa un correo electrónico válido",
-    "password_min": "La contraseña debe tener al menos {} caracteres"
+    "password_min": "La contraseña debe tener al menos {} caracteres",
+    "confirm_password_matches": "Las contraseñas no coinciden"
+  },
+  "form": {
+    "email": "Correo electrónico",
+    "password": "Contraseña",
+    "confirm_password": "Confirmar contraseña"
   },
   "errors": {
     "login_error": "¡Ups! No encontramos coincidencias.",
@@ -30,7 +36,8 @@
     "email_not_found": "No encontramos el correo electrónico. Por favor, intenta iniciar sesión nuevamente.",
     "failed_to_sign_in_with_email_link": "No pudimos iniciar sesión con el enlace de correo electrónico",
     "error_initializing_user_session": "Error al inicializar la sesión del usuario",
-    "create_profile_error": "No pudimos crear el perfil"
+    "create_profile_error": "No pudimos crear el perfil",
+    "reset_password_error": "No pudimos restablecer la contraseña"
   },
   "success": {
     "products_added_to_cart": "Productos agregados al carrito",
@@ -108,6 +115,13 @@
     "title": "Olvidé mi contraseña",
     "subtitle": "Por favor, ingrese su correo electrónico para restablecer su contraseña",
     "email": "Correo electrónico",
+    "reset_password": "Restablecer contraseña"
+  },
+  "reset_password": {
+    "title": "Restablecer contraseña",
+    "subtitle": "Por favor, ingrese su nueva contraseña",
+    "password": "Nueva contraseña",
+    "confirm_password": "Confirmar nueva contraseña",
     "reset_password": "Restablecer contraseña"
   }
 }

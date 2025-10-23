@@ -15,10 +15,14 @@
   },
   "validation": {
     "required": "{} is required",
-    "email_required": "Email is required",
     "email_invalid": "Enter a valid email",
-    "password_required": "Password is required",
-    "password_min": "Password must be at least {} characters"
+    "password_min": "Password must be at least {} characters",
+    "confirm_password_matches": "Passwords do not match"
+  },
+  "form": {
+    "email": "Email",
+    "password": "Password",
+    "confirm_password": "Confirm Password"
   },
   "errors": {
     "login_error": "Oops! We couldn’t find that account.",
@@ -32,7 +36,8 @@
     "email_not_found": "Email not found. Please try signing in again.",
     "failed_to_sign_in_with_email_link": "Failed to sign in with email link",
     "error_initializing_user_session": "Error initializing user session",
-    "create_profile_error": "Failed to create profile"
+    "create_profile_error": "Failed to create profile",
+    "reset_password_error": "Failed to reset password"
   },
   "success": {
     "products_added_to_cart": "Products added to cart",
@@ -110,6 +115,13 @@
     "title": "Forgot Password",
     "subtitle": "Please enter your email to reset your password",
     "email": "Email",
+    "reset_password": "Reset Password"
+  },
+  "reset_password": {
+    "title": "Reset Password",
+    "subtitle": "Please enter your new password",
+    "password": "New Password",
+    "confirm_password": "Confirm New Password",
     "reset_password": "Reset Password"
   }
 }
