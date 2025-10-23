@@ -10,7 +10,8 @@
     "description": "Please enter your email and password to login",
     "email": "Email",
     "password": "Password",
-    "submit": "Login"
+    "submit": "Login",
+    "forgot_password": "Forgot Password"
   },
   "validation": {
     "required": "{} is required",
@@ -35,7 +36,8 @@
   },
   "success": {
     "products_added_to_cart": "Products added to cart",
-    "order_made_successfully": "Order made successfully"
+    "order_made_successfully": "Order made successfully",
+    "forgot_password": "An email has been sent to reset your password"
   },
   "catalog": {
     "select_products": "Select products code ",
@@ -103,5 +105,11 @@
     "first_name_required": "First name is required",
     "last_name_required": "Last name is required",
     "document_required": "Document is required"
+  },
+  "forgot_password": {
+    "title": "Forgot Password",
+    "subtitle": "Please enter your email to reset your password",
+    "email": "Email",
+    "reset_password": "Reset Password"
   }
 }

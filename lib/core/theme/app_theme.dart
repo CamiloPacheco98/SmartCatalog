@@ -43,6 +43,7 @@ class AppTheme {
         ),
         bodyLarge: TextStyle(color: textColor, fontSize: 16),
         bodyMedium: TextStyle(color: textColor, fontSize: 14),
+        bodySmall: TextStyle(color: primaryColor, fontSize: 14),
         labelLarge: TextStyle(
           color: Colors.white,
           fontWeight: FontWeight.bold,

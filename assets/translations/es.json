@@ -10,7 +10,8 @@
     "description": "Por favor, ingrese su correo electrónico y contraseña para iniciar sesión",
     "email": "Correo electrónico",
     "password": "Contraseña",
-    "submit": "Iniciar sesión"
+    "submit": "Iniciar sesión",
+    "forgot_password": "Olvidé mi contraseña"
   },
   "validation": {
     "required": "{} es obligatorio",
@@ -33,7 +34,8 @@
   },
   "success": {
     "products_added_to_cart": "Productos agregados al carrito",
-    "order_made_successfully": "Pedido realizado correctamente"
+    "order_made_successfully": "Pedido realizado correctamente",
+    "forgot_password": "Se ha enviado un correo para restablecer tu contraseña"
   },
   "catalog": {
     "select_products": "Selecciona los códigos de producto",
@@ -101,5 +103,11 @@
     "first_name_required": "El nombre es obligatorio",
     "last_name_required": "El apellido es obligatorio",
     "document_required": "El documento es obligatorio"
+  },
+  "forgot_password": {
+    "title": "Olvidé mi contraseña",
+    "subtitle": "Por favor, ingrese su correo electrónico para restablecer su contraseña",
+    "email": "Correo electrónico",
+    "reset_password": "Restablecer contraseña"
   }
 }

@@ -39,6 +39,13 @@ class LoginCubit extends Cubit<LoginState> {
         });
   }
 
+  void forgotPassword(String email) {
+    emit(LoginLoading());
+    _authRepository.forgotPassword(email).then((value) {
+      emit(LoginShowSuccessMessage(message: 'success.forgot_password'.tr()));
+    });
+  }
+
   Future<void> _initCartProducts() async {
     try {
       final products = await _authRepository.getCartProducts();

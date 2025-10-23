@@ -22,3 +22,8 @@ final class LoginError extends LoginState {
 final class LoginLoading extends LoginState {
   const LoginLoading();
 }
+
+final class LoginShowSuccessMessage extends LoginState {
+  final String message;
+  const LoginShowSuccessMessage({required this.message});
+}

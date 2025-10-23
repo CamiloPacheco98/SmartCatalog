@@ -9,4 +9,5 @@ abstract class AuthRepository {
   Future<void> saveLocalOrders(Map<String, OrderEntity> orders);
   Future<List<OrderEntity>> getOrders();
   Future<List<String>> getCatalogImages();
+  Future<void> forgotPassword(String email);
 }

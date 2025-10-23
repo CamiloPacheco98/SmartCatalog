@@ -99,4 +99,18 @@ class AuthRepositoryImpl implements AuthRepository {
       throw Exception('Error al obtener imágenes del catálogo: $e');
     }
   }
+
+  @override
+  Future<void> forgotPassword(String email) async {
+    await _auth.sendPasswordResetEmail(
+      email: email,
+      actionCodeSettings: ActionCodeSettings(
+        url: 'https://smartcatalog-32439.web.app/reset-password',
+        handleCodeInApp: true,
+        iOSBundleId: 'com.pcreat.smartCatalog',
+        androidPackageName: 'com.pcreat.smart_catalog',
+        androidInstallApp: true,
+      ),
+    );
+  }
 }

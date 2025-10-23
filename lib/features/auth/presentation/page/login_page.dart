@@ -33,6 +33,11 @@ class LoginPage extends StatelessWidget {
               Overlay.of(context),
               CustomSnackBar.error(message: state.message),
             );
+          } else if (state is LoginShowSuccessMessage) {
+            showTopSnackBar(
+              Overlay.of(context),
+              CustomSnackBar.success(message: state.message),
+            );
           }
         },
         child: BlocBuilder<LoginCubit, LoginState>(

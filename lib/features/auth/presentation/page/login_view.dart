@@ -4,6 +4,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:smart_catalog/extensions/context_extensions.dart';
 import 'package:smart_catalog/core/utils/validators.dart';
 import 'package:smart_catalog/features/auth/presentation/login.dart';
+import 'package:go_router/go_router.dart';
+import 'package:smart_catalog/features/auth/presentation/widgets/forgot_password_modal.dart';
 
 class LoginView extends StatefulWidget {
   const LoginView({super.key});
@@ -40,9 +42,7 @@ class _LoginViewState extends State<LoginView> {
                   children: [
                     TextFormField(
                       controller: emailController,
-                      decoration: InputDecoration(
-                        hintText: 'login.email'.tr(),
-                      ),
+                      decoration: InputDecoration(hintText: 'login.email'.tr()),
                       validator: Validators.email,
                     ),
                     const SizedBox(height: 16),
@@ -53,6 +53,29 @@ class _LoginViewState extends State<LoginView> {
                       ),
                       obscureText: true,
                       validator: Validators.password,
+                    ),
+                    Align(
+                      alignment: Alignment.centerRight,
+                      child: TextButton(
+                        onPressed: () {
+                          ForgotPasswordModal.show(
+                            context: context,
+                            onAccept: (email) {
+                              context.read<LoginCubit>().forgotPassword(email);
+                              if (context.mounted) {
+                                context.pop();
+                              }
+                            },
+                          );
+                        },
+                        child: Text(
+                          'login.forgot_password'.tr(),
+                          style: context.textTheme.bodySmall?.copyWith(
+                            decoration: TextDecoration.underline,
+                            decorationColor: context.colorScheme.primary,
+                          ),
+                        ),
+                      ),
                     ),
                     Padding(
                       padding: const EdgeInsets.only(
