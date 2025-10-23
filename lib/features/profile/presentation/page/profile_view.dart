@@ -93,7 +93,7 @@ class _ProfileViewState extends State<ProfileView> {
                 // Profile Image Section
                 Center(
                   child: GestureDetector(
-                    onTap: _selectImage,
+                    onTap: widget.fromSettings ? null : _selectImage,
                     child: Container(
                       width: 120,
                       height: 120,

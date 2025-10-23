@@ -128,6 +128,7 @@ void setup() {
       auth: FirebaseAuth.instance,
       cartBox: Hive.box<Map>(HiveBoxes.cart),
       ordersBox: Hive.box<Map>(HiveBoxes.orders),
+      userBox: Hive.box<Map>(HiveBoxes.user),
     ),
   );
 }
