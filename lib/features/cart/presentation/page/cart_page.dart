@@ -25,13 +25,18 @@ class CartPage extends StatelessWidget {
               Overlay.of(context),
               CustomSnackBar.success(message: state.message),
             );
+          } else if (state is CartError) {
+            showTopSnackBar(
+              Overlay.of(context),
+              CustomSnackBar.error(message: state.message),
+            );
           }
         },
         child: BlocBuilder<CartCubit, CartState>(
           builder: (context, state) {
             return Stack(
               children: [
-                CartView(products: state is CartLoaded ? state.products : []),
+                CartView(products: state.products),
                 if (state is CartLoading) const CustomLoading(),
               ],
             );

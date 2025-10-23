@@ -38,7 +38,8 @@
     "error_initializing_user_session": "Error al inicializar la sesión del usuario",
     "create_profile_error": "No pudimos crear el perfil",
     "reset_password_error": "No pudimos restablecer la contraseña",
-    "failed_to_process_reset_password_link": "No pudimos abrir el enlace de restablecimiento de contraseña. Por favor, intenta nuevamente más tarde."
+    "failed_to_process_reset_password_link": "No pudimos abrir el enlace de restablecimiento de contraseña. Por favor, intenta nuevamente más tarde.",
+    "make_order_error_verified": "¡Ups! Tu perfil no está verificado. Contacta a tu directora."
   },
   "success": {
     "products_added_to_cart": "Productos agregados al carrito",

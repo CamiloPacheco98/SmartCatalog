@@ -1,26 +1,32 @@
 part of 'cart_cubit.dart';
 
 @immutable
-sealed class CartState {}
-
-final class CartInitial extends CartState {}
-
-final class CartLoading extends CartState {}
-
-final class CartLoaded extends CartState {
+sealed class CartState {
   final List<CartProductViewModel> products;
 
-  CartLoaded(this.products);
+  const CartState({required this.products});
+}
+
+final class CartInitial extends CartState {
+  const CartInitial({required super.products});
+}
+
+final class CartLoading extends CartState {
+  const CartLoading({required super.products});
+}
+
+final class CartLoaded extends CartState {
+  const CartLoaded({required super.products});
 }
 
 final class CartSuccess extends CartState {
   final String message;
 
-  CartSuccess(this.message);
+  const CartSuccess({required super.products, required this.message});
 }
 
 final class CartError extends CartState {
   final String message;
 
-  CartError(this.message);
+  const CartError({required super.products, required this.message});
 }

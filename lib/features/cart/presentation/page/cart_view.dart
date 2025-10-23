@@ -30,8 +30,7 @@ class CartView extends StatelessWidget {
   }
 
   Widget _buildEmptyCart(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(24),
+    return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [

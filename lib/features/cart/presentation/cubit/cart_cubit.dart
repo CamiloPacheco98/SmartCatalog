@@ -5,6 +5,7 @@ import 'package:smart_catalog/core/domain/entities/product_entity.dart';
 import 'package:smart_catalog/core/domain/entities/order_entity.dart';
 import 'package:smart_catalog/core/session/cart_session.dart';
 import 'package:smart_catalog/core/session/orders_session.dart';
+import 'package:smart_catalog/core/session/user_session.dart';
 import 'package:smart_catalog/features/cart/domain/repositories/cart_repository.dart';
 import 'package:smart_catalog/features/cart/presentation/models/cart_product_view_model.dart';
 
@@ -17,9 +18,9 @@ class CartCubit extends Cubit<CartState> {
     required CartRepository cartRepository,
     required List<CartProductViewModel> products,
   }) : _cartRepository = cartRepository,
-       super(CartInitial()) {
+       super(CartInitial(products: products)) {
     _products = products;
-    emit(CartLoaded(_products));
+    emit(CartLoaded(products: _products));
   }
 
   Future<void> increaseQuantity(String productId) async {
@@ -35,11 +36,16 @@ class CartCubit extends Cubit<CartState> {
         return product;
       }).toList();
       CartSession.instance.addProductList(_products);
-      emit(CartLoaded(_products));
+      emit(CartLoaded(products: _products));
       await _cartRepository.increaseQuantity(productId);
     } catch (e) {
       debugPrint('error increasing quantity: ${e.toString()}');
-      emit(CartError('errors.increase_quantity_error'.tr()));
+      emit(
+        CartError(
+          products: _products,
+          message: 'errors.increase_quantity_error'.tr(),
+        ),
+      );
     }
   }
 
@@ -56,11 +62,16 @@ class CartCubit extends Cubit<CartState> {
         return product;
       }).toList();
       CartSession.instance.addProductList(_products);
-      emit(CartLoaded(_products));
+      emit(CartLoaded(products: _products));
       await _cartRepository.decreaseQuantity(productId);
     } catch (e) {
       debugPrint('error decreasing quantity: ${e.toString()}');
-      emit(CartError('errors.decrease_quantity_error'.tr()));
+      emit(
+        CartError(
+          products: _products,
+          message: 'errors.decrease_quantity_error'.tr(),
+        ),
+      );
     }
   }
 
@@ -70,16 +81,21 @@ class CartCubit extends Cubit<CartState> {
       _products.remove(product);
       CartSession.instance.removeProduct(product);
       await _cartRepository.deleteProductLocalAt(index);
-      emit(CartLoaded(_products));
+      emit(CartLoaded(products: _products));
       await _cartRepository.deleteProduct(product.id);
     } catch (e) {
       debugPrint('error deleting product: ${e.toString()}');
-      emit(CartError('errors.delete_product_error'.tr()));
+      emit(
+        CartError(
+          products: _products,
+          message: 'errors.delete_product_error'.tr(),
+        ),
+      );
     }
   }
 
   Future<void> makeOrder() async {
-    emit(CartLoading());
+    emit(CartLoading(products: _products));
     final products = _products
         .map(
           (e) => ProductEntity(
@@ -110,19 +126,37 @@ class CartCubit extends Cubit<CartState> {
       await _cartRepository.makeOrder(order);
       await _cartRepository.saveOrderLocal(order);
       OrdersSession.instance.addOrder(order);
-      await _makeOrderSuccess();
+      await _clearCart();
+      emit(
+        CartSuccess(
+          products: _products,
+          message: 'success.order_made_successfully'.tr(),
+        ),
+      );
     } catch (e) {
       debugPrint('error making order: ${e.toString()}');
-      emit(CartError('errors.make_order_error'.tr()));
+      if (UserSession.instance.user.verified) {
+        emit(
+          CartError(
+            products: _products,
+            message: 'errors.make_order_error'.tr(),
+          ),
+        );
+      } else {
+        emit(
+          CartError(
+            products: _products,
+            message: 'errors.make_order_error_verified'.tr(),
+          ),
+        );
+      }
     }
   }
 
-  Future<void> _makeOrderSuccess() async {
+  Future<void> _clearCart() async {
     _products = [];
     CartSession.instance.clearCart();
     await _cartRepository.deleteAllProducts();
     await _cartRepository.deleteAllProductsLocal();
-    emit(CartSuccess('success.order_made_successfully'.tr()));
-    emit(CartLoaded(_products));
   }
 }
