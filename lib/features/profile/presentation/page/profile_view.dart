@@ -47,7 +47,7 @@ class _ProfileViewState extends State<ProfileView> {
     super.initState();
     nameController.text = widget.user?.name ?? '';
     lastNameController.text = widget.user?.lastName ?? '';
-    documentController.text = widget.user?.document ?? '';
+    documentController.text = widget.user?.documentNumber ?? '';
   }
 
   @override
@@ -262,7 +262,7 @@ class _ProfileViewState extends State<ProfileView> {
                               context.read<ProfileCubit>().createProfile(
                                 name: nameController.text.trim(),
                                 lastName: lastNameController.text.trim(),
-                                document: documentController.text.trim(),
+                                documentNumber: documentController.text.trim(),
                                 imagePath: selectedImagePath,
                               );
                             },

@@ -10,7 +10,7 @@ class UserModel {
   final bool verified;
   final String name;
   final String lastName;
-  final String document;
+  final String documentNumber;
   final String imagePath;
   final String email;
   final String adminUid;
@@ -24,7 +24,7 @@ class UserModel {
     required this.verified,
     required this.name,
     required this.lastName,
-    required this.document,
+    required this.documentNumber,
     required this.imagePath,
     required this.email,
     required this.adminUid,
@@ -42,7 +42,7 @@ class UserModel {
     verified: entity.verified,
     name: entity.name,
     lastName: entity.lastName,
-    document: entity.document,
+    documentNumber: entity.documentNumber,
     imagePath: entity.imagePath,
     email: entity.email,
     adminUid: entity.adminUid,
@@ -55,7 +55,7 @@ class UserModel {
     verified: verified,
     name: name,
     lastName: lastName,
-    document: document,
+    documentNumber: documentNumber,
     imagePath: imagePath,
     email: email,
     adminUid: adminUid,

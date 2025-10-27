@@ -30,7 +30,7 @@ class ProfileCubit extends Cubit<ProfileState> {
   Future<void> createProfile({
     required String name,
     required String lastName,
-    required String document,
+    required String documentNumber,
     String? imagePath,
   }) async {
     emit(ProfileLoading());
@@ -40,7 +40,7 @@ class ProfileCubit extends Cubit<ProfileState> {
         _adminUid,
         name,
         lastName,
-        document,
+        documentNumber,
         imagePath ?? '',
         _email,
       );

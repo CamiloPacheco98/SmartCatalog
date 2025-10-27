@@ -4,7 +4,7 @@ class UserViewModel {
   final String id;
   final String name;
   final String lastName;
-  final String document;
+  final String documentNumber;
   final String imagePath;
   final String email;
   final String adminUid;
@@ -16,7 +16,7 @@ class UserViewModel {
     required this.id,
     required this.name,
     required this.lastName,
-    required this.document,
+    required this.documentNumber,
     required this.imagePath,
     required this.email,
     required this.adminUid,
@@ -29,7 +29,7 @@ class UserViewModel {
     verified: entity.verified,
     name: entity.name,
     lastName: entity.lastName,
-    document: entity.document,
+    documentNumber: entity.documentNumber,
     imagePath: entity.imagePath,
     email: entity.email,
     adminUid: entity.adminUid,

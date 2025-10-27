@@ -17,7 +17,7 @@ class UserProfileRepositoryImpl implements UserProfileRepository {
     String adminUid,
     String name,
     String lastName,
-    String document,
+    String documentNumber,
     String imagePath,
     String email,
   ) async {
@@ -32,13 +32,14 @@ class UserProfileRepositoryImpl implements UserProfileRepository {
           'id': UserSession.instance.userId,
           'name': name,
           'lastName': lastName,
-          'document': document,
+          'documentNumber': documentNumber,
           'imagePath': path,
           'email': email,
           'adminUid': adminUid,
           'createdAt': DateTime.now(),
           'updatedAt': DateTime.now(),
           'verified': false,
+          'type': 'user',
         });
   }
 }

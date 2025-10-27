@@ -3,7 +3,7 @@ abstract class UserProfileRepository {
     String adminUid,
     String name,
     String lastName,
-    String document,
+    String documentNumber,
     String imagePath,
     String email,
   );

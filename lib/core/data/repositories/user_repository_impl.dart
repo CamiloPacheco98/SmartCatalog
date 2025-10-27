@@ -52,7 +52,7 @@ class UserRepositoryImpl implements UserRepository {
       id: userId,
       name: '',
       lastName: '',
-      document: '',
+      documentNumber: '',
       imagePath: '',
       email: '',
       adminUid: '',
