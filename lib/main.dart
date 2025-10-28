@@ -116,7 +116,6 @@ void setup() {
     UserRepositoryImpl(
       firestore: FirebaseFirestore.instance,
       userBox: Hive.box<Map>(HiveBoxes.user),
-      firebaseStorageDatasource: storageDatasource,
     ),
   );
   getIt.registerSingleton<SettingsRepository>(

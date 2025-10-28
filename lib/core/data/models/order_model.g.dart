@@ -14,6 +14,7 @@ OrderModel _$OrderModelFromJson(Map<String, dynamic> json) => OrderModel(
   createdAt: DateTime.parse(json['createdAt'] as String),
   status: $enumDecode(_$OrderStatusEnumMap, json['status']),
   total: (json['total'] as num).toInt(),
+  user: UserModel.fromJson(json['user'] as Map<String, dynamic>),
 );
 
 Map<String, dynamic> _$OrderModelToJson(OrderModel instance) =>
@@ -25,6 +26,7 @@ Map<String, dynamic> _$OrderModelToJson(OrderModel instance) =>
       'createdAt': instance.createdAt.toIso8601String(),
       'status': _$OrderStatusEnumMap[instance.status]!,
       'total': instance.total,
+      'user': instance.user.toJson(),
     };
 
 const _$OrderStatusEnumMap = {

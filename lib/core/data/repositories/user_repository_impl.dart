@@ -4,20 +4,16 @@ import 'package:smart_catalog/core/data/models/user_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:smart_catalog/core/constants/firestore_collections.dart';
 import 'package:hive/hive.dart';
-import 'package:smart_catalog/core/data/source/firebase_storage_datasource.dart';
 import 'package:smart_catalog/core/errors/failures.dart';
 import 'package:dartz/dartz.dart';
 
 class UserRepositoryImpl implements UserRepository {
   final FirebaseFirestore _firestore;
-  final FirebaseStorageDatasource _firebaseStorageDatasource;
   final Box<Map> _userBox;
   UserRepositoryImpl({
     required FirebaseFirestore firestore,
-    required FirebaseStorageDatasource firebaseStorageDatasource,
     required Box<Map> userBox,
   }) : _firestore = firestore,
-       _firebaseStorageDatasource = firebaseStorageDatasource,
        _userBox = userBox;
 
   @override
@@ -47,15 +43,6 @@ class UserRepositoryImpl implements UserRepository {
           .get();
       if (user.exists) {
         final userData = user.data() ?? {};
-        final imagePath = userData.containsKey('imagePath')
-            ? userData['imagePath'] as String
-            : '';
-        if (imagePath.isNotEmpty) {
-          final imageUrl = await _firebaseStorageDatasource.getFileUrl(
-            imagePath,
-          );
-          userData['imagePath'] = imageUrl;
-        }
         return Right(UserModel.fromJson(userData).toEntity());
       }
       return Left(UserNotFoundFailure());

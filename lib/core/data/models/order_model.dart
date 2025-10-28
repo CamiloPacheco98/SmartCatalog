@@ -1,6 +1,7 @@
 import 'package:json_annotation/json_annotation.dart';
 import 'package:smart_catalog/core/data/models/product_model.dart';
 import 'package:smart_catalog/core/domain/entities/order_entity.dart';
+import 'package:smart_catalog/core/data/models/user_model.dart';
 
 part 'order_model.g.dart';
 
@@ -14,6 +15,7 @@ class OrderModel {
   final DateTime createdAt;
   final OrderStatus status;
   final int total;
+  final UserModel user;
 
   OrderModel({
     required this.id,
@@ -23,6 +25,7 @@ class OrderModel {
     required this.createdAt,
     required this.status,
     required this.total,
+    required this.user,
   });
 
   factory OrderModel.fromEntity(OrderEntity entity) => OrderModel(
@@ -33,6 +36,7 @@ class OrderModel {
     createdAt: entity.createdAt,
     status: entity.status,
     total: entity.total,
+    user: UserModel.fromEntity(entity.user),
   );
 
   OrderEntity toEntity() => OrderEntity(
@@ -43,6 +47,7 @@ class OrderModel {
     createdAt: createdAt,
     status: status,
     total: total,
+    user: user.toEntity(),
   );
 
   factory OrderModel.fromJson(Map<String, dynamic> json) =>

@@ -25,6 +25,7 @@ class UserProfileRepositoryImpl implements UserProfileRepository {
     if (imagePath.isNotEmpty) {
       await _firebaseStorageDatasource.uploadFile(path, imagePath);
     }
+    final imageUrl = await _firebaseStorageDatasource.getFileUrl(path);
     await _firestore
         .collection(FirestoreCollections.users)
         .doc(UserSession.instance.userId)
@@ -33,7 +34,7 @@ class UserProfileRepositoryImpl implements UserProfileRepository {
           'name': name,
           'lastName': lastName,
           'documentNumber': documentNumber,
-          'imagePath': path,
+          'imagePath': imageUrl,
           'email': email,
           'adminUid': adminUid,
           'createdAt': DateTime.now(),
@@ -55,11 +56,12 @@ class UserProfileRepositoryImpl implements UserProfileRepository {
     if (imagePath.isNotEmpty) {
       await _firebaseStorageDatasource.uploadFile(path, imagePath);
     }
+    final imageUrl = await _firebaseStorageDatasource.getFileUrl(path);
     await _firestore.collection(FirestoreCollections.users).doc(userId).update({
       'name': name,
       'lastName': lastName,
       'documentNumber': documentNumber,
-      'imagePath': path,
+      'imagePath': imageUrl,
       'updatedAt': DateTime.now(),
     });
   }

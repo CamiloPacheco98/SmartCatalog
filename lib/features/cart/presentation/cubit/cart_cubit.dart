@@ -123,6 +123,7 @@ class CartCubit extends Cubit<CartState> {
         0,
         (sum, product) => sum + (product.price * int.parse(product.quantity)),
       ),
+      user: user,
     );
     try {
       await _cartRepository.makeOrder(order);
