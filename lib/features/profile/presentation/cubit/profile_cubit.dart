@@ -74,7 +74,11 @@ class ProfileCubit extends Cubit<ProfileState> {
   }
 
   Future<UserEntity> getUser() async {
-    return _userRepository.getUser(UserSession.instance.userId);
+    final result = await _userRepository.getUser(UserSession.instance.userId);
+    if (result.isLeft()) {
+      return UserEntity.empty();
+    }
+    return result.getOrElse(() => UserEntity.empty());
   }
 
   Future<void> saveLocalUser(UserEntity user) async {

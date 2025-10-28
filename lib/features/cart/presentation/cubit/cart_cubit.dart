@@ -111,10 +111,12 @@ class CartCubit extends Cubit<CartState> {
           ),
         )
         .toList();
-
+    final user = UserSession.instance.user;
     final order = OrderEntity(
       id: DateTime.now().millisecondsSinceEpoch.toString(),
       products: products,
+      adminId: user.adminUid,
+      userId: user.id,
       createdAt: DateTime.now(),
       status: OrderStatus.pending,
       total: products.fold<int>(
@@ -135,7 +137,7 @@ class CartCubit extends Cubit<CartState> {
       );
     } catch (e) {
       debugPrint('error making order: ${e.toString()}');
-      if (UserSession.instance.user.verified) {
+      if (user.verified) {
         emit(
           CartError(
             products: _products,

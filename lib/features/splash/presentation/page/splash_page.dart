@@ -5,6 +5,7 @@ import 'package:smart_catalog/features/splash/domain/repositories/splash_reposit
 import 'package:smart_catalog/features/splash/presentation/splash.dart';
 import 'package:smart_catalog/main.dart';
 import 'package:smart_catalog/core/domain/repositories/user_repository.dart';
+import 'package:smart_catalog/features/settings/domain/repositories/settings_repository.dart';
 
 class SplashPage extends StatelessWidget {
   const SplashPage({super.key});
@@ -15,6 +16,7 @@ class SplashPage extends StatelessWidget {
       create: (context) => SplashCubit(
         repository: getIt<SplashRepository>(),
         userRepository: getIt<UserRepository>(),
+        settingsRepository: getIt<SettingsRepository>(),
       )..startSplashTimer(),
       child: BlocListener<SplashCubit, SplashState>(
         listener: (context, state) {

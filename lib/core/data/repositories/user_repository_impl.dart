@@ -5,6 +5,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:smart_catalog/core/constants/firestore_collections.dart';
 import 'package:hive/hive.dart';
 import 'package:smart_catalog/core/data/source/firebase_storage_datasource.dart';
+import 'package:smart_catalog/core/errors/failures.dart';
+import 'package:dartz/dartz.dart';
 
 class UserRepositoryImpl implements UserRepository {
   final FirebaseFirestore _firestore;
@@ -19,10 +21,15 @@ class UserRepositoryImpl implements UserRepository {
        _userBox = userBox;
 
   @override
-  Future<UserEntity> getLocalUser() async {
-    return UserModel.fromJson(
-      Map<String, dynamic>.from(_userBox.values.first),
-    ).toEntity();
+  Future<Either<Failure, UserEntity>> getLocalUser() async {
+    try {
+      final user = UserModel.fromJson(
+        Map<String, dynamic>.from(_userBox.values.first),
+      ).toEntity();
+      return Right(user);
+    } catch (e) {
+      return Left(UserNotFoundFailure());
+    }
   }
 
   @override
@@ -32,33 +39,28 @@ class UserRepositoryImpl implements UserRepository {
   }
 
   @override
-  Future<UserEntity> getUser(String userId) async {
-    final user = await _firestore
-        .collection(FirestoreCollections.users)
-        .doc(userId)
-        .get();
-    if (user.exists) {
-      final userData = user.data() ?? {};
-      final imagePath = userData.containsKey('imagePath')
-          ? userData['imagePath'] as String
-          : '';
-      if (imagePath.isNotEmpty) {
-        final imageUrl = await _firebaseStorageDatasource.getFileUrl(imagePath);
-        userData['imagePath'] = imageUrl;
+  Future<Either<Failure, UserEntity>> getUser(String userId) async {
+    try {
+      final user = await _firestore
+          .collection(FirestoreCollections.users)
+          .doc(userId)
+          .get();
+      if (user.exists) {
+        final userData = user.data() ?? {};
+        final imagePath = userData.containsKey('imagePath')
+            ? userData['imagePath'] as String
+            : '';
+        if (imagePath.isNotEmpty) {
+          final imageUrl = await _firebaseStorageDatasource.getFileUrl(
+            imagePath,
+          );
+          userData['imagePath'] = imageUrl;
+        }
+        return Right(UserModel.fromJson(userData).toEntity());
       }
-      return UserModel.fromJson(userData).toEntity();
+      return Left(UserNotFoundFailure());
+    } catch (e) {
+      return Left(UserNotFoundFailure());
     }
-    return UserEntity(
-      id: userId,
-      name: '',
-      lastName: '',
-      documentNumber: '',
-      imagePath: '',
-      email: '',
-      adminUid: '',
-      verified: false,
-      createdAt: DateTime.now(),
-      updatedAt: DateTime.now(),
-    );
   }
 }

@@ -21,4 +21,17 @@ class UserEntity {
     required this.createdAt,
     required this.updatedAt,
   });
+
+  static UserEntity empty() => UserEntity(
+    id: '',
+    name: '',
+    lastName: '',
+    documentNumber: '',
+    imagePath: '',
+    email: '',
+    adminUid: '',
+    verified: false,
+    createdAt: DateTime.now(),
+    updatedAt: DateTime.now(),
+  );
 }

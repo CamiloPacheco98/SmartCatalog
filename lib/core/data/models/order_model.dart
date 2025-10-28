@@ -7,6 +7,8 @@ part 'order_model.g.dart';
 @JsonSerializable(explicitToJson: true)
 class OrderModel {
   final String id;
+  final String adminId;
+  final String userId;
   @JsonKey(fromJson: _productsFromJson)
   final List<ProductModel> products;
   final DateTime createdAt;
@@ -15,6 +17,8 @@ class OrderModel {
 
   OrderModel({
     required this.id,
+    required this.adminId,
+    required this.userId,
     required this.products,
     required this.createdAt,
     required this.status,
@@ -23,6 +27,8 @@ class OrderModel {
 
   factory OrderModel.fromEntity(OrderEntity entity) => OrderModel(
     id: entity.id,
+    adminId: entity.adminId,
+    userId: entity.userId,
     products: entity.products.map((e) => ProductModel.fromEntity(e)).toList(),
     createdAt: entity.createdAt,
     status: entity.status,
@@ -31,6 +37,8 @@ class OrderModel {
 
   OrderEntity toEntity() => OrderEntity(
     id: id,
+    adminId: adminId,
+    userId: userId,
     products: products.map((e) => e.toEntity()).toList(),
     createdAt: createdAt,
     status: status,

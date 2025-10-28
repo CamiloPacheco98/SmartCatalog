@@ -40,7 +40,8 @@
     "reset_password_error": "Failed to reset password",
     "failed_to_process_reset_password_link": "We were unable to open the reset password link. Please try again later.",
     "make_order_error_verified": "Oops! Your profile is not verified. Contact your director.",
-    "update_profile_error": "Failed to update profile"
+    "update_profile_error": "Failed to update profile",
+    "user_not_found": "User not found"
   },
   "success": {
     "products_added_to_cart": "Products added to cart",

@@ -40,7 +40,8 @@
     "reset_password_error": "No pudimos restablecer la contraseña",
     "failed_to_process_reset_password_link": "No pudimos abrir el enlace de restablecimiento de contraseña. Por favor, intenta nuevamente más tarde.",
     "make_order_error_verified": "¡Ups! Tu perfil no está verificado. Contacta a tu directora.",
-    "update_profile_error": "No pudimos actualizar el perfil"
+    "update_profile_error": "No pudimos actualizar el perfil",
+    "user_not_found": "Usuario no encontrado"
   },
   "success": {
     "products_added_to_cart": "Productos agregados al carrito",
