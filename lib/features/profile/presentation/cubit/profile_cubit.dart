@@ -6,6 +6,7 @@ import 'package:smart_catalog/core/session/user_session.dart';
 import 'package:smart_catalog/features/profile/domain/repositories/user_profile_repository.dart';
 import 'package:smart_catalog/features/auth/domain/auth_repository.dart';
 import 'package:smart_catalog/core/domain/repositories/user_repository.dart';
+import 'package:smart_catalog/features/profile/presentation/models/user_viewmodel.dart';
 part 'profile_state.dart';
 
 class ProfileCubit extends Cubit<ProfileState> {
@@ -79,4 +80,34 @@ class ProfileCubit extends Cubit<ProfileState> {
   Future<void> saveLocalUser(UserEntity user) async {
     return _userRepository.saveLocalUser(user);
   }
+
+  Future<UserViewModel?> updateProfile({
+    required String name,
+    required String lastName,
+    required String documentNumber,
+    String? imagePath,
+  }) async {
+    emit(ProfileLoading());
+    try {
+      await _userProfileRepository.updateProfile(
+        name,
+        lastName,
+        documentNumber,
+        imagePath ?? '',
+      );
+      final user = await getUser();
+      await saveLocalUser(user);
+      UserSession.instance.initializeUser(user);
+      emit(
+        ProfileSuccessMessage(message: 'success.update_profile_success'.tr()),
+      );
+      return UserViewModel.fromEntity(user);
+    } catch (error) {
+      debugPrint('updateProfile Error: ${error.toString()}');
+      emit(ProfileError(message: 'errors.update_profile_error'.tr()));
+      return null;
+    }
+  }
+
+  final isUserVerified = UserSession.instance.user.verified;
 }

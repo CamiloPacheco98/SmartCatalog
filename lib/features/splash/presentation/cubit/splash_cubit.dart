@@ -33,7 +33,8 @@ class SplashCubit extends Cubit<SplashState> {
     }
 
     List<CartProductViewModel> products = [];
-    if (UserSession.instance.isLoggedIn) {
+    final userSession = UserSession.instance;
+    if (userSession.isLoggedIn) {
       final isFirstLaunch = await _repository.getAppSettings(
         HiveKeys.isFirstLaunch,
         defaultValue: true,
@@ -44,9 +45,13 @@ class SplashCubit extends Cubit<SplashState> {
         await _repository.saveLocalCartProducts(
           cartProducts?.values.toList() ?? [],
         );
-        final orders = await _repository.getOrders();
-        final ordersMap = Map.fromEntries(orders.map((e) => MapEntry(e.id, e)));
-        await _repository.saveLocalOrders(ordersMap);
+        if (userSession.user.verified) {
+          final orders = await _repository.getOrders();
+          final ordersMap = Map.fromEntries(
+            orders.map((e) => MapEntry(e.id, e)),
+          );
+          await _repository.saveLocalOrders(ordersMap);
+        }
         await _repository.saveAppSettings(HiveKeys.isFirstLaunch, false);
       }
       final localCartProducts = await _repository.getLocalCartProducts();

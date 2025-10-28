@@ -5,6 +5,7 @@ import 'package:smart_catalog/core/widgets/custom_loading.dart';
 import 'package:smart_catalog/main.dart';
 import 'package:smart_catalog/features/settings/domain/repositories/settings_repository.dart';
 import 'package:smart_catalog/features/settings/presentation/settings.dart';
+import 'package:smart_catalog/core/enums/navigate_method.dart';
 
 class SettingsPage extends StatelessWidget {
   const SettingsPage({super.key});
@@ -16,7 +17,14 @@ class SettingsPage extends StatelessWidget {
       child: BlocListener<SettingsCubit, SettingsState>(
         listener: (context, state) {
           if (state is SettingsNavigate) {
-            context.pushNamed(state.route, extra: state.extra);
+            switch (state.method) {
+              case NavigateMethod.pushNamed:
+                context.pushNamed(state.route, extra: state.extra);
+                break;
+              case NavigateMethod.goNamed:
+                context.goNamed(state.route, extra: state.extra);
+                break;
+            }
           }
         },
         child: BlocBuilder<SettingsCubit, SettingsState>(

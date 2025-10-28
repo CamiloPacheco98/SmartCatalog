@@ -42,4 +42,25 @@ class UserProfileRepositoryImpl implements UserProfileRepository {
           'type': 'user',
         });
   }
+
+  @override
+  Future<void> updateProfile(
+    String name,
+    String lastName,
+    String documentNumber,
+    String imagePath,
+  ) async {
+    final userId = UserSession.instance.userId;
+    final path = 'users/$userId/profile.jpg';
+    if (imagePath.isNotEmpty) {
+      await _firebaseStorageDatasource.uploadFile(path, imagePath);
+    }
+    await _firestore.collection(FirestoreCollections.users).doc(userId).update({
+      'name': name,
+      'lastName': lastName,
+      'documentNumber': documentNumber,
+      'imagePath': path,
+      'updatedAt': DateTime.now(),
+    });
+  }
 }

@@ -40,8 +40,8 @@ class LoginCubit extends Cubit<LoginState> {
         .login(email, password)
         .then((value) async {
           await _initCartProducts();
-          await _initOrders();
           await _initUser();
+          await _initOrders();
           final catalogImages = await _initCatalogImages();
           emit(LoginSuccess(catalogImages: catalogImages));
         })
@@ -72,6 +72,9 @@ class LoginCubit extends Cubit<LoginState> {
   }
 
   Future<void> _initOrders() async {
+    if (!UserSession.instance.user.verified) {
+      return;
+    }
     try {
       final orders = await _authRepository.getOrders();
       final ordersMap = Map.fromEntries(orders.map((e) => MapEntry(e.id, e)));

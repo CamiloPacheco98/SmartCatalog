@@ -7,4 +7,10 @@ abstract class UserProfileRepository {
     String imagePath,
     String email,
   );
+  Future<void> updateProfile(
+    String name,
+    String lastName,
+    String documentNumber,
+    String imagePath,
+  );
 }

@@ -31,6 +31,7 @@ class _ProfileViewState extends State<ProfileView> {
   final nameController = TextEditingController();
   final lastNameController = TextEditingController();
   final documentController = TextEditingController();
+  bool editable = false;
 
   String? selectedImagePath;
 
@@ -45,6 +46,11 @@ class _ProfileViewState extends State<ProfileView> {
   @override
   void initState() {
     super.initState();
+    _setInitialValues();
+    editable = !widget.fromSettings;
+  }
+
+  void _setInitialValues() {
     nameController.text = widget.user?.name ?? '';
     lastNameController.text = widget.user?.lastName ?? '';
     documentController.text = widget.user?.documentNumber ?? '';
@@ -71,13 +77,42 @@ class _ProfileViewState extends State<ProfileView> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const SizedBox(height: 20),
-                Text(
-                  widget.fromSettings
-                      ? 'profile.profile'.tr()
-                      : 'profile.create_profile'.tr(),
-                  style: context.textTheme.headlineSmall?.copyWith(
-                    fontWeight: FontWeight.bold,
-                  ),
+                Row(
+                  children: [
+                    Text(
+                      widget.fromSettings
+                          ? 'profile.profile'.tr()
+                          : 'profile.create_profile'.tr(),
+                      style: context.textTheme.headlineSmall?.copyWith(
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    SizedBox(width: 8),
+                    if (widget.fromSettings &&
+                        !(widget.user?.verified ?? false))
+                      InkWell(
+                        onTap: () => setState(() {
+                          editable = !editable;
+                          if (!editable) {
+                            _setInitialValues();
+                          }
+                        }),
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: context.colorScheme.primary.withValues(
+                              alpha: 0.1,
+                            ),
+                            borderRadius: BorderRadius.circular(18),
+                          ),
+                          padding: const EdgeInsets.all(10),
+                          child: Icon(
+                            !editable ? Icons.edit : Icons.close,
+                            color: context.colorScheme.primary,
+                            size: 18,
+                          ),
+                        ),
+                      ),
+                  ],
                 ),
                 const SizedBox(height: 8),
                 if (!widget.fromSettings)
@@ -186,8 +221,8 @@ class _ProfileViewState extends State<ProfileView> {
                     }
                     return null;
                   },
-                  enabled: !widget.fromSettings,
-                  readOnly: widget.fromSettings,
+                  enabled: editable,
+                  readOnly: !editable,
                 ),
                 const SizedBox(height: 16),
 
@@ -203,8 +238,8 @@ class _ProfileViewState extends State<ProfileView> {
                     }
                     return null;
                   },
-                  enabled: !widget.fromSettings,
-                  readOnly: widget.fromSettings,
+                  enabled: editable,
+                  readOnly: !editable,
                 ),
                 const SizedBox(height: 16),
 
@@ -220,8 +255,8 @@ class _ProfileViewState extends State<ProfileView> {
                     }
                     return null;
                   },
-                  enabled: !widget.fromSettings,
-                  readOnly: widget.fromSettings,
+                  enabled: editable,
+                  readOnly: !editable,
                   keyboardType: TextInputType.number,
                 ),
                 const SizedBox(height: 16),
@@ -276,6 +311,41 @@ class _ProfileViewState extends State<ProfileView> {
                       ),
                       child: Text(
                         'profile.create'.tr(),
+                        style: context.textTheme.labelLarge,
+                      ),
+                    ),
+                  )
+                else if (editable)
+                  SizedBox(
+                    width: double.infinity,
+                    height: 50,
+                    child: ElevatedButton(
+                      onPressed: () async {
+                        FocusScope.of(context).unfocus();
+                        if (_formKey.currentState!.validate()) {
+                          final user = await context
+                              .read<ProfileCubit>()
+                              .updateProfile(
+                                name: nameController.text.trim(),
+                                lastName: lastNameController.text.trim(),
+                                documentNumber: documentController.text.trim(),
+                                imagePath: selectedImagePath,
+                              );
+                          setState(() {
+                            editable = !editable;
+                            if (user == null) {
+                              _setInitialValues();
+                            }
+                          });
+                        }
+                      },
+                      style: ElevatedButton.styleFrom(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                      ),
+                      child: Text(
+                        'profile.update'.tr(),
                         style: context.textTheme.labelLarge,
                       ),
                     ),

@@ -44,6 +44,8 @@ class ProfilePage extends StatelessWidget {
               AppPaths.tabbar,
               extra: {NavigationExtraKeys.catalogImages: state.catalogImages},
             );
+          } else if (state is ProfileSuccessMessage) {
+            navigationService.showSuccessSnackBar(state.message);
           } else if (state is ProfileError) {
             navigationService.showErrorSnackBar(state.message);
           }

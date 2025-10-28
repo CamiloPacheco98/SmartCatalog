@@ -1,0 +1,4 @@
+enum NavigateMethod {
+  pushNamed,
+  goNamed,
+}

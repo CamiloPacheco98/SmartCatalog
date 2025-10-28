@@ -3,7 +3,7 @@ import 'package:smart_catalog/core/domain/entities/user_entity.dart';
 
 class UserSession {
   static UserSession? _instance;
-  late final UserEntity _user;
+  late UserEntity _user;
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
   // Private constructor

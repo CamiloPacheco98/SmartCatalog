@@ -39,13 +39,15 @@
     "create_profile_error": "Failed to create profile",
     "reset_password_error": "Failed to reset password",
     "failed_to_process_reset_password_link": "We were unable to open the reset password link. Please try again later.",
-    "make_order_error_verified": "Oops! Your profile is not verified. Contact your director."
+    "make_order_error_verified": "Oops! Your profile is not verified. Contact your director.",
+    "update_profile_error": "Failed to update profile"
   },
   "success": {
     "products_added_to_cart": "Products added to cart",
     "order_made_successfully": "Order made successfully",
     "forgot_password": "An email has been sent to reset your password",
-    "reset_password_success": "Password reset successfully"
+    "reset_password_success": "Password reset successfully",
+    "update_profile_success": "Profile updated successfully"
   },
   "catalog": {
     "select_products": "Select products code ",
@@ -114,7 +116,8 @@
     "last_name_required": "Last name is required",
     "document_required": "Document is required",
     "verified": "Verified",
-    "unverified": "Unverified"
+    "unverified": "Unverified",
+    "update": "Update"
   },
   "forgot_password": {
     "title": "Forgot Password",

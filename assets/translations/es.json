@@ -39,13 +39,15 @@
     "create_profile_error": "No pudimos crear el perfil",
     "reset_password_error": "No pudimos restablecer la contraseña",
     "failed_to_process_reset_password_link": "No pudimos abrir el enlace de restablecimiento de contraseña. Por favor, intenta nuevamente más tarde.",
-    "make_order_error_verified": "¡Ups! Tu perfil no está verificado. Contacta a tu directora."
+    "make_order_error_verified": "¡Ups! Tu perfil no está verificado. Contacta a tu directora.",
+    "update_profile_error": "No pudimos actualizar el perfil"
   },
   "success": {
     "products_added_to_cart": "Productos agregados al carrito",
     "order_made_successfully": "Pedido realizado correctamente",
     "forgot_password": "Se ha enviado un correo para restablecer tu contraseña",
-    "reset_password_success": "Contraseña restablecida correctamente"
+    "reset_password_success": "Contraseña restablecida correctamente",
+    "update_profile_success": "Perfil actualizado correctamente"
   },
   "catalog": {
     "select_products": "Selecciona los códigos de producto",
@@ -114,7 +116,8 @@
     "last_name_required": "El apellido es obligatorio",
     "document_required": "El documento es obligatorio",
     "verified": "Verificado",
-    "unverified": "No verificado"
+    "unverified": "No verificado",
+    "update": "Actualizar"
   },
   "forgot_password": {
     "title": "Olvidé mi contraseña",
