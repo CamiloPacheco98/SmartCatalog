@@ -68,11 +68,12 @@ class AuthRepositoryImpl implements AuthRepository {
     if (_auth.currentUser == null) throw Exception("User not logged in");
     final orders = await _db
         .collection(FirestoreCollections.orders)
-        .doc(_auth.currentUser?.uid)
+        .where('user.id', isEqualTo: _auth.currentUser?.uid)
+        .orderBy('createdAt', descending: true)
         .get()
-        .then((value) => value.data());
-    if (orders == null) return [];
-    return orders.values.map((e) => OrderModel.fromJson(e).toEntity()).toList();
+        .then((value) => value.docs);
+    if (orders.isEmpty) return [];
+    return orders.map((e) => OrderModel.fromJson(e.data()).toEntity()).toList();
   }
 
   @override

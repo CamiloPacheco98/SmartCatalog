@@ -5,20 +5,20 @@ enum OrderStatus { pending, completed, cancelled }
 
 class OrderEntity {
   final String id;
-  final String adminId;
-  final String userId;
+  final String adminUid;
   final List<ProductEntity> products;
   final DateTime createdAt;
+  final DateTime updatedAt;
   final OrderStatus status;
   final int total;
   final UserEntity user;
 
   OrderEntity({
     required this.id,
-    required this.adminId,
-    required this.userId,
+    required this.adminUid,
     required this.products,
     required this.createdAt,
+    required this.updatedAt,
     required this.status,
     required this.total,
     required this.user,

@@ -115,9 +115,9 @@ class CartCubit extends Cubit<CartState> {
     final order = OrderEntity(
       id: DateTime.now().millisecondsSinceEpoch.toString(),
       products: products,
-      adminId: user.adminUid,
-      userId: user.id,
+      adminUid: user.adminUid,
       createdAt: DateTime.now(),
+      updatedAt: DateTime.now(),
       status: OrderStatus.pending,
       total: products.fold<int>(
         0,

@@ -8,22 +8,22 @@ part of 'order_model.dart';
 
 OrderModel _$OrderModelFromJson(Map<String, dynamic> json) => OrderModel(
   id: json['id'] as String,
-  adminId: json['adminId'] as String,
-  userId: json['userId'] as String,
+  adminUid: json['adminUid'] as String,
   products: OrderModel._productsFromJson(json['products'] as List),
   createdAt: DateTime.parse(json['createdAt'] as String),
+  updatedAt: DateTime.parse(json['updatedAt'] as String),
   status: $enumDecode(_$OrderStatusEnumMap, json['status']),
   total: (json['total'] as num).toInt(),
-  user: UserModel.fromJson(json['user'] as Map<String, dynamic>),
+  user: OrderModel._userFromJson(json['user']),
 );
 
 Map<String, dynamic> _$OrderModelToJson(OrderModel instance) =>
     <String, dynamic>{
       'id': instance.id,
-      'adminId': instance.adminId,
-      'userId': instance.userId,
+      'adminUid': instance.adminUid,
       'products': instance.products.map((e) => e.toJson()).toList(),
       'createdAt': instance.createdAt.toIso8601String(),
+      'updatedAt': instance.updatedAt.toIso8601String(),
       'status': _$OrderStatusEnumMap[instance.status]!,
       'total': instance.total,
       'user': instance.user.toJson(),

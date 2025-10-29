@@ -8,21 +8,22 @@ part 'order_model.g.dart';
 @JsonSerializable(explicitToJson: true)
 class OrderModel {
   final String id;
-  final String adminId;
-  final String userId;
+  final String adminUid;
   @JsonKey(fromJson: _productsFromJson)
   final List<ProductModel> products;
   final DateTime createdAt;
+  final DateTime updatedAt;
   final OrderStatus status;
   final int total;
+  @JsonKey(fromJson: _userFromJson)
   final UserModel user;
 
   OrderModel({
     required this.id,
-    required this.adminId,
-    required this.userId,
+    required this.adminUid,
     required this.products,
     required this.createdAt,
+    required this.updatedAt,
     required this.status,
     required this.total,
     required this.user,
@@ -30,10 +31,10 @@ class OrderModel {
 
   factory OrderModel.fromEntity(OrderEntity entity) => OrderModel(
     id: entity.id,
-    adminId: entity.adminId,
-    userId: entity.userId,
+    adminUid: entity.adminUid,
     products: entity.products.map((e) => ProductModel.fromEntity(e)).toList(),
     createdAt: entity.createdAt,
+    updatedAt: entity.updatedAt,
     status: entity.status,
     total: entity.total,
     user: UserModel.fromEntity(entity.user),
@@ -41,10 +42,10 @@ class OrderModel {
 
   OrderEntity toEntity() => OrderEntity(
     id: id,
-    adminId: adminId,
-    userId: userId,
+    adminUid: adminUid,
     products: products.map((e) => e.toEntity()).toList(),
     createdAt: createdAt,
+    updatedAt: updatedAt,
     status: status,
     total: total,
     user: user.toEntity(),
@@ -60,4 +61,7 @@ class OrderModel {
       jsonList
           .map((e) => ProductModel.fromJson(Map<String, dynamic>.from(e)))
           .toList();
+
+  static UserModel _userFromJson(dynamic json) =>
+      UserModel.fromJson(Map<String, dynamic>.from(json));
 }

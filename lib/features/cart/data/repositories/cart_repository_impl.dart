@@ -98,9 +98,9 @@ class CartRepositoryImpl extends CartRepository {
     final user = _auth.currentUser;
     if (user == null) return debugPrint('User not found');
     final orderModel = OrderModel.fromEntity(order);
-    await _firestore.collection(FirestoreCollections.orders).doc(user.uid).set({
-      order.id: orderModel.toJson(),
-    }, SetOptions(merge: true));
+    await _firestore
+        .collection(FirestoreCollections.orders)
+        .add(orderModel.toJson());
   }
 
   @override
