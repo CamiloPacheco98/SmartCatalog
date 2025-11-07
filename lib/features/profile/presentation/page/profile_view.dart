@@ -215,6 +215,7 @@ class _ProfileViewState extends State<ProfileView> {
                     labelText: 'profile.first_name'.tr(),
                     prefixIcon: Icon(Icons.person),
                   ),
+                  textCapitalization: TextCapitalization.words,
                   validator: (value) {
                     if (value == null || value.trim().isEmpty) {
                       return 'profile.first_name_required'.tr();
@@ -232,6 +233,7 @@ class _ProfileViewState extends State<ProfileView> {
                     labelText: 'profile.last_name'.tr(),
                     prefixIcon: Icon(Icons.person_outline),
                   ),
+                  textCapitalization: TextCapitalization.words,
                   validator: (value) {
                     if (value == null || value.trim().isEmpty) {
                       return 'profile.last_name_required'.tr();
