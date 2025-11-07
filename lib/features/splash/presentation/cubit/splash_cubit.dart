@@ -32,7 +32,12 @@ class SplashCubit extends Cubit<SplashState> {
        super(SplashInitial());
 
   Future<void> startSplashTimer() async {
-    await _initializeDeepLink();
+    final deepLinkHandler = DeepLinkHandler();
+    await deepLinkHandler.initialize();
+    if (deepLinkHandler.navigationHandled) {
+      debugPrint('Navigation handled by deep link handler');
+      return;
+    }
     final isUserLoggedIn = UserSession.instance.isLoggedIn;
     if (isUserLoggedIn) {
       final isFirstLaunch = await _isFirstLaunch();
@@ -59,15 +64,6 @@ class SplashCubit extends Cubit<SplashState> {
       );
     } else {
       emit(SplashNavigating(route: AppPaths.login, arguments: {}));
-    }
-  }
-
-  Future<void> _initializeDeepLink() async {
-    final deepLinkHandler = DeepLinkHandler();
-    await deepLinkHandler.initialize();
-    if (deepLinkHandler.navigationHandled) {
-      debugPrint('Navigation handled by deep link handler');
-      return;
     }
   }
 
