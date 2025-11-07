@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:smart_catalog/core/domain/entities/user_entity.dart';
 import 'package:smart_catalog/core/session/cart_session.dart';
+import 'package:smart_catalog/core/session/catalog_session.dart';
 import 'package:smart_catalog/core/session/orders_session.dart';
 import 'package:smart_catalog/features/auth/domain/auth_repository.dart';
 import 'package:smart_catalog/features/cart/presentation/models/cart_product_view_model.dart';
@@ -87,7 +88,9 @@ class LoginCubit extends Cubit<LoginState> {
 
   Future<List<String>> _initCatalogImages() async {
     try {
-      return await _authRepository.getCatalogImages();
+      final catalog = await _authRepository.getCatalog();
+      CatalogSession.instance.setCatalog(catalog);
+      return catalog?.downloadUrls ?? [];
     } catch (error) {
       debugPrint('initCatalogImages Error: ${error.toString()}');
       return [];

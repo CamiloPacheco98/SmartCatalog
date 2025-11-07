@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:smart_catalog/core/session/cart_session.dart';
 import 'package:smart_catalog/core/domain/entities/product_entity.dart';
+import 'package:smart_catalog/core/session/catalog_session.dart';
 import 'package:smart_catalog/features/catalog/domain/repositories/catalog_repository.dart';
 import 'package:smart_catalog/features/cart/presentation/models/cart_product_view_model.dart';
 part 'catalog_state.dart';
@@ -16,30 +17,25 @@ class CatalogCubit extends Cubit<CatalogState> {
 
   void getProductsCodeByPage(int page) async {
     emit(CatalogLoading());
-    _catalogRepository
-        .getProductsByPage(page)
-        .then((page) {
-          final products = page.products;
-          if (products.isEmpty) {
-            debugPrint('catalog cubit Error: no products found');
-            emit(CatalogError(message: 'errors.get_products_code_error'.tr()));
-          } else {
-            final cartProducts = CartSession.instance.cartProducts;
-            final productsViewModel = products.map((product) {
-              return cartProducts.firstWhere(
-                (p) => p.id == product.id,
-                orElse: () => CartProductViewModel.fromEntity(product),
-              );
-            }).toList();
-            emit(ProductsLoaded(products: productsViewModel));
-          }
-        })
-        .catchError((error) {
-          debugPrint(
-            'catalog cubit getProductsCodeByPage Error: ${error.toString()}',
-          );
-          emit(CatalogError(message: 'errors.get_products_code_error'.tr()));
-        });
+    final products = _getProductsByPage(page);
+    if (products.isEmpty) {
+      debugPrint('catalog cubit Error: no products found');
+      emit(CatalogError(message: 'errors.get_products_code_error'.tr()));
+    } else {
+      final cartProducts = CartSession.instance.cartProducts;
+      final productsViewModel = products.map((product) {
+        return cartProducts.firstWhere(
+          (p) => p.id == product.id,
+          orElse: () => product,
+        );
+      }).toList();
+      emit(ProductsLoaded(products: productsViewModel));
+    }
+  }
+
+  List<CartProductViewModel> _getProductsByPage(int page) {
+    final catalog = CatalogSession.instance.catalog;
+    return catalog?.products ?? [];
   }
 
   void addProductsCodeToCart(List<CartProductViewModel> products) async {

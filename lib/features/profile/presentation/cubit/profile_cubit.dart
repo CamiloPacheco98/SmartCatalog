@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:smart_catalog/core/domain/entities/user_entity.dart';
+import 'package:smart_catalog/core/session/catalog_session.dart';
 import 'package:smart_catalog/core/session/user_session.dart';
 import 'package:smart_catalog/features/profile/domain/repositories/user_profile_repository.dart';
 import 'package:smart_catalog/features/auth/domain/auth_repository.dart';
@@ -60,7 +61,9 @@ class ProfileCubit extends Cubit<ProfileState> {
 
   Future<List<String>> _initCatalogImages() async {
     try {
-      return await _authRepository.getCatalogImages();
+      final catalog = await _authRepository.getCatalog();
+      CatalogSession.instance.setCatalog(catalog);
+      return catalog?.downloadUrls ?? [];
     } catch (error) {
       debugPrint('initCatalogImages Error: ${error.toString()}');
       return [];

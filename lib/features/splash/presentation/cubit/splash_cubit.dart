@@ -7,6 +7,7 @@ import 'package:smart_catalog/core/constants/navigation_extra_keys.dart';
 import 'package:smart_catalog/core/constants/hive_constants.dart';
 import 'package:smart_catalog/core/errors/failures.dart';
 import 'package:smart_catalog/core/session/cart_session.dart';
+import 'package:smart_catalog/core/session/catalog_session.dart';
 import 'package:smart_catalog/core/session/orders_session.dart';
 import 'package:smart_catalog/core/session/user_session.dart';
 import 'package:smart_catalog/core/utils/deep_link_handler.dart';
@@ -46,7 +47,9 @@ class SplashCubit extends Cubit<SplashState> {
       }
       await _initializeCart(isFirstLaunch);
       await _initializeOrders(isFirstLaunch);
-      final catalogImages = await _repository.getCatalogImages();
+      final catalog = await _repository.getCatalog();
+      CatalogSession.instance.setCatalog(catalog);
+      final catalogImages = catalog?.downloadUrls ?? [];
       await setIsFirstLaunch(false);
       emit(
         SplashNavigating(

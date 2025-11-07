@@ -2,8 +2,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:hive/hive.dart';
 import 'package:smart_catalog/core/constants/firestore_collections.dart';
+import 'package:smart_catalog/core/data/models/catalog_model.dart';
 import 'package:smart_catalog/core/data/models/order_model.dart';
 import 'package:smart_catalog/core/data/models/product_model.dart';
+import 'package:smart_catalog/core/domain/entities/catalog_entity.dart';
 import 'package:smart_catalog/core/domain/entities/order_entity.dart';
 import 'package:smart_catalog/core/domain/entities/product_entity.dart';
 import 'package:smart_catalog/features/auth/domain/auth_repository.dart';
@@ -77,25 +79,18 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   @override
-  Future<List<String>> getCatalogImages() async {
+  Future<CatalogEntity?> getCatalog() async {
     try {
       if (_auth.currentUser == null) throw Exception("User not logged in");
 
       final catalogInfo = await _db
           .collection(FirestoreCollections.catalog)
-          .orderBy('createdAt', descending: true)
-          .limit(1)
+          .doc('main')
           .get()
-          .then((value) => value.docs);
+          .then((value) => value.data());
 
-      if (catalogInfo.isEmpty) return [];
-
-      // Assuming the catalog documents have an 'images' field with a list of image URLs
-      final lastCatalogDoc = catalogInfo.first;
-      final data = lastCatalogDoc.data();
-      final images = data['downloadUrls'] as List<dynamic>?;
-
-      return images?.map((e) => e.toString()).toList() ?? [];
+      if (catalogInfo == null) return null;
+      return CatalogModel.fromJson(catalogInfo).toEntity();
     } catch (e) {
       throw Exception('Error al obtener imágenes del catálogo: $e');
     }
