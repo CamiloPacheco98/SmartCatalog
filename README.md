@@ -1,6 +1,6 @@
 # 🧠🛍️ Smart Catalog
 
-**Smart Catalog** Smart Catalog is a mobile application that turns printed magazine pages into interactive shopping catalogs. It allows users to browse, view, and order products directly from scanned magazine content. The app is designed to facilitate product sales through catalogs, making it easier and more efficient to showcase products and place orders.
+A Flutter mobile application for browsing digital product catalogs, adding items to a shopping cart, and placing orders. Users can view catalog pages, select products, manage their cart, track order history, and update their profile. Admins can manage catalogs and products through Firebase.
 
 ---
 
@@ -31,34 +31,68 @@
 SmartCatalog/
 ├─ lib/
 │  ├─ app/
-│  │  └─ routes/
+│  │  └─ routes/          # App routing configuration
 │  ├─ core/
-│  │  ├─ constants/
-│  │  ├─ theme/
-│  │  ├─ utils/
-│  │  └─ widgets/
-│  ├─ extensions/
-│  ├─ features/
-│  │  ├─ auth/
-│  │  │  ├─ data/
-│  │  │  ├─ domain/
-│  │  │  └─ presentation/
-│  │  ├─ catalog/
-│  │  │  ├─ data/
-│  │  │  ├─ domain/
-│  │  │  └─ presentation/
-│  │  ├─ splash/
-│  │  └─ tabbar/
-│  └─ main.dart
+│  │  ├─ constants/       # App constants (Firestore, Hive, assets)
+│  │  ├─ data/            # Core data models & repositories
+│  │  │  ├─ models/      # Data models (JSON serializable)
+│  │  │  ├─ repositories/ # Repository implementations
+│  │  │  └─ source/      # Data sources (Firebase Storage)
+│  │  ├─ domain/          # Core domain entities & repositories
+│  │  │  ├─ entities/    # Domain entities
+│  │  │  └─ repositories/ # Repository interfaces
+│  │  ├─ enums/           # Enumerations
+│  │  ├─ errors/          # Error handling
+│  │  ├─ session/        # Session management (User, Cart, Catalog, Orders)
+│  │  ├─ theme/           # App theme configuration
+│  │  ├─ utils/           # Utility functions
+│  │  └─ widgets/         # Reusable widgets
+│  ├─ extensions/         # Dart extensions
+│  ├─ features/           # Feature modules (Clean Architecture)
+│  │  ├─ auth/            # Authentication feature
+│  │  │  ├─ data/         # Auth repository implementation
+│  │  │  ├─ domain/       # Auth repository interface
+│  │  │  └─ presentation/ # Auth UI (pages, cubits, widgets)
+│  │  ├─ cart/            # Shopping cart feature
+│  │  │  ├─ data/         # Cart repository implementation
+│  │  │  ├─ domain/       # Cart repository interface
+│  │  │  └─ presentation/ # Cart UI & view models
+│  │  ├─ catalog/         # Catalog browsing feature
+│  │  │  ├─ data/         # Catalog repository & models
+│  │  │  ├─ domain/       # Catalog entities & repository
+│  │  │  └─ presentation/ # Catalog UI
+│  │  ├─ order_detail/    # Order detail view feature
+│  │  │  └─ presentation/ # Order detail UI & widgets
+│  │  ├─ orders/           # Orders list feature
+│  │  │  └─ presentation/ # Orders UI
+│  │  ├─ profile/         # User profile feature
+│  │  │  ├─ data/         # Profile repository implementation
+│  │  │  ├─ domain/       # Profile repository interface
+│  │  │  └─ presentation/ # Profile UI & view models
+│  │  ├─ reset_password/  # Password reset feature
+│  │  │  └─ presentation/ # Reset password UI
+│  │  ├─ settings/        # App settings feature
+│  │  │  ├─ data/         # Settings repository implementation
+│  │  │  ├─ domain/       # Settings repository interface
+│  │  │  └─ presentation/ # Settings UI & widgets
+│  │  ├─ splash/          # Splash screen feature
+│  │  │  ├─ data/         # Splash repository implementation
+│  │  │  ├─ domain/       # Splash repository interface
+│  │  │  └─ presentation/ # Splash UI
+│  │  └─ tabbar/           # Bottom navigation feature
+│  │     └─ presentation/ # Tabbar UI
+│  └─ main.dart           # App entry point
+├─ assets/                # App assets (images, animations, translations)
+└─ test/                  # Test files
 ```
 
 ---
 
 ## 🏗️ Architecture
 
-El proyecto sigue **Clean Architecture** con el patrón **BLoC (Cubit)** para la gestión de estado. La arquitectura está organizada en capas independientes que facilitan el mantenimiento, testing y escalabilidad.
+The project follows **Clean Architecture** with **BLoC (Cubit)** pattern for state management. The architecture is organized in independent layers that facilitate maintenance, testing, and scalability.
 
-### Diagrama de Arquitectura
+### Architecture Diagram
 
 ```mermaid
 graph TB
@@ -123,7 +157,7 @@ graph TB
     style Hive fill:#ffebee
 ```
 
-### Flujo de Datos
+### Data Flow
 
 ```mermaid
 sequenceDiagram
@@ -148,46 +182,46 @@ sequenceDiagram
     UI->>UI: Rebuild UI
 ```
 
-### Capas de la Arquitectura
+### Architecture Layers
 
 #### 🎨 **Presentation Layer**
-- **Responsabilidad**: Interfaz de usuario y gestión de estado
-- **Componentes**:
-  - `Pages`: Pantallas de la aplicación
-  - `Views`: Widgets de presentación
-  - `Cubits`: Gestión de estado con BLoC pattern
-  - `Models`: ViewModels para la UI
+- **Responsibility**: User interface and state management
+- **Components**:
+  - `Pages`: Application screens
+  - `Views`: Presentation widgets
+  - `Cubits`: State management with BLoC pattern
+  - `Models`: ViewModels for UI
 
 #### 🧠 **Domain Layer**
-- **Responsabilidad**: Lógica de negocio pura (independiente de frameworks)
-- **Componentes**:
-  - `Entities`: Objetos de dominio
-  - `Repository Interfaces`: Contratos para acceso a datos
-  - `Use Cases`: Lógica de negocio (implícita en los repositorios)
+- **Responsibility**: Pure business logic (framework-independent)
+- **Components**:
+  - `Entities`: Domain objects
+  - `Repository Interfaces`: Data access contracts
+  - `Use Cases`: Business logic (implicit in repositories)
 
 #### 💾 **Data Layer**
-- **Responsabilidad**: Implementación de acceso a datos
-- **Componentes**:
-  - `Repository Implementations`: Implementación de repositorios
-  - `Data Models`: Modelos de datos (JSON serialization)
-  - `Data Sources`: Fuentes de datos (Firebase, Hive)
+- **Responsibility**: Data access implementation
+- **Components**:
+  - `Repository Implementations`: Repository implementations
+  - `Data Models`: Data models (JSON serialization)
+  - `Data Sources`: Data sources (Firebase, Hive)
 
 #### 🔧 **Core Module**
-- **Responsabilidad**: Funcionalidades compartidas
-- **Componentes**:
-  - `Session Management`: Gestión de sesiones de usuario, carrito, catálogo
-  - `Utils`: Utilidades (navegación, validadores, formatters)
-  - `Theme`: Configuración de temas
-  - `Constants`: Constantes de la aplicación
-  - `Widgets`: Widgets reutilizables
+- **Responsibility**: Shared functionality
+- **Components**:
+  - `Session Management`: User, cart, and catalog session management
+  - `Utils`: Utilities (navigation, validators, formatters)
+  - `Theme`: Theme configuration
+  - `Constants`: Application constants
+  - `Widgets`: Reusable widgets
 
-### Dependencias Externas
+### External Dependencies
 
-- **Firebase**: Autenticación, base de datos (Firestore) y almacenamiento
-- **Hive**: Almacenamiento local para carrito, órdenes y configuración
-- **GetIt**: Inyección de dependencias
-- **GoRouter**: Navegación declarativa
-- **Easy Localization**: Internacionalización (i18n)
+- **Firebase**: Authentication, database (Firestore), and storage
+- **Hive**: Local storage for cart, orders, and configuration
+- **GetIt**: Dependency injection
+- **GoRouter**: Declarative navigation
+- **Easy Localization**: Internationalization (i18n)
 
 
 ### Home Screen
