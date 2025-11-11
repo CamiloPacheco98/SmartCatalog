@@ -226,5 +226,5 @@ sequenceDiagram
 
 ### Demo
 
-![App Demo](assets/demo.gif)
+![App Demo](assets/readme/demo.gif)
 
