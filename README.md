@@ -224,14 +224,7 @@ sequenceDiagram
 - **Easy Localization**: Internationalization (i18n)
 
 
-### Home Screen
-![Home Screen](assets/readme/IMG_4995.png)
+### Demo
 
-### Login Screen
-![Login](assets/readme/IMG_4993.png)
+![App Demo](assets/demo.gif)
 
-### Loading
-![Loading](assets/readme/IMG_4994.png)
-
-## Add to Shopping Cart
-![Add to Shopping Cart](assets/readme/IMG_4996.png)
