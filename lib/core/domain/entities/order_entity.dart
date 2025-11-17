@@ -12,6 +12,7 @@ class OrderEntity {
   final OrderStatus status;
   final int total;
   final UserEntity user;
+  final int discountPercentage;
 
   OrderEntity({
     required this.id,
@@ -22,5 +23,6 @@ class OrderEntity {
     required this.status,
     required this.total,
     required this.user,
+    required this.discountPercentage,
   });
 }

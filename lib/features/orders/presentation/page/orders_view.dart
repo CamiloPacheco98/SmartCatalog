@@ -8,7 +8,7 @@ import 'package:smart_catalog/core/utils/string_formatters.dart';
 import 'package:go_router/go_router.dart';
 
 class OrdersView extends StatelessWidget {
-  final List<OrderEntity> orders;
+  final List<OrderEntity> orders; //TODO: create order view model
   const OrdersView({super.key, required this.orders});
 
   @override
@@ -37,6 +37,8 @@ class OrdersView extends StatelessWidget {
   }
 
   Widget _buildOrderCard(BuildContext context, OrderEntity order) {
+    final totalWithDiscount =
+        order.total - (order.total * order.discountPercentage / 100).toInt();
     final formattedDate = DateFormat(
       'dd MMMM yyyy',
       context.locale.languageCode,
@@ -95,7 +97,12 @@ class OrdersView extends StatelessWidget {
             ),
             const SizedBox(height: 8),
             Text(
-              order.total.formattedPriceWithCurrency,
+              '${"orders.discount_percentage".tr()}: ${order.discountPercentage}%',
+              style: context.textTheme.bodyMedium,
+            ),
+            const SizedBox(height: 8),
+            Text(
+              totalWithDiscount.toString().formattedPriceWithCurrency,
               style: context.textTheme.titleMedium?.copyWith(
                 fontWeight: FontWeight.bold,
                 color: context.colorScheme.primary,

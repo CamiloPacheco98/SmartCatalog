@@ -70,6 +70,7 @@
     "no_orders_subtitle": "Explore the catalog to add products and make orders, so you can see your orders here",
     "products": "products",
     "order_id": "Order",
+    "discount_percentage": "Discount",
     "total_price": "Total",
     "status": {
       "pending": "Pending",
@@ -85,11 +86,13 @@
     "order_status": "Status",
     "products_list": "Products",
     "total_products": "Total Products",
+    "subtotal": "Subtotal",
+    "discount": "Discount",
     "product_code": "Product: {}",
     "product_name": "Name: {}",
     "product_price": "Price: {}",
     "quantity": "Qty: {}",
-    "total_amount": "Total Amount"
+    "total_amount": "Total "
   },
   "settings": {
     "title": "Settings",

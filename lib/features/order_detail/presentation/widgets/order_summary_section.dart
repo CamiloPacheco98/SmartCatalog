@@ -6,15 +6,19 @@ import 'package:smart_catalog/core/utils/string_formatters.dart';
 class OrderSummarySection extends StatelessWidget {
   final int totalProducts;
   final int totalAmount;
+  final int discountPercentage;
 
   const OrderSummarySection({
     super.key,
     required this.totalProducts,
     required this.totalAmount,
+    required this.discountPercentage,
   });
 
   @override
   Widget build(BuildContext context) {
+    final totalWithDiscount =
+        totalAmount - (totalAmount * discountPercentage / 100).toInt();
     return Container(
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
@@ -36,13 +40,47 @@ class OrderSummarySection extends StatelessWidget {
                 style: context.textTheme.titleMedium,
               ),
               Text(
-                totalProducts.toString(), 
+                totalProducts.toString(),
                 style: context.textTheme.titleLarge,
               ),
             ],
           ),
           const SizedBox(height: 16),
-          
+
+          //subtotal row
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                'order_detail.subtotal'.tr(),
+                style: context.textTheme.titleMedium,
+              ),
+              Text(
+                totalAmount.formattedPriceWithCurrency,
+                style: context.textTheme.titleLarge,
+              ),
+            ],
+          ),
+          const SizedBox(height: 16),
+
+          //discount row
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                'order_detail.discount'.tr(),
+                style: context.textTheme.titleMedium,
+              ),
+              Text(
+                '${discountPercentage.toString()}%',
+                style: context.textTheme.titleLarge?.copyWith(
+                  fontWeight: FontWeight.bold,
+                  color: context.colorScheme.primary,
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 16),
           // Total amount row
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -54,7 +92,7 @@ class OrderSummarySection extends StatelessWidget {
                 ),
               ),
               Text(
-                totalAmount.formattedPriceWithCurrency,
+                totalWithDiscount.toString().formattedPriceWithCurrency,
                 style: context.textTheme.titleLarge?.copyWith(
                   fontWeight: FontWeight.bold,
                   color: context.colorScheme.primary,

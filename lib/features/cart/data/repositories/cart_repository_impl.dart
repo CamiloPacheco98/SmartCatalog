@@ -96,11 +96,12 @@ class CartRepositoryImpl extends CartRepository {
   @override
   Future<void> makeOrder(OrderEntity order) async {
     final user = _auth.currentUser;
-    if (user == null) return debugPrint('User not found');
+    if (user == null) return debugPrint('iUser not found');
     final orderModel = OrderModel.fromEntity(order);
     await _firestore
         .collection(FirestoreCollections.orders)
-        .add(orderModel.toJson());
+        .doc(orderModel.id)
+        .set(orderModel.toJson());
   }
 
   @override

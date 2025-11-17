@@ -119,6 +119,7 @@ class CartCubit extends Cubit<CartState> {
       createdAt: DateTime.now(),
       updatedAt: DateTime.now(),
       status: OrderStatus.pending,
+      discountPercentage: 0,
       total: products.fold<int>(
         0,
         (sum, product) => sum + (product.price * int.parse(product.quantity)),

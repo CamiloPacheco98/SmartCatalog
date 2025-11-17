@@ -53,6 +53,7 @@ class OrderDetailView extends StatelessWidget {
           OrderSummarySection(
             totalProducts: totalProducts,
             totalAmount: order.total,
+            discountPercentage: order.discountPercentage,
           ),
         ],
       ),

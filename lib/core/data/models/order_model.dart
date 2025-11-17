@@ -2,6 +2,7 @@ import 'package:json_annotation/json_annotation.dart';
 import 'package:smart_catalog/core/data/models/product_model.dart';
 import 'package:smart_catalog/core/domain/entities/order_entity.dart';
 import 'package:smart_catalog/core/data/models/user_model.dart';
+import 'package:smart_catalog/core/utils/timestap_converter.dart';
 
 part 'order_model.g.dart';
 
@@ -11,12 +12,15 @@ class OrderModel {
   final String adminUid;
   @JsonKey(fromJson: _productsFromJson)
   final List<ProductModel> products;
+  @TimestampConverter()
   final DateTime createdAt;
+  @TimestampConverter()
   final DateTime updatedAt;
   final OrderStatus status;
   final int total;
   @JsonKey(fromJson: _userFromJson)
   final UserModel user;
+  final int discountPercentage;
 
   OrderModel({
     required this.id,
@@ -27,6 +31,7 @@ class OrderModel {
     required this.status,
     required this.total,
     required this.user,
+    required this.discountPercentage,
   });
 
   factory OrderModel.fromEntity(OrderEntity entity) => OrderModel(
@@ -38,6 +43,7 @@ class OrderModel {
     status: entity.status,
     total: entity.total,
     user: UserModel.fromEntity(entity.user),
+    discountPercentage: entity.discountPercentage,
   );
 
   OrderEntity toEntity() => OrderEntity(
@@ -49,6 +55,7 @@ class OrderModel {
     status: status,
     total: total,
     user: user.toEntity(),
+    discountPercentage: discountPercentage,
   );
 
   factory OrderModel.fromJson(Map<String, dynamic> json) =>
